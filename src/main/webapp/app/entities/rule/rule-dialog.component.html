@@ -1,0 +1,52 @@
+
+
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myRuleLabel">Create or edit a Rule</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!rule.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="rule.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_ruleName">Rule Name</label>
+            <input type="text" class="form-control" name="ruleName" id="field_ruleName"
+                [(ngModel)]="rule.ruleName"
+             />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_ruleArgs">Rule Args</label>
+            <textarea class="form-control" name="ruleArgs" id="field_ruleArgs"
+                [(ngModel)]="rule.ruleArgs"  ></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="field_ruleType">Rule Type</label>
+            <select class="form-control" id="field_ruleType" name="ruleType" [(ngModel)]="rule.ruleType" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="ruleTypeOption.id === rule.ruleType?.id ? rule.ruleType : ruleTypeOption" *ngFor="let ruleTypeOption of ruletypes; trackBy: trackRuleTypeById">{{ruleTypeOption.ruleTypeName}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="field_process">Process</label>
+            <select class="form-control" id="field_process" name="process" [(ngModel)]="rule.process" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="processOption.id === rule.process?.id ? rule.process : processOption" *ngFor="let processOption of processes; trackBy: trackProcessById">{{processOption.processName}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

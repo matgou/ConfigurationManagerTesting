@@ -1,0 +1,11 @@
+version: '2'
+services:
+    configurationmanagerreporting-postgresql:
+        image: postgres:9.5.4
+        # volumes:
+        #     - ~/volumes/jhipster/ConfigurationManagerReporting/postgresql/:/var/lib/postgresql/
+        environment:
+            - POSTGRES_USER=ConfigurationManagerReporting
+            - POSTGRES_PASSWORD=
+        ports:
+            - 5432:5432

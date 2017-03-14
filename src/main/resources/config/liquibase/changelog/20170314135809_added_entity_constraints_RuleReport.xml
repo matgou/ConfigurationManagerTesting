@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--
+        Added the constraints for entity RuleReport.
+    -->
+    <changeSet id="20170314135809-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="rule_id"
+                                 baseTableName="ccol_cm_rulereport"
+                                 constraintName="fk_rule_report_rule_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="ccol_cm_rule"/>
+
+    </changeSet>
+</databaseChangeLog>

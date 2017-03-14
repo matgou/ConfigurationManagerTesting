@@ -1,0 +1,33 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "ruleType",
+            "otherEntityName": "ruleType",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "ruleTypeName"
+        },
+        {
+            "relationshipName": "process",
+            "otherEntityName": "process",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "processName"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "ruleName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "ruleArgs",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        }
+    ],
+    "changelogDate": "20170314124750",
+    "dto": "no",
+    "service": "serviceClass",
+    "entityTableName": "ccol_cm_rule",
+    "pagination": "infinite-scroll"
+}

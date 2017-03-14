@@ -1,0 +1,41 @@
+
+<div *ngIf="rule">
+    <h2><span>Rule</span> {{rule.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Rule Name</span></dt>
+        <dd>
+            <span>{{rule.ruleName}}</span>
+        </dd>
+        <dt><span>Rule Args</span></dt>
+        <dd>
+            <span>{{rule.ruleArgs}}</span>
+        </dd>
+        <dt><span>Rule Type</span></dt>
+        <dd>
+            <div *ngIf="rule.ruleType">
+                <a [routerLink]="['/rule-type', rule.ruleType?.id]">{{rule.ruleType?.ruleTypeName}}</a>
+            </div>
+        </dd>
+        <dt><span>Process</span></dt>
+        <dd>
+            <div *ngIf="rule.process">
+                <a [routerLink]="['/process', rule.process?.id]">{{rule.process?.processName}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'rule/'+ rule.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

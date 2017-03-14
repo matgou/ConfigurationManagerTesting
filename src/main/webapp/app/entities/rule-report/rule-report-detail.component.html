@@ -1,0 +1,39 @@
+
+<div *ngIf="ruleReport">
+    <h2><span>Rule Report</span> {{ruleReport.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Report Date</span></dt>
+        <dd>
+            <span>{{ruleReport.reportDate | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+            <span>{{ruleReport.status}}</span>
+        </dd>
+        <dt><span>Log</span></dt>
+        <dd>
+            <span>{{ruleReport.log}}</span>
+        </dd>
+        <dt><span>Rule</span></dt>
+        <dd>
+            <div *ngIf="ruleReport.rule">
+                <a [routerLink]="['/rule', ruleReport.rule?.id]">{{ruleReport.rule?.ruleName}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'rule-report/'+ ruleReport.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,26 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "parent",
+            "otherEntityName": "process",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "processName"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "processName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "50"
+        }
+    ],
+    "changelogDate": "20170314121128",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "ccol_cm_process",
+    "pagination": "infinite-scroll"
+}
