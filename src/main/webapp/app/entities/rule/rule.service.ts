@@ -40,6 +40,13 @@ export class RuleService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
+    execute(id: number): Observable<Rule> {
+        return this.http.post(`${this.resourceUrl}/${id}/execute`, {}).map((res: Response) => {
+            return res.json();
+        });
+    }
+
+
 
 
     private createRequestOption(req?: any): BaseRequestOptions {
