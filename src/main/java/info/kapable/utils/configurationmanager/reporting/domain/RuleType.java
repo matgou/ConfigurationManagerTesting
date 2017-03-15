@@ -30,6 +30,9 @@ public class RuleType implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "required_arguments_list")
+    private String requiredArgumentsList;
+
     public Long getId() {
         return id;
     }
@@ -77,6 +80,19 @@ public class RuleType implements Serializable {
         this.description = description;
     }
 
+    public String getRequiredArgumentsList() {
+        return requiredArgumentsList;
+    }
+
+    public RuleType requiredArgumentsList(String requiredArgumentsList) {
+        this.requiredArgumentsList = requiredArgumentsList;
+        return this;
+    }
+
+    public void setRequiredArgumentsList(String requiredArgumentsList) {
+        this.requiredArgumentsList = requiredArgumentsList;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -104,6 +120,7 @@ public class RuleType implements Serializable {
             ", ruleTypeName='" + ruleTypeName + "'" +
             ", checkerBeanName='" + checkerBeanName + "'" +
             ", description='" + description + "'" +
+            ", requiredArgumentsList='" + requiredArgumentsList + "'" +
             '}';
     }
 }

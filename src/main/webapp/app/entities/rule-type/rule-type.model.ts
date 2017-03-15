@@ -4,6 +4,7 @@ export class RuleType {
         public ruleTypeName?: string,
         public checkerBeanName?: string,
         public description?: string,
+        public requiredArgumentsList?: string,
     ) {
     }
 }

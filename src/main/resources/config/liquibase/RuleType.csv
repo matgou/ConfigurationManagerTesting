@@ -1,0 +1,2 @@
+id;rule_type_name;checker_bean_name;description;required_arguments_list
+1;Execution by SSH;ssh_remote_executor;Execute a command by SSH;user,password,host,cmd

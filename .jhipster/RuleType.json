@@ -17,6 +17,10 @@
         {
             "fieldName": "description",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "requiredArgumentsList",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20170314124234",
