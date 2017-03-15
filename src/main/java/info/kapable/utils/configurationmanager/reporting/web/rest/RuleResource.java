@@ -1,14 +1,21 @@
 package info.kapable.utils.configurationmanager.reporting.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+
 import info.kapable.utils.configurationmanager.reporting.domain.Rule;
+import info.kapable.utils.configurationmanager.reporting.domain.RuleReport;
+import info.kapable.utils.configurationmanager.reporting.executor.Executor;
+import info.kapable.utils.configurationmanager.reporting.service.RuleReportService;
 import info.kapable.utils.configurationmanager.reporting.service.RuleService;
 import info.kapable.utils.configurationmanager.reporting.web.rest.util.HeaderUtil;
 import info.kapable.utils.configurationmanager.reporting.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -33,7 +40,11 @@ public class RuleResource {
     private static final String ENTITY_NAME = "rule";
         
     private final RuleService ruleService;
-
+    @Autowired
+    private RuleReportService ruleReportService;
+    @Autowired
+    private ApplicationContext appContext;
+    
     public RuleResource(RuleService ruleService) {
         this.ruleService = ruleService;
     }
@@ -94,6 +105,30 @@ public class RuleResource {
         Page<Rule> page = ruleService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/rules");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
+    /**
+     * POST  /rules/{id}/execute : Execute a rule.
+     *
+     * @param rule the rule to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new rule, or with status 400 (Bad Request) if the rule has already an ID
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PostMapping("/rules/{id}/execute")
+    @Timed
+    public ResponseEntity<RuleReport> executeRule(@PathVariable Long id) throws URISyntaxException {
+        log.debug("REST request to execute Rule : {}", id);
+        Rule rule = ruleService.findOne(id);
+        if(rule == null) {
+        	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        String executor = rule.getRuleType().getCheckerBeanName();
+        Executor executorBean = (Executor) appContext.getBean(executor);
+        RuleReport report = executorBean.execute(rule);
+        if(report != null) {
+        	ruleReportService.save(report);
+        }
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(report));
     }
 
     /**
