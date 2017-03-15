@@ -7,6 +7,7 @@ import { PaginationUtil } from 'ng-jhipster';
 import { RuleComponent } from './rule.component';
 import { RuleDetailComponent } from './rule-detail.component';
 import { RulePopupComponent } from './rule-dialog.component';
+import { RuleExecutePopupComponent } from './rule-execute.component';
 import { RuleDeletePopupComponent } from './rule-delete-dialog.component';
 
 import { Principal } from '../../shared';
@@ -52,6 +53,15 @@ export const rulePopupRoute: Routes = [
   {
     path: 'rule/:id/delete',
     component: RuleDeletePopupComponent,
+    data: {
+        authorities: ['ROLE_USER'],
+        pageTitle: 'Rules'
+    },
+    outlet: 'popup'
+  },
+  {
+    path: 'rule/:id/execute',
+    component: RuleExecutePopupComponent,
     data: {
         authorities: ['ROLE_USER'],
         pageTitle: 'Rules'

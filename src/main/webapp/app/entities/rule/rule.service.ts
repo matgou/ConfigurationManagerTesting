@@ -30,6 +30,12 @@ export class RuleService {
         });
     }
 
+    execute(id: number): Observable<Rule> {
+        return this.http.post(`${this.resourceUrl}/${id}/execute`, {}).map((res: Response) => {
+            return res.json();
+        });
+    }
+
     query(req?: any): Observable<Response> {
         let options = this.createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
@@ -39,13 +45,6 @@ export class RuleService {
     delete(id: number): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
-
-    execute(id: number): Observable<Rule> {
-        return this.http.post(`${this.resourceUrl}/${id}/execute`, {}).map((res: Response) => {
-            return res.json();
-        });
-    }
-
 
 
 
