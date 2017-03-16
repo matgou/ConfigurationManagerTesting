@@ -18,7 +18,6 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="ruleName"><span>Rule Name</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="ruleArgs"><span>Rule Args</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="ruleType.ruleTypeName"><span>Rule Type</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="process.processName"><span>Process</span> <span class="fa fa-sort"></span></th>
             <th></th>
@@ -28,7 +27,6 @@
             <tr *ngFor="let rule of rules ;trackBy: trackId">
                 <td><a [routerLink]="['../rule', rule.id ]">{{rule.id}}</a></td>
                 <td>{{rule.ruleName}}</td>
-                <td>{{rule.ruleArgs}}</td>
                 <td>
                     <div *ngIf="rule.ruleType">
                         <a [routerLink]="['../rule-type', rule.ruleType?.id ]" >{{rule.ruleType?.ruleTypeName}}</a>
@@ -64,7 +62,7 @@
                         <button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'rule/'+ rule.id + '/execute'} }]"
                                 replaceUrl="true"
-                                class="btn btn-danger btn-sm">
+                                class="btn btn-primary btn-sm">
                             <span class="fa fa-refresh"></span>
                             <span class="hidden-md-down">Execute</span>
                         </button>

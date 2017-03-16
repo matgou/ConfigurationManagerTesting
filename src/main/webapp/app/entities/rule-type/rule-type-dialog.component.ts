@@ -8,6 +8,8 @@ import { EventManager, AlertService } from 'ng-jhipster';
 import { RuleType } from './rule-type.model';
 import { RuleTypePopupService } from './rule-type-popup.service';
 import { RuleTypeService } from './rule-type.service';
+
+
 @Component({
     selector: 'jhi-rule-type-dialog',
     templateUrl: './rule-type-dialog.component.html'

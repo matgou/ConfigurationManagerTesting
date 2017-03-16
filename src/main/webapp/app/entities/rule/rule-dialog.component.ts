@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { PipeTransform, Pipe, Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 
@@ -10,6 +10,14 @@ import { RulePopupService } from './rule-popup.service';
 import { RuleService } from './rule.service';
 import { RuleType, RuleTypeService } from '../rule-type';
 import { Process, ProcessService } from '../process';
+
+@Pipe({name: 'splitString'})
+export class SplitStringPipe implements PipeTransform {
+  transform(val:string, params:string[]):string[] {
+    return val.split(params[0]);
+  }
+}
+
 @Component({
     selector: 'jhi-rule-dialog',
     templateUrl: './rule-dialog.component.html'
@@ -41,6 +49,21 @@ export class RuleDialogComponent implements OnInit {
             (res: Response) => { this.ruletypes = res.json(); }, (res: Response) => this.onError(res.json()));
         this.processService.query().subscribe(
             (res: Response) => { this.processes = res.json(); }, (res: Response) => this.onError(res.json()));
+        
+        /* Calculate ruleArgs (transfroming json encoded object to tab) from response */
+        let keys = [];
+        let a;
+        try {
+            a =JSON.parse(this.rule.ruleArgs);
+            for (let key in a) {
+                 keys[key]=a[key];
+            }
+        } catch(e) {
+        
+        }
+        
+        this.rule.tab = keys;
+            
     }
     byteSize(field) {
         return this.dataUtils.byteSize(field);
@@ -68,6 +91,8 @@ export class RuleDialogComponent implements OnInit {
 
     save () {
         this.isSaving = true;
+        this.rule.ruleArgs = Rule.ruleArgsJson(this.rule);
+        console.log(this.rule);
         if (this.rule.id !== undefined) {
             this.ruleService.update(this.rule)
                 .subscribe((res: Rule) =>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { PipeTransform, Pipe, Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +7,18 @@ import { EventManager } from 'ng-jhipster';
 import { Rule } from './rule.model';
 import { RulePopupService } from './rule-popup.service';
 import { RuleService } from './rule.service';
+
+
+@Pipe({name: 'keys'})
+export class KeysPipe implements PipeTransform {
+  transform(value, args:string[]) : any {
+    let keys = [];
+    for (let key in value) {
+      keys.push({key: key, value: value[key]});
+    }
+    return keys;
+  }
+}
 
 @Component({
     selector: 'jhi-rule-execute-dialog',

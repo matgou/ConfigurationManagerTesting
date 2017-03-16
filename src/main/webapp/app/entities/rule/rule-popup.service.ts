@@ -31,6 +31,7 @@ export class RulePopupService {
     ruleModalRef(component: Component, rule: Rule): NgbModalRef {
         let modalRef = this.modalService.open(component, { size: 'lg', backdrop: 'static'});
         modalRef.componentInstance.rule = rule;
+        modalRef.componentInstance.ruleArgs = JSON.parse(rule.ruleArgs);
         modalRef.result.then(result => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
             this.isOpen = false;

@@ -20,11 +20,6 @@
                 [(ngModel)]="rule.ruleName"
              />
         </div>
-        <div class="form-group">
-            <label class="form-control-label" for="field_ruleArgs">Rule Args</label>
-            <textarea class="form-control" name="ruleArgs" id="field_ruleArgs"
-                [(ngModel)]="rule.ruleArgs"  ></textarea>
-        </div>
 
         <div class="form-group">
             <label for="field_ruleType">Rule Type</label>
@@ -39,6 +34,13 @@
                 <option [ngValue]="null"></option>
                 <option [ngValue]="processOption.id === rule.process?.id ? rule.process : processOption" *ngFor="let processOption of processes; trackBy: trackProcessById">{{processOption.processName}}</option>
             </select>
+        </div>
+        <div *ngIf="rule.ruleType != null">
+	        <div *ngFor="let requiredArgument of rule.ruleType.requiredArgumentsList | splitString:','" class="form-group">
+	            <label class="form-control-label" for="field_ruleArgs{{requiredArgument}}">{{requiredArgument}}</label>
+	            <textarea class="form-control" name="ruleArgs{{requiredArgument}}" id="field_ruleArgs{{requiredArgument}}"
+	                [(ngModel)]="rule.tab[requiredArgument]"></textarea>
+	        </div> 
         </div>
     </div>
     <div class="modal-footer">
