@@ -4,5 +4,5 @@ package info.kapable.utils.configurationmanager.reporting.domain.enumeration;
  * The StatusEnum enumeration.
  */
 public enum StatusEnum {
-    Unknow,Ok,SoftFail,HardFail
+    Waiting,Unknow,Running,Success,SoftFail,HardFail
 }

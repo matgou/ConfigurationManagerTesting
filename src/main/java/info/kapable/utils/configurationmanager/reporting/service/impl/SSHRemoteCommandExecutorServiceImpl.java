@@ -46,7 +46,7 @@ public class SSHRemoteCommandExecutorServiceImpl extends Executor implements
 		return mapper.readValue(jsonData, type);
 	}
 	
-	private RuleReport executeSSH(Map<String, String> props, Rule rule) throws JSchException, IOException {
+	private RuleReport executeSSH(Map<String, String> props, Rule rule, RuleReport rValue) throws JSchException, IOException {
 		int returnCode;
 		String output;
 		
@@ -88,11 +88,10 @@ public class SSHRemoteCommandExecutorServiceImpl extends Executor implements
 		channel.disconnect();
 		session.disconnect();
 		
-		RuleReport rValue = new RuleReport();
 		StatusEnum status;
 		switch (returnCode) {
 			case 0:
-				status = StatusEnum.Ok;
+				status = StatusEnum.Success;
 				break;
 			default:
 				status = StatusEnum.HardFail;
@@ -105,11 +104,11 @@ public class SSHRemoteCommandExecutorServiceImpl extends Executor implements
 	}
 
 	@Override
-	public RuleReport execute(Rule rule) {
+	public RuleReport execute(Rule rule, RuleReport report) {
 		log.info("Start executor for rule : " + rule.getId());
 		try {
 			Map<String, String> props = getPropertyFromJson(rule.getRuleArgs());
-			return executeSSH(props, rule);
+			return executeSSH(props, rule, report);
 		} catch (JsonParseException e) {
 			log.error("Probleme dans la saisie du champ arguements dans la rule " + rule.getId(), e);
 		} catch (JsonMappingException e) {
@@ -119,11 +118,10 @@ public class SSHRemoteCommandExecutorServiceImpl extends Executor implements
 		} catch (JSchException e) {
 			log.error("Probleme dans l'execution ssh "+ rule.getId(), e);
 		}
-		return this.getSoftFailReport(rule);
+		return this.getSoftFailReport(rule, report);
 	}
 
-	private RuleReport getSoftFailReport(Rule rule) {
-		RuleReport rValue = new RuleReport();
+	private RuleReport getSoftFailReport(Rule rule, RuleReport rValue) {
 		rValue.setRule(rule);
 		rValue.setStatus(StatusEnum.SoftFail);
 		return rValue;

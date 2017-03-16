@@ -4,7 +4,9 @@ import com.codahale.metrics.annotation.Timed;
 
 import info.kapable.utils.configurationmanager.reporting.domain.Rule;
 import info.kapable.utils.configurationmanager.reporting.domain.RuleReport;
+import info.kapable.utils.configurationmanager.reporting.domain.enumeration.StatusEnum;
 import info.kapable.utils.configurationmanager.reporting.executor.Executor;
+import info.kapable.utils.configurationmanager.reporting.service.AsyncExecutorService;
 import info.kapable.utils.configurationmanager.reporting.service.RuleReportService;
 import info.kapable.utils.configurationmanager.reporting.service.RuleService;
 import info.kapable.utils.configurationmanager.reporting.web.rest.util.HeaderUtil;
@@ -27,6 +29,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Future;
 
 /**
  * REST controller for managing Rule.
@@ -43,7 +46,7 @@ public class RuleResource {
     @Autowired
     private RuleReportService ruleReportService;
     @Autowired
-    private ApplicationContext appContext;
+	private AsyncExecutorService asyncExecutor;
     
     public RuleResource(RuleService ruleService) {
         this.ruleService = ruleService;
@@ -122,9 +125,12 @@ public class RuleResource {
         if(rule == null) {
         	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        String executor = rule.getRuleType().getCheckerBeanName();
-        Executor executorBean = (Executor) appContext.getBean(executor);
-        RuleReport report = executorBean.execute(rule);
+        RuleReport report = new RuleReport();
+        report.setStatus(StatusEnum.Running);
+        report.setRule(rule);
+        
+        Future<RuleReport> reportAsync = this.asyncExecutor.executeAsync(report);
+        
         if(report != null) {
         	ruleReportService.save(report);
         }

@@ -5,6 +5,6 @@ import info.kapable.utils.configurationmanager.reporting.domain.RuleReport;
 
 public abstract class Executor {
 
-	public abstract RuleReport execute(Rule rule);
+	public abstract RuleReport execute(Rule rule, RuleReport report);
 
 }
