@@ -6,9 +6,11 @@ import info.kapable.utils.configurationmanager.reporting.domain.Rule;
 import info.kapable.utils.configurationmanager.reporting.domain.RuleReport;
 import info.kapable.utils.configurationmanager.reporting.domain.enumeration.StatusEnum;
 import info.kapable.utils.configurationmanager.reporting.executor.Executor;
+import info.kapable.utils.configurationmanager.reporting.security.SecurityUtils;
 import info.kapable.utils.configurationmanager.reporting.service.AsyncExecutorService;
 import info.kapable.utils.configurationmanager.reporting.service.RuleReportService;
 import info.kapable.utils.configurationmanager.reporting.service.RuleService;
+import info.kapable.utils.configurationmanager.reporting.service.UserService;
 import info.kapable.utils.configurationmanager.reporting.web.rest.util.HeaderUtil;
 import info.kapable.utils.configurationmanager.reporting.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
@@ -51,6 +53,8 @@ public class RuleResource {
     private RuleReportService ruleReportService;
     @Autowired
 	private AsyncExecutorService asyncExecutor;
+    @Autowired
+    private UserService userService;
     
     public RuleResource(RuleService ruleService) {
         this.ruleService = ruleService;
@@ -138,6 +142,7 @@ public class RuleResource {
         report.setReportDate(now);
         report.setRule(rule);
     	report.setSubmitAt(ZonedDateTime.now());
+    	report.setUser(userService.getUserWithAuthorities());
         if(report != null) {
         	ruleReportService.save(report);
         }

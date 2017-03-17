@@ -49,8 +49,8 @@ public class RuleReportResourceIntTest {
     private static final LocalDate DEFAULT_REPORT_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_REPORT_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final StatusEnum DEFAULT_STATUS = StatusEnum.Unknow;
-    private static final StatusEnum UPDATED_STATUS = StatusEnum.Ok;
+    private static final StatusEnum DEFAULT_STATUS = StatusEnum.Unknown;
+    private static final StatusEnum UPDATED_STATUS = StatusEnum.Success;
 
     private static final String DEFAULT_LOG = "AAAAAAAAAA";
     private static final String UPDATED_LOG = "BBBBBBBBBB";

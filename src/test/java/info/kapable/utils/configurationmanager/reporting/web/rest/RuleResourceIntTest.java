@@ -1,10 +1,8 @@
 package info.kapable.utils.configurationmanager.reporting.web.rest;
 
 import info.kapable.utils.configurationmanager.reporting.ConfigurationManagerReportingApp;
+
 import info.kapable.utils.configurationmanager.reporting.domain.Rule;
-import info.kapable.utils.configurationmanager.reporting.domain.RuleReport;
-import info.kapable.utils.configurationmanager.reporting.domain.enumeration.StatusEnum;
-import info.kapable.utils.configurationmanager.reporting.repository.RuleReportRepository;
 import info.kapable.utils.configurationmanager.reporting.repository.RuleRepository;
 import info.kapable.utils.configurationmanager.reporting.service.RuleService;
 import info.kapable.utils.configurationmanager.reporting.web.rest.errors.ExceptionTranslator;
@@ -15,8 +13,6 @@ import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -27,19 +23,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import info.kapable.utils.configurationmanager.reporting.domain.enumeration.StatusEnum;
 /**
  * Test class for the RuleResource REST controller.
  *
@@ -55,11 +46,14 @@ public class RuleResourceIntTest {
     private static final String DEFAULT_RULE_ARGS = "AAAAAAAAAA";
     private static final String UPDATED_RULE_ARGS = "BBBBBBBBBB";
 
-    @Autowired
-    private RuleRepository ruleRepository;
+    private static final StatusEnum DEFAULT_DISPLAY_STATUS = StatusEnum.Unknown;
+    private static final StatusEnum UPDATED_DISPLAY_STATUS = StatusEnum.Success;
+
+    private static final Boolean DEFAULT_ENABLE = false;
+    private static final Boolean UPDATED_ENABLE = true;
 
     @Autowired
-    private RuleReportRepository ruleReportRepository;
+    private RuleRepository ruleRepository;
 
     @Autowired
     private RuleService ruleService;
@@ -99,7 +93,9 @@ public class RuleResourceIntTest {
     public static Rule createEntity(EntityManager em) {
         Rule rule = new Rule()
             .ruleName(DEFAULT_RULE_NAME)
-            .ruleArgs(DEFAULT_RULE_ARGS);
+            .ruleArgs(DEFAULT_RULE_ARGS)
+            .displayStatus(DEFAULT_DISPLAY_STATUS)
+            .enable(DEFAULT_ENABLE);
         return rule;
     }
 
@@ -125,6 +121,8 @@ public class RuleResourceIntTest {
         Rule testRule = ruleList.get(ruleList.size() - 1);
         assertThat(testRule.getRuleName()).isEqualTo(DEFAULT_RULE_NAME);
         assertThat(testRule.getRuleArgs()).isEqualTo(DEFAULT_RULE_ARGS);
+        assertThat(testRule.getDisplayStatus()).isEqualTo(DEFAULT_DISPLAY_STATUS);
+        assertThat(testRule.isEnable()).isEqualTo(DEFAULT_ENABLE);
     }
 
     @Test
@@ -158,7 +156,9 @@ public class RuleResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(rule.getId().intValue())))
             .andExpect(jsonPath("$.[*].ruleName").value(hasItem(DEFAULT_RULE_NAME.toString())))
-            .andExpect(jsonPath("$.[*].ruleArgs").value(hasItem(DEFAULT_RULE_ARGS.toString())));
+            .andExpect(jsonPath("$.[*].ruleArgs").value(hasItem(DEFAULT_RULE_ARGS.toString())))
+            .andExpect(jsonPath("$.[*].displayStatus").value(hasItem(DEFAULT_DISPLAY_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].enable").value(hasItem(DEFAULT_ENABLE.booleanValue())));
     }
 
     @Test
@@ -173,7 +173,9 @@ public class RuleResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(rule.getId().intValue()))
             .andExpect(jsonPath("$.ruleName").value(DEFAULT_RULE_NAME.toString()))
-            .andExpect(jsonPath("$.ruleArgs").value(DEFAULT_RULE_ARGS.toString()));
+            .andExpect(jsonPath("$.ruleArgs").value(DEFAULT_RULE_ARGS.toString()))
+            .andExpect(jsonPath("$.displayStatus").value(DEFAULT_DISPLAY_STATUS.toString()))
+            .andExpect(jsonPath("$.enable").value(DEFAULT_ENABLE.booleanValue()));
     }
 
     @Test
@@ -196,7 +198,9 @@ public class RuleResourceIntTest {
         Rule updatedRule = ruleRepository.findOne(rule.getId());
         updatedRule
             .ruleName(UPDATED_RULE_NAME)
-            .ruleArgs(UPDATED_RULE_ARGS);
+            .ruleArgs(UPDATED_RULE_ARGS)
+            .displayStatus(UPDATED_DISPLAY_STATUS)
+            .enable(UPDATED_ENABLE);
 
         restRuleMockMvc.perform(put("/api/rules")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -209,6 +213,8 @@ public class RuleResourceIntTest {
         Rule testRule = ruleList.get(ruleList.size() - 1);
         assertThat(testRule.getRuleName()).isEqualTo(UPDATED_RULE_NAME);
         assertThat(testRule.getRuleArgs()).isEqualTo(UPDATED_RULE_ARGS);
+        assertThat(testRule.getDisplayStatus()).isEqualTo(UPDATED_DISPLAY_STATUS);
+        assertThat(testRule.isEnable()).isEqualTo(UPDATED_ENABLE);
     }
 
     @Test
@@ -251,47 +257,5 @@ public class RuleResourceIntTest {
     @Transactional
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Rule.class);
-    }
-    
-
-
-    @Test
-    @Transactional
-    public void testGetRulesExecutions() throws Exception {
-        final Calendar cal = Calendar.getInstance();
-        LocalDate today = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        cal.add(Calendar.DATE, -1);
-        LocalDate yesterday = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        
-    	Rule rule1 = new Rule()
-    		.ruleName(DEFAULT_RULE_NAME)
-    		.ruleArgs(DEFAULT_RULE_ARGS);
-        ruleRepository.save(rule1);
-        Rule rule2 = new Rule()
-        	.ruleName(DEFAULT_RULE_NAME)
-        	.ruleArgs(DEFAULT_RULE_ARGS);
-        ruleRepository.save(rule2);
-        
-        RuleReport rule1Report1 = new RuleReport();
-        rule1Report1.setReportDate(yesterday);
-        rule1Report1.setRule(rule1);
-        rule1Report1.setStatus(StatusEnum.HardFail);
-        ruleReportRepository.save(rule1Report1);
-        RuleReport rule1Report2 = new RuleReport();
-        rule1Report2.setReportDate(today);
-        rule1Report2.setRule(rule1);
-        rule1Report2.setStatus(StatusEnum.Success);
-        ruleReportRepository.save(rule1Report2);
-
-        RuleReport rule2Report1 = new RuleReport();
-        rule2Report1.setReportDate(yesterday);
-        rule2Report1.setRule(rule1);
-        rule2Report1.setStatus(StatusEnum.Success);
-        ruleReportRepository.save(rule1Report1);
-        RuleReport rule2Report2 = new RuleReport();
-        rule2Report2.setReportDate(today);
-        rule2Report2.setRule(rule2);
-        rule2Report2.setStatus(StatusEnum.HardFail);
-        ruleReportRepository.save(rule2Report2);
     }
 }

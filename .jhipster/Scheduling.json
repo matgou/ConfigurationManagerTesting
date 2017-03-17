@@ -1,0 +1,34 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "rules",
+            "otherEntityName": "rule",
+            "relationshipType": "many-to-many",
+            "otherEntityField": "ruleName",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "scheduling"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "trigger",
+            "fieldType": "TriggerEnum",
+            "fieldValues": "cronSchedule,repeatForever,planning"
+        },
+        {
+            "fieldName": "rule",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "schedulingLabel",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170317143836",
+    "dto": "no",
+    "service": "serviceClass",
+    "entityTableName": "scheduling",
+    "pagination": "pagination"
+}

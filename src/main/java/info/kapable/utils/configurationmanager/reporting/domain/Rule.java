@@ -2,8 +2,11 @@ package info.kapable.utils.configurationmanager.reporting.domain;
 
 
 import javax.persistence.*;
+
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import info.kapable.utils.configurationmanager.reporting.domain.enumeration.StatusEnum;
 
@@ -33,13 +36,17 @@ public class Rule implements Serializable {
     private StatusEnum displayStatus;
 
     @Column(name = "enable")
-    private Boolean enable = true;
+    private Boolean enable;
 
     @ManyToOne
     private RuleType ruleType;
 
     @ManyToOne
     private Process process;
+
+    @ManyToMany
+    @Transient
+    private Set<Scheduling> schedulings = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -127,6 +134,31 @@ public class Rule implements Serializable {
         this.process = process;
     }
 
+    public Set<Scheduling> getSchedulings() {
+        return this.schedulings;
+    }
+
+    public Rule schedulings(Set<Scheduling> schedulings) {
+        this.schedulings = schedulings;
+        return this;
+    }
+
+    public Rule addSchedulings(Scheduling scheduling) {
+        this.schedulings.add(scheduling);
+        scheduling.getRules().add(this);
+        return this;
+    }
+
+    public Rule removeSchedulings(Scheduling scheduling) {
+        this.schedulings.remove(scheduling);
+        scheduling.getRules().remove(this);
+        return this;
+    }
+
+    public void setSchedulings(Set<Scheduling> schedulings) {
+        this.schedulings = schedulings;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) {

@@ -1,0 +1,39 @@
+
+<div *ngIf="scheduling">
+    <h2><span>Scheduling</span> {{scheduling.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Trigger</span></dt>
+        <dd>
+            <span>{{scheduling.trigger}}</span>
+        </dd>
+        <dt><span>Rule</span></dt>
+        <dd>
+            <span>{{scheduling.rule}}</span>
+        </dd>
+        <dt><span>Scheduling Label</span></dt>
+        <dd>
+            <span>{{scheduling.schedulingLabel}}</span>
+        </dd>
+        <dt><span>Rules</span></dt>
+        <dd>
+            <span *ngFor="let rules of scheduling.rules; let last = last">
+                <a [routerLink]="['/rule', rules?.id ]">{{rules.ruleName}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'scheduling/'+ scheduling.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>
