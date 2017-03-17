@@ -33,12 +33,31 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="submit_at" type="timestamp">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="updated_at" type="timestamp">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="finish_at" type="timestamp">
+                <constraints nullable="true" />
+            </column>
+
             <column name="rule_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="user_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+        <dropDefaultValue tableName="ccol_cm_rulereport" columnName="submit_at" columnDataType="datetime"/>
+        <dropDefaultValue tableName="ccol_cm_rulereport" columnName="updated_at" columnDataType="datetime"/>
+        <dropDefaultValue tableName="ccol_cm_rulereport" columnName="finish_at" columnDataType="datetime"/>
         
     </changeSet>
 </databaseChangeLog>

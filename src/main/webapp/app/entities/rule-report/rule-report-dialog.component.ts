@@ -9,6 +9,7 @@ import { RuleReport } from './rule-report.model';
 import { RuleReportPopupService } from './rule-report-popup.service';
 import { RuleReportService } from './rule-report.service';
 import { Rule, RuleService } from '../rule';
+import { User, UserService } from '../../shared';
 @Component({
     selector: 'jhi-rule-report-dialog',
     templateUrl: './rule-report-dialog.component.html'
@@ -20,12 +21,15 @@ export class RuleReportDialogComponent implements OnInit {
     isSaving: boolean;
 
     rules: Rule[];
+
+    users: User[];
     constructor(
         public activeModal: NgbActiveModal,
         private dataUtils: DataUtils,
         private alertService: AlertService,
         private ruleReportService: RuleReportService,
         private ruleService: RuleService,
+        private userService: UserService,
         private eventManager: EventManager
     ) {
     }
@@ -35,6 +39,8 @@ export class RuleReportDialogComponent implements OnInit {
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.ruleService.query().subscribe(
             (res: Response) => { this.rules = res.json(); }, (res: Response) => this.onError(res.json()));
+        this.userService.query().subscribe(
+            (res: Response) => { this.users = res.json(); }, (res: Response) => this.onError(res.json()));
     }
     byteSize(field) {
         return this.dataUtils.byteSize(field);
@@ -89,6 +95,10 @@ export class RuleReportDialogComponent implements OnInit {
     }
 
     trackRuleById(index: number, item: Rule) {
+        return item.id;
+    }
+
+    trackUserById(index: number, item: User) {
         return item.id;
     }
 }

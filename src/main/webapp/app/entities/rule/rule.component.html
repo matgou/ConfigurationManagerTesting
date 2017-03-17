@@ -20,6 +20,7 @@
             <th jhiSortBy="ruleName"><span>Rule Name</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="ruleType.ruleTypeName"><span>Rule Type</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="process.processName"><span>Process</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="displayStatus"><span>Status</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
@@ -35,6 +36,11 @@
                 <td>
                     <div *ngIf="rule.process">
                         <a [routerLink]="['../process', rule.process?.id ]" >{{rule.process?.processName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="rule.displayStatus">
+                        {{rule.displayStatus}}
                     </div>
                 </td>
                 <td class="text-right">

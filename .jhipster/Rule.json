@@ -23,6 +23,15 @@
             "fieldName": "ruleArgs",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "displayStatus",
+            "fieldType": "StatusEnum",
+            "fieldValues": "Unknown,Success,Running,SoftFail,HardFail,ForceSuccess"
+        },
+        {
+            "fieldName": "enable",
+            "fieldType": "Boolean"
         }
     ],
     "changelogDate": "20170314124750",

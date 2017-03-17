@@ -15,6 +15,9 @@ export class RuleReportService {
         let copy: RuleReport = Object.assign({}, ruleReport);
         copy.reportDate = this.dateUtils
             .convertLocalDateToServer(ruleReport.reportDate);
+        copy.submitAt = this.dateUtils.toDate(ruleReport.submitAt);
+        copy.updatedAt = this.dateUtils.toDate(ruleReport.updatedAt);
+        copy.finishAt = this.dateUtils.toDate(ruleReport.finishAt);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
@@ -24,6 +27,12 @@ export class RuleReportService {
         let copy: RuleReport = Object.assign({}, ruleReport);
         copy.reportDate = this.dateUtils
             .convertLocalDateToServer(ruleReport.reportDate);
+
+        copy.submitAt = this.dateUtils.toDate(ruleReport.submitAt);
+
+        copy.updatedAt = this.dateUtils.toDate(ruleReport.updatedAt);
+
+        copy.finishAt = this.dateUtils.toDate(ruleReport.finishAt);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             return res.json();
         });
@@ -34,6 +43,12 @@ export class RuleReportService {
             let jsonResponse = res.json();
             jsonResponse.reportDate = this.dateUtils
                 .convertLocalDateFromServer(jsonResponse.reportDate);
+            jsonResponse.submitAt = this.dateUtils
+                .convertDateTimeFromServer(jsonResponse.submitAt);
+            jsonResponse.updatedAt = this.dateUtils
+                .convertDateTimeFromServer(jsonResponse.updatedAt);
+            jsonResponse.finishAt = this.dateUtils
+                .convertDateTimeFromServer(jsonResponse.finishAt);
             return jsonResponse;
         });
     }
@@ -55,6 +70,12 @@ export class RuleReportService {
         for (let i = 0; i < jsonResponse.length; i++) {
             jsonResponse[i].reportDate = this.dateUtils
                 .convertLocalDateFromServer(jsonResponse[i].reportDate);
+            jsonResponse[i].submitAt = this.dateUtils
+                .convertDateTimeFromServer(jsonResponse[i].submitAt);
+            jsonResponse[i].updatedAt = this.dateUtils
+                .convertDateTimeFromServer(jsonResponse[i].updatedAt);
+            jsonResponse[i].finishAt = this.dateUtils
+                .convertDateTimeFromServer(jsonResponse[i].finishAt);
         }
         res._body = jsonResponse;
         return res;

@@ -5,7 +5,9 @@ import info.kapable.utils.configurationmanager.reporting.domain.RuleReport;
 import info.kapable.utils.configurationmanager.reporting.executor.Executor;
 import info.kapable.utils.configurationmanager.reporting.service.AsyncExecutorService;
 import info.kapable.utils.configurationmanager.reporting.service.RuleReportService;
+import info.kapable.utils.configurationmanager.reporting.service.RuleService;
 
+import java.time.ZonedDateTime;
 import java.util.concurrent.Future;
 
 import org.slf4j.Logger;
@@ -25,6 +27,9 @@ public class AsyncExecutorServiceImpl implements AsyncExecutorService {
     
     @Autowired
     private RuleReportService ruleReportService;
+    
+    @Autowired
+    private RuleService ruleService;
 
     @Autowired
     private ApplicationContext appContext;
@@ -32,10 +37,17 @@ public class AsyncExecutorServiceImpl implements AsyncExecutorService {
     @Async
     public Future<RuleReport> executeAsync(RuleReport report) {
 		// TODO Auto-generated method stub
+    	
 		Rule rule = report.getRule();
 		Executor bean = (Executor) appContext.getBean(rule.getRuleType().getCheckerBeanName());
 		report = bean.execute(rule, report);
+		
+		report.setFinishAt(ZonedDateTime.now());
 		ruleReportService.save(report);
+		
+		rule.setDisplayStatus(report.getStatus());
+		ruleService.save(rule);
+		
         return new AsyncResult<>(report);
 	}
 }

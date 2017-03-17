@@ -1,3 +1,7 @@
+
+const enum StatusEnum {
+    'Unknown','Success','Running','SoftFail','HardFail','ForceSuccess'
+};
 import { RuleType } from '../rule-type';
 import { Process } from '../process';
 export class Rule {
@@ -9,6 +13,8 @@ export class Rule {
         public ruleArgs?: any,
         public ruleType?: RuleType,
         public process?: Process,
+        public displayStatus?: StatusEnum,
+        public enable?: boolean,
     ) {}
     
     public static ruleArgsJson(rule: Rule): String {

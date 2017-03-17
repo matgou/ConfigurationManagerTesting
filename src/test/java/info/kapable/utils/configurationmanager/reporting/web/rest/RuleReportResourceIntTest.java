@@ -24,9 +24,13 @@ import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
 import java.time.ZoneId;
 import java.util.List;
 
+import static info.kapable.utils.configurationmanager.reporting.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -50,6 +54,15 @@ public class RuleReportResourceIntTest {
 
     private static final String DEFAULT_LOG = "AAAAAAAAAA";
     private static final String UPDATED_LOG = "BBBBBBBBBB";
+
+    private static final ZonedDateTime DEFAULT_SUBMIT_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_SUBMIT_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+
+    private static final ZonedDateTime DEFAULT_UPDATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_UPDATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+
+    private static final ZonedDateTime DEFAULT_FINISH_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_FINISH_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
     @Autowired
     private RuleReportRepository ruleReportRepository;
@@ -93,7 +106,10 @@ public class RuleReportResourceIntTest {
         RuleReport ruleReport = new RuleReport()
             .reportDate(DEFAULT_REPORT_DATE)
             .status(DEFAULT_STATUS)
-            .log(DEFAULT_LOG);
+            .log(DEFAULT_LOG)
+            .submitAt(DEFAULT_SUBMIT_AT)
+            .updatedAt(DEFAULT_UPDATED_AT)
+            .finishAt(DEFAULT_FINISH_AT);
         return ruleReport;
     }
 
@@ -120,6 +136,9 @@ public class RuleReportResourceIntTest {
         assertThat(testRuleReport.getReportDate()).isEqualTo(DEFAULT_REPORT_DATE);
         assertThat(testRuleReport.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testRuleReport.getLog()).isEqualTo(DEFAULT_LOG);
+        assertThat(testRuleReport.getSubmitAt()).isEqualTo(DEFAULT_SUBMIT_AT);
+        assertThat(testRuleReport.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
+        assertThat(testRuleReport.getFinishAt()).isEqualTo(DEFAULT_FINISH_AT);
     }
 
     @Test
@@ -154,7 +173,10 @@ public class RuleReportResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(ruleReport.getId().intValue())))
             .andExpect(jsonPath("$.[*].reportDate").value(hasItem(DEFAULT_REPORT_DATE.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].log").value(hasItem(DEFAULT_LOG.toString())));
+            .andExpect(jsonPath("$.[*].log").value(hasItem(DEFAULT_LOG.toString())))
+            .andExpect(jsonPath("$.[*].submitAt").value(hasItem(sameInstant(DEFAULT_SUBMIT_AT))))
+            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(DEFAULT_UPDATED_AT))))
+            .andExpect(jsonPath("$.[*].finishAt").value(hasItem(sameInstant(DEFAULT_FINISH_AT))));
     }
 
     @Test
@@ -170,7 +192,10 @@ public class RuleReportResourceIntTest {
             .andExpect(jsonPath("$.id").value(ruleReport.getId().intValue()))
             .andExpect(jsonPath("$.reportDate").value(DEFAULT_REPORT_DATE.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
-            .andExpect(jsonPath("$.log").value(DEFAULT_LOG.toString()));
+            .andExpect(jsonPath("$.log").value(DEFAULT_LOG.toString()))
+            .andExpect(jsonPath("$.submitAt").value(sameInstant(DEFAULT_SUBMIT_AT)))
+            .andExpect(jsonPath("$.updatedAt").value(sameInstant(DEFAULT_UPDATED_AT)))
+            .andExpect(jsonPath("$.finishAt").value(sameInstant(DEFAULT_FINISH_AT)));
     }
 
     @Test
@@ -194,7 +219,10 @@ public class RuleReportResourceIntTest {
         updatedRuleReport
             .reportDate(UPDATED_REPORT_DATE)
             .status(UPDATED_STATUS)
-            .log(UPDATED_LOG);
+            .log(UPDATED_LOG)
+            .submitAt(UPDATED_SUBMIT_AT)
+            .updatedAt(UPDATED_UPDATED_AT)
+            .finishAt(UPDATED_FINISH_AT);
 
         restRuleReportMockMvc.perform(put("/api/rule-reports")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -208,6 +236,9 @@ public class RuleReportResourceIntTest {
         assertThat(testRuleReport.getReportDate()).isEqualTo(UPDATED_REPORT_DATE);
         assertThat(testRuleReport.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testRuleReport.getLog()).isEqualTo(UPDATED_LOG);
+        assertThat(testRuleReport.getSubmitAt()).isEqualTo(UPDATED_SUBMIT_AT);
+        assertThat(testRuleReport.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
+        assertThat(testRuleReport.getFinishAt()).isEqualTo(UPDATED_FINISH_AT);
     }
 
     @Test

@@ -1,8 +1,10 @@
 package info.kapable.utils.configurationmanager.reporting.web.rest;
 
 import info.kapable.utils.configurationmanager.reporting.ConfigurationManagerReportingApp;
-
 import info.kapable.utils.configurationmanager.reporting.domain.Rule;
+import info.kapable.utils.configurationmanager.reporting.domain.RuleReport;
+import info.kapable.utils.configurationmanager.reporting.domain.enumeration.StatusEnum;
+import info.kapable.utils.configurationmanager.reporting.repository.RuleReportRepository;
 import info.kapable.utils.configurationmanager.reporting.repository.RuleRepository;
 import info.kapable.utils.configurationmanager.reporting.service.RuleService;
 import info.kapable.utils.configurationmanager.reporting.web.rest.errors.ExceptionTranslator;
@@ -13,6 +15,8 @@ import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -23,7 +27,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -47,6 +57,9 @@ public class RuleResourceIntTest {
 
     @Autowired
     private RuleRepository ruleRepository;
+
+    @Autowired
+    private RuleReportRepository ruleReportRepository;
 
     @Autowired
     private RuleService ruleService;
@@ -238,5 +251,47 @@ public class RuleResourceIntTest {
     @Transactional
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Rule.class);
+    }
+    
+
+
+    @Test
+    @Transactional
+    public void testGetRulesExecutions() throws Exception {
+        final Calendar cal = Calendar.getInstance();
+        LocalDate today = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        cal.add(Calendar.DATE, -1);
+        LocalDate yesterday = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        
+    	Rule rule1 = new Rule()
+    		.ruleName(DEFAULT_RULE_NAME)
+    		.ruleArgs(DEFAULT_RULE_ARGS);
+        ruleRepository.save(rule1);
+        Rule rule2 = new Rule()
+        	.ruleName(DEFAULT_RULE_NAME)
+        	.ruleArgs(DEFAULT_RULE_ARGS);
+        ruleRepository.save(rule2);
+        
+        RuleReport rule1Report1 = new RuleReport();
+        rule1Report1.setReportDate(yesterday);
+        rule1Report1.setRule(rule1);
+        rule1Report1.setStatus(StatusEnum.HardFail);
+        ruleReportRepository.save(rule1Report1);
+        RuleReport rule1Report2 = new RuleReport();
+        rule1Report2.setReportDate(today);
+        rule1Report2.setRule(rule1);
+        rule1Report2.setStatus(StatusEnum.Success);
+        ruleReportRepository.save(rule1Report2);
+
+        RuleReport rule2Report1 = new RuleReport();
+        rule2Report1.setReportDate(yesterday);
+        rule2Report1.setRule(rule1);
+        rule2Report1.setStatus(StatusEnum.Success);
+        ruleReportRepository.save(rule1Report1);
+        RuleReport rule2Report2 = new RuleReport();
+        rule2Report2.setReportDate(today);
+        rule2Report2.setRule(rule2);
+        rule2Report2.setStatus(StatusEnum.HardFail);
+        ruleReportRepository.save(rule2Report2);
     }
 }

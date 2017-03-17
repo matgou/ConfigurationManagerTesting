@@ -12,4 +12,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface RuleReportRepository extends JpaRepository<RuleReport,Long> {
 
+    @Query("select ruleReport from RuleReport ruleReport where ruleReport.user.login = ?#{principal.username}")
+    List<RuleReport> findByUserIsCurrentUser();
+
 }

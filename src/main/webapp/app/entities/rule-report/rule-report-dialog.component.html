@@ -28,9 +28,11 @@
             <label class="form-control-label" for="field_status">Status</label>
             <select class="form-control" name="status" [(ngModel)]="ruleReport.status" id="field_status" >
                 <option value="Unknow">Unknow</option>
-                <option value="Ok">Ok</option>
+                <option value="Success">Success</option>
+                <option value="Running">Running</option>
                 <option value="SoftFail">SoftFail</option>
                 <option value="HardFail">HardFail</option>
+                <option value="ForceSuccess">ForceSuccess</option>
             </select>
         </div>
         <div class="form-group">
@@ -38,12 +40,40 @@
             <textarea class="form-control" name="log" id="field_log"
                 [(ngModel)]="ruleReport.log"  ></textarea>
         </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_submitAt">Submit At</label>
+            <div class="d-flex">
+                <input id="field_submitAt" type="datetime-local" class="form-control" name="submitAt" [(ngModel)]="ruleReport.submitAt"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_updatedAt">Updated At</label>
+            <div class="d-flex">
+                <input id="field_updatedAt" type="datetime-local" class="form-control" name="updatedAt" [(ngModel)]="ruleReport.updatedAt"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_finishAt">Finish At</label>
+            <div class="d-flex">
+                <input id="field_finishAt" type="datetime-local" class="form-control" name="finishAt" [(ngModel)]="ruleReport.finishAt"
+                  />
+            </div>
+        </div>
 
         <div class="form-group">
             <label for="field_rule">Rule</label>
             <select class="form-control" id="field_rule" name="rule" [(ngModel)]="ruleReport.rule" >
                 <option [ngValue]="null"></option>
                 <option [ngValue]="ruleOption.id === ruleReport.rule?.id ? ruleReport.rule : ruleOption" *ngFor="let ruleOption of rules; trackBy: trackRuleById">{{ruleOption.ruleName}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="field_user">User</label>
+            <select class="form-control" id="field_user" name="user" [(ngModel)]="ruleReport.user" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="userOption.id === ruleReport.user?.id ? ruleReport.user : userOption" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
             </select>
         </div>
     </div>

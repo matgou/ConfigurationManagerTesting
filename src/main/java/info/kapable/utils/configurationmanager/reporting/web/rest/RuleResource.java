@@ -27,6 +27,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Future;
@@ -125,15 +129,23 @@ public class RuleResource {
         if(rule == null) {
         	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        Calendar cal = Calendar.getInstance();
+        LocalDate now = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        
         RuleReport report = new RuleReport();
         report.setStatus(StatusEnum.Running);
+        report.setReportDate(now);
         report.setRule(rule);
-        
-        Future<RuleReport> reportAsync = this.asyncExecutor.executeAsync(report);
-        
+    	report.setSubmitAt(ZonedDateTime.now());
         if(report != null) {
         	ruleReportService.save(report);
         }
+        rule.setDisplayStatus(StatusEnum.Running);
+        ruleService.save(rule);
+        
+        Future<RuleReport> reportAsync = this.asyncExecutor.executeAsync(report);
+        
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(report));
     }
 

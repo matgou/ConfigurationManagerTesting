@@ -1,12 +1,14 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 import { RuleReport } from './rule-report.model';
 import { RuleReportService } from './rule-report.service';
 @Injectable()
 export class RuleReportPopupService {
     private isOpen = false;
     constructor (
+        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private ruleReportService: RuleReportService
@@ -28,6 +30,12 @@ export class RuleReportPopupService {
                         day: ruleReport.reportDate.getDate()
                     };
                 }
+                ruleReport.submitAt = this.datePipe
+                    .transform(ruleReport.submitAt, 'yyyy-MM-ddThh:mm');
+                ruleReport.updatedAt = this.datePipe
+                    .transform(ruleReport.updatedAt, 'yyyy-MM-ddThh:mm');
+                ruleReport.finishAt = this.datePipe
+                    .transform(ruleReport.finishAt, 'yyyy-MM-ddThh:mm');
                 this.ruleReportModalRef(component, ruleReport);
             });
         } else {

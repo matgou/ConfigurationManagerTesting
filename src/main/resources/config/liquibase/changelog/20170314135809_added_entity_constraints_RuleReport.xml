@@ -14,5 +14,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="ccol_cm_rule"/>
 
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="ccol_cm_rulereport"
+                                 constraintName="fk_rule_report_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
     </changeSet>
 </databaseChangeLog>

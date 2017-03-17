@@ -35,6 +35,18 @@
                 <option [ngValue]="processOption.id === rule.process?.id ? rule.process : processOption" *ngFor="let processOption of processes; trackBy: trackProcessById">{{processOption.processName}}</option>
             </select>
         </div>
+        
+        <div class="form-group">
+            <label class="form-control-label" for="field_displayStatus">Status Affich&eacute;</label>
+            <select class="form-control" name="displayStatus" [(ngModel)]="rule.displayStatus" id="field_displayStatus" >
+                <option value="Unknown">Unknown</option>
+                <option value="Success">Success</option>
+                <option value="Running">Running</option>
+                <option value="SoftFail">SoftFail</option>
+                <option value="HardFail">HardFail</option>
+                <option value="ForceSuccess">ForceSuccess</option>
+            </select>
+        </div>
         <div *ngIf="rule.ruleType != null">
 	        <div *ngFor="let requiredArgument of rule.ruleType.requiredArgumentsList | splitString:','" class="form-group">
 	            <label class="form-control-label" for="field_ruleArgs{{requiredArgument}}">{{requiredArgument}}</label>
@@ -42,6 +54,7 @@
 	                [(ngModel)]="rule.tab[requiredArgument]"></textarea>
 	        </div> 
         </div>
+        
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">

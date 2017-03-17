@@ -20,7 +20,11 @@
             <th jhiSortBy="reportDate"><span>Report Date</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="status"><span>Status</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="log"><span>Log</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="submitAt"><span>Submit At</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="updatedAt"><span>Updated At</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="finishAt"><span>Finish At</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="rule.ruleName"><span>Rule</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="user.login"><span>User</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
@@ -30,10 +34,16 @@
                 <td>{{ruleReport.reportDate | date:'mediumDate'}}</td>
                 <td>{{ruleReport.status}}</td>
                 <td>{{ruleReport.log}}</td>
+                <td>{{ruleReport.submitAt | date:'medium'}}</td>
+                <td>{{ruleReport.updatedAt | date:'medium'}}</td>
+                <td>{{ruleReport.finishAt | date:'medium'}}</td>
                 <td>
                     <div *ngIf="ruleReport.rule">
                         <a [routerLink]="['../rule', ruleReport.rule?.id ]" >{{ruleReport.rule?.ruleName}}</a>
                     </div>
+                </td>
+                <td>
+                    {{ruleReport.user?.login}}
                 </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">

@@ -5,6 +5,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+import info.kapable.utils.configurationmanager.reporting.domain.enumeration.StatusEnum;
+
 /**
  * A Rule.
  */
@@ -25,6 +27,13 @@ public class Rule implements Serializable {
     @Lob
     @Column(name = "rule_args")
     private String ruleArgs;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "display_status")
+    private StatusEnum displayStatus;
+
+    @Column(name = "enable")
+    private Boolean enable = true;
 
     @ManyToOne
     private RuleType ruleType;
@@ -64,6 +73,32 @@ public class Rule implements Serializable {
 
     public void setRuleArgs(String ruleArgs) {
         this.ruleArgs = ruleArgs;
+    }
+
+    public StatusEnum getDisplayStatus() {
+        return displayStatus;
+    }
+
+    public Rule displayStatus(StatusEnum displayStatus) {
+        this.displayStatus = displayStatus;
+        return this;
+    }
+
+    public void setDisplayStatus(StatusEnum displayStatus) {
+        this.displayStatus = displayStatus;
+    }
+
+    public Boolean isEnable() {
+        return enable;
+    }
+
+    public Rule enable(Boolean enable) {
+        this.enable = enable;
+        return this;
+    }
+
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
     }
 
     public RuleType getRuleType() {
@@ -118,6 +153,8 @@ public class Rule implements Serializable {
             "id=" + id +
             ", ruleName='" + ruleName + "'" +
             ", ruleArgs='" + ruleArgs + "'" +
+            ", displayStatus='" + displayStatus + "'" +
+            ", enable='" + enable + "'" +
             '}';
     }
 }

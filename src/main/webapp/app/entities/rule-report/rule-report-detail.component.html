@@ -16,11 +16,27 @@
         <dd>
             <span>{{ruleReport.log}}</span>
         </dd>
+        <dt><span>Submit At</span></dt>
+        <dd>
+            <span>{{ruleReport.submitAt | date:'medium'}}</span>
+        </dd>
+        <dt><span>Updated At</span></dt>
+        <dd>
+            <span>{{ruleReport.updatedAt | date:'medium'}}</span>
+        </dd>
+        <dt><span>Finish At</span></dt>
+        <dd>
+            <span>{{ruleReport.finishAt | date:'medium'}}</span>
+        </dd>
         <dt><span>Rule</span></dt>
         <dd>
             <div *ngIf="ruleReport.rule">
                 <a [routerLink]="['/rule', ruleReport.rule?.id]">{{ruleReport.rule?.ruleName}}</a>
             </div>
+        </dd>
+        <dt><span>User</span></dt>
+        <dd>
+            {{ruleReport.user?.login}}
         </dd>
     </dl>
 
