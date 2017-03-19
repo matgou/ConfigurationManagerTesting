@@ -1,6 +1,10 @@
 package info.kapable.utils.configurationmanager.reporting.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ScheduledFuture;
 
 import info.kapable.utils.configurationmanager.reporting.service.SchedulingService;
 import info.kapable.utils.configurationmanager.reporting.service.SchedulingTaskService;
@@ -34,20 +38,70 @@ public class SchedulingTaskServiceImpl implements SchedulingTaskService {
     @Autowired
     private ExecutorTaskFactoryService executorTaskFactory;
     
+    private Map<Scheduling, List<ScheduledFuture<?>>> schedulingMap;
+    private Map<Rule, List<ScheduledFuture<?>>> ruleMap;
+    
+    public SchedulingTaskServiceImpl() {
+    	super();
+    	this.schedulingMap = new HashMap<Scheduling, List<ScheduledFuture<?>>>();
+    	this.ruleMap = new HashMap<Rule, List<ScheduledFuture<?>>>();
+    	
+    }
     public void createTrigger(Rule rule, Scheduling scheduling) throws UnsuportedTriggerException {
     	switch(scheduling.getTrigger()) {
     		case cronSchedule:
-    			createCronTrigger(rule, scheduling.getRule());
+    			ScheduledFuture<?> schedule = createCronTrigger(rule, scheduling.getRule());
+    			this.registerInMermoy(scheduling, rule, schedule);
     			break;
     		default:
 				throw new UnsuportedTriggerException();
     	}
     }
 
+	private void registerInMermoy(Scheduling scheduling, Rule rule, ScheduledFuture<?> schedule) {
+		// TODO Auto-generated method stub
+		List schedules;
+		if(this.schedulingMap.containsKey(scheduling)) {
+			schedules = this.schedulingMap.get(scheduling);
+		} else {
+			schedules = new ArrayList<ScheduledFuture<?>>();
+		}
+		schedules.add(schedule);
+		this.schedulingMap.put(scheduling, schedules);
+			
+		if(this.ruleMap.containsKey(scheduling)) {
+			schedules = this.ruleMap.get(rule);
+		} else {
+			schedules = new ArrayList<ScheduledFuture<?>>();
+		}
+		schedules.add(schedule);
+		this.ruleMap.put(rule, schedules);
+	}
 
-	private void createCronTrigger(Rule rule, String cronRule) {
+
+	private ScheduledFuture<?> createCronTrigger(Rule rule, String cronRule) {
 		Trigger trigger = new CronTrigger(cronRule);
 		Runnable task = executorTaskFactory.createTask(rule);
-		scheduler.schedule(task, trigger);
+		ScheduledFuture<?> schedule = scheduler.schedule(task, trigger);
+		return schedule;
+	}
+	@Override
+	public void unregisterJobFromRule(Rule rule) {
+		if(this.ruleMap.containsKey(rule)) {
+			List<ScheduledFuture<?>> jobs = this.ruleMap.get(rule);
+			for(ScheduledFuture<?> job: jobs) {
+				job.cancel(true);
+			}
+		}
+	}
+
+	@Override
+	public void unregisterJobFromScheduling(Scheduling scheduling) {
+		if(this.schedulingMap.containsKey(scheduling)) {
+			List<ScheduledFuture<?>> jobs = this.schedulingMap.get(scheduling);
+			for(ScheduledFuture<?> job: jobs) {
+				job.cancel(true);
+			}
+		}
 	}
 }

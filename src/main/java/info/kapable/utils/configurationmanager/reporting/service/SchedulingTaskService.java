@@ -6,4 +6,8 @@ import info.kapable.utils.configurationmanager.reporting.exception.UnsuportedTri
 
 public interface SchedulingTaskService {
 	public void createTrigger(Rule rule, Scheduling scheduling) throws UnsuportedTriggerException;
+	
+	public void unregisterJobFromRule(Rule rule);
+
+	public void unregisterJobFromScheduling(Scheduling scheduling);
 }

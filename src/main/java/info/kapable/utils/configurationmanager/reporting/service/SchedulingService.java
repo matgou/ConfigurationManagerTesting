@@ -43,6 +43,7 @@ public class SchedulingService {
 		log.debug("Request to save Scheduling : {}", scheduling);
 		Scheduling result = null;
 		try {
+			schedulingTask.unregisterJobFromScheduling(scheduling);
 			for (Rule rule : scheduling.getRules()) {
 				schedulingTask.createTrigger(rule, scheduling);
 			}
