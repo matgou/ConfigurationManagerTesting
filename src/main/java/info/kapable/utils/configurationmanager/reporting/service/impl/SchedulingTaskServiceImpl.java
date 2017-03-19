@@ -7,16 +7,20 @@ import info.kapable.utils.configurationmanager.reporting.service.SchedulingTaskS
 import info.kapable.utils.configurationmanager.reporting.domain.Rule;
 import info.kapable.utils.configurationmanager.reporting.domain.Scheduling;
 import info.kapable.utils.configurationmanager.reporting.domain.enumeration.TriggerEnum;
+import info.kapable.utils.configurationmanager.reporting.exception.UnsuportedTriggerException;
 
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import info.kapable.utils.configurationmanager.reporting.service.ExecutorTaskFactoryService;
+
+import com.google.common.util.concurrent.AbstractScheduledService.Scheduler;
 
 @Service
 @Transactional
@@ -25,25 +29,25 @@ public class SchedulingTaskServiceImpl implements SchedulingTaskService {
     private final Logger log = LoggerFactory.getLogger(SchedulingTaskServiceImpl.class);
 
     @Autowired
-    private SchedulerFactoryBean schedulerFactory;
+    private TaskScheduler scheduler;
     
-    private SchedulingService schedulingDomainService;
+    @Autowired
+    private ExecutorTaskFactoryService executorTaskFactory;
     
-    
-    public void updateTrigger() {
-    	List<Scheduling> schedulings = schedulingDomainService.findAll();
-    	Scheduler scheduler = (Scheduler) schedulerFactory.getScheduler();
-    	
-    	for(Scheduling scheduling: schedulings) {
-    		for(Rule rule: scheduling.getRules()) {
-    			Trigger trigger;
-    			if(scheduling.getTrigger() == TriggerEnum.cronSchedule) {
-    				trigger = new CronTriggerBean();
-    				trigger.setCronExpression(expression);
-    				trigger.afterPropertiesSet();
-    			}
-                scheduler.scheduleJob((JobDetail) jobDetail.getObject(), trigger);
-    		}
+    public void createTrigger(Rule rule, Scheduling scheduling) throws UnsuportedTriggerException {
+    	switch(scheduling.getTrigger()) {
+    		case cronSchedule:
+    			createCronTrigger(rule, scheduling.getRule());
+    			break;
+    		default:
+				throw new UnsuportedTriggerException();
     	}
     }
+
+
+	private void createCronTrigger(Rule rule, String cronRule) {
+		Trigger trigger = new CronTrigger(cronRule);
+		Runnable task = executorTaskFactory.createTask(rule);
+		scheduler.schedule(task, trigger);
+	}
 }
