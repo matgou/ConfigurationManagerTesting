@@ -91,10 +91,17 @@ public class SchedulingService {
 	 */
 	public void delete(Long id) {
 		log.debug("Request to delete Scheduling : {}", id);
+		Scheduling scheduling = this.findOne(id);
+		this.schedulingTask.unregisterJobFromScheduling(scheduling);
 		schedulingRepository.delete(id);
 	}
 
 	public List<Scheduling> findAll() {
 		return schedulingRepository.findAll();
+	}
+
+	public List<Scheduling> findAllFetchRules() {
+		log.debug("Request to find all scheduling join rules");
+		return this.schedulingRepository.findAllWithEagerRelationships();
 	}
 }

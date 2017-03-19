@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
+import javax.annotation.PostConstruct;
+
 import info.kapable.utils.configurationmanager.reporting.service.SchedulingService;
 import info.kapable.utils.configurationmanager.reporting.service.SchedulingTaskService;
 import info.kapable.utils.configurationmanager.reporting.domain.Rule;
@@ -15,6 +17,7 @@ import info.kapable.utils.configurationmanager.reporting.exception.UnsuportedTri
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.Trigger;
@@ -33,6 +36,9 @@ public class SchedulingTaskServiceImpl implements SchedulingTaskService {
     private final Logger log = LoggerFactory.getLogger(SchedulingTaskServiceImpl.class);
 
     @Autowired
+    private SchedulingService schedulingService;
+    
+    @Autowired
     private TaskScheduler scheduler;
     
     @Autowired
@@ -47,6 +53,8 @@ public class SchedulingTaskServiceImpl implements SchedulingTaskService {
     	this.ruleMap = new HashMap<Rule, List<ScheduledFuture<?>>>();
     	
     }
+    
+    
     public void createTrigger(Rule rule, Scheduling scheduling) throws UnsuportedTriggerException {
     	switch(scheduling.getTrigger()) {
     		case cronSchedule:
@@ -79,7 +87,7 @@ public class SchedulingTaskServiceImpl implements SchedulingTaskService {
 	}
 
 
-	private ScheduledFuture<?> createCronTrigger(Rule rule, String cronRule) {
+	public ScheduledFuture<?> createCronTrigger(Rule rule, String cronRule) {
 		Trigger trigger = new CronTrigger(cronRule);
 		Runnable task = executorTaskFactory.createTask(rule);
 		ScheduledFuture<?> schedule = scheduler.schedule(task, trigger);
@@ -87,6 +95,7 @@ public class SchedulingTaskServiceImpl implements SchedulingTaskService {
 	}
 	@Override
 	public void unregisterJobFromRule(Rule rule) {
+		log.info("Unregister all job for rule : " + rule.getId());
 		if(this.ruleMap.containsKey(rule)) {
 			List<ScheduledFuture<?>> jobs = this.ruleMap.get(rule);
 			for(ScheduledFuture<?> job: jobs) {
@@ -97,6 +106,7 @@ public class SchedulingTaskServiceImpl implements SchedulingTaskService {
 
 	@Override
 	public void unregisterJobFromScheduling(Scheduling scheduling) {
+		log.info("Unregister all job for scheduling : " + scheduling.getId());
 		if(this.schedulingMap.containsKey(scheduling)) {
 			List<ScheduledFuture<?>> jobs = this.schedulingMap.get(scheduling);
 			for(ScheduledFuture<?> job: jobs) {

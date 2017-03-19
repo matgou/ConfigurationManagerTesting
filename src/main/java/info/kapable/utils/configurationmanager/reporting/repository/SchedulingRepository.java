@@ -18,5 +18,4 @@ public interface SchedulingRepository extends JpaRepository<Scheduling,Long> {
 
     @Query("select scheduling from Scheduling scheduling left join fetch scheduling.rules where scheduling.id =:id")
     Scheduling findOneWithEagerRelationships(@Param("id") Long id);
-
 }
