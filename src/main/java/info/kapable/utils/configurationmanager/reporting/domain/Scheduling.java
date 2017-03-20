@@ -74,6 +74,9 @@ public class Scheduling implements Serializable {
         this.rule = rule;
     }
 
+    public String getQuartzCronRule() {
+    	return "0 " + this.rule;
+    }
     public String getSchedulingLabel() {
         return schedulingLabel;
     }

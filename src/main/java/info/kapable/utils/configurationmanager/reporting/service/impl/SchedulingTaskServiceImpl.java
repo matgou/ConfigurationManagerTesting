@@ -58,8 +58,10 @@ public class SchedulingTaskServiceImpl implements SchedulingTaskService {
     public void createTrigger(Rule rule, Scheduling scheduling) throws UnsuportedTriggerException {
     	switch(scheduling.getTrigger()) {
     		case cronSchedule:
-    			ScheduledFuture<?> schedule = createCronTrigger(rule, scheduling.getRule());
-    			this.registerInMermoy(scheduling, rule, schedule);
+    			ScheduledFuture<?> schedule = createCronTrigger(rule, scheduling.getQuartzCronRule());
+    			if(schedule != null) {
+    				this.registerInMermoy(scheduling, rule, schedule);
+    			}
     			break;
     		default:
 				throw new UnsuportedTriggerException();
@@ -88,10 +90,15 @@ public class SchedulingTaskServiceImpl implements SchedulingTaskService {
 
 
 	public ScheduledFuture<?> createCronTrigger(Rule rule, String cronRule) {
-		Trigger trigger = new CronTrigger(cronRule);
-		Runnable task = executorTaskFactory.createTask(rule);
-		ScheduledFuture<?> schedule = scheduler.schedule(task, trigger);
-		return schedule;
+		try {
+			Trigger trigger = new CronTrigger(cronRule);
+			Runnable task = executorTaskFactory.createTask(rule);
+			ScheduledFuture<?> schedule = scheduler.schedule(task, trigger);
+			return schedule;
+		} catch(IllegalArgumentException e) {
+			log.error("Cron schedule rule {} is invalid cancel scheduling rule {}, \n {}", cronRule, rule.getRuleName(), e.getMessage());
+			return null;
+		}
 	}
 	@Override
 	public void unregisterJobFromRule(Rule rule) {
@@ -99,7 +106,8 @@ public class SchedulingTaskServiceImpl implements SchedulingTaskService {
 		if(this.ruleMap.containsKey(rule)) {
 			List<ScheduledFuture<?>> jobs = this.ruleMap.get(rule);
 			for(ScheduledFuture<?> job: jobs) {
-				job.cancel(true);
+				if(job != null)
+					job.cancel(true);
 			}
 		}
 	}
@@ -110,7 +118,8 @@ public class SchedulingTaskServiceImpl implements SchedulingTaskService {
 		if(this.schedulingMap.containsKey(scheduling)) {
 			List<ScheduledFuture<?>> jobs = this.schedulingMap.get(scheduling);
 			for(ScheduledFuture<?> job: jobs) {
-				job.cancel(true);
+				if(job != null)
+					job.cancel(true);
 			}
 		}
 	}
