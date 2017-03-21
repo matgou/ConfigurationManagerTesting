@@ -42,13 +42,13 @@
 									</div>
 									<div class="tab-pane {{ popoverTabHourlyEnable }}" id="Hourly">
 										<div class="well well-small">
-											<input type="radio" value="1" name="HourlyRadio"
-												checked="checked">&nbsp;Every&nbsp;<input
+											<input (change)="onChange($event)" [(ngModel)]="hourlyRadio" type="radio" value="1" name="HourlyRadio"
+												checked="checked">&nbsp;Every&nbsp;<input (change)="onChange($event)" [(ngModel)]="hoursInput"
 												type="text" id="HoursInput" value="1" style="width: 40px">&nbsp;hour(s)
 										</div>
 										<div class="well well-small">
-											<input type="radio" value="2" name="HourlyRadio">&nbsp;At&nbsp;<select
-												style="width: 60px" class="hours" id="AtHours"><option
+											<input (change)="onChange($event)" [(ngModel)]="hourlyRadio" type="radio" value="2" name="HourlyRadio">&nbsp;At&nbsp;<select
+												(change)="onChange($event)" [(ngModel)]="atHours" style="width: 60px" class="hours" id="AtHours"><option
 													id="0">00</option>
 												<option id="1">01</option>
 												<option id="2">02</option>
@@ -73,7 +73,7 @@
 												<option id="21">21</option>
 												<option id="22">22</option>
 												<option id="23">23</option></select><select style="width: 60px"
-												class="minutes" id="AtMinutes"><option id="0">00</option>
+												(change)="onChange($event)" [(ngModel)]="atMinutes" class="minutes" id="AtMinutes"><option id="0">00</option>
 												<option id="1">01</option>
 												<option id="2">02</option>
 												<option id="3">03</option>
@@ -137,16 +137,16 @@
 									</div>
 									<div class="tab-pane {{ popoverTabDailyEnable }}" id="Daily">
 										<div class="well well-small">
-											<input type="radio" value="1" name="DailyRadio"
-												checked="checked">&nbsp;Every&nbsp;<input
+											<input type="radio" value="1" name="DailyRadio" (change)="onChange($event)" [(ngModel)]="dailyRadio" 
+												checked="checked">&nbsp;Every&nbsp;<input  (change)="onChange($event)" [(ngModel)]="daysInput"
 												type="text" id="DaysInput" value="1" style="width: 40px">&nbsp;day(s)
 										</div>
 										<div class="well well-small">
-											<input type="radio" value="2" name="DailyRadio">&nbsp;Every
+											<input type="radio" value="2" name="DailyRadio" (change)="onChange($event)" [(ngModel)]="dailyRadio">&nbsp;Every
 											week day&nbsp;
 										</div>
 										Start time&nbsp;<select style="width: 60px" class="hours"
-											id="DailyHours"><option id="0">00</option>
+											(change)="onChange($event)" [(ngModel)]="atHours" id="DailyHours"><option id="0">00</option>
 											<option id="1">01</option>
 											<option id="2">02</option>
 											<option id="3">03</option>
@@ -170,7 +170,7 @@
 											<option id="21">21</option>
 											<option id="22">22</option>
 											<option id="23">23</option></select><select style="width: 60px"
-											class="minutes" id="DailyMinutes"><option id="0">00</option>
+											(change)="onChange($event)" [(ngModel)]="atMinutes" class="minutes" id="DailyMinutes"><option id="0">00</option>
 											<option id="1">01</option>
 											<option id="2">02</option>
 											<option id="3">03</option>

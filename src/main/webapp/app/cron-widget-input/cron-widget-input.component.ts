@@ -20,8 +20,14 @@ export class CronWidgetInputComponent {
     popoverTabMonthlyEnable = '';
     popoverTabYearlyEnable = '';
 
-    everyMinutesText;
-    
+    everyMinutesText=5;
+    hourlyRadio='1';
+    hoursInput='1';
+    atHours='16';
+    atMinutes='00';
+    daysInput='1';
+    dailyRadio='1';
+  
     showPopover() {
         if(!this.popoverEnable) {
             this.popoverEnable=true;
@@ -74,13 +80,30 @@ export class CronWidgetInputComponent {
     }
 
     onChange(event) {
+        console.log("Change value : " + this.tabName);
         switch(this.tabName) {
             case 'Minutes':
                 this.rule = '*/' + this.everyMinutesText + ' * * * *';
                 break;
             case 'Hourly':
+                switch(this.hourlyRadio) {
+                  case '1':
+                    this.rule = '* */' + this.hoursInput + ' * * *';
+                    break;
+                  case '2':
+                    this.rule = this.atMinutes + ' ' + this.atHours + ' * * *';
+                    break;
+                }
                 break;
             case 'Daily':
+                switch(this.dailyRadio) {
+                  case '1':
+                    this.rule = this.atMinutes + ' ' + this.atHours + ' */' + this.daysInput + ' * *';
+                    break;
+                  case '2':
+                    this.rule = this.atMinutes + ' ' + this.atHours + ' ? MON-FRI *';
+                    break;
+                }
                 break;
             case 'Weekly':
                 break;
@@ -90,6 +113,7 @@ export class CronWidgetInputComponent {
                 break;
             default:
         }
+      console.log(this.rule);
       this.ruleChange.emit(this.rule);
 
     }
