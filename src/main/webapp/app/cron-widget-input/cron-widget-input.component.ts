@@ -6,9 +6,10 @@ import { EventEmitter, Output, Component, Input } from '@angular/core';
 })
 export class CronWidgetInputComponent {
     @Input()
-    @Output()
     rule: String;
 
+    @Output()
+    ruleChange = new EventEmitter();
       
     popoverEnable = false;
     tabName = 'Minutes';
@@ -89,6 +90,7 @@ export class CronWidgetInputComponent {
                 break;
             default:
         }
+      this.ruleChange.emit(this.rule);
 
     }
 }

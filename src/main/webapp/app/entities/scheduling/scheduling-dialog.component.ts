@@ -31,9 +31,8 @@ export class SchedulingDialogComponent implements OnInit {
     ) {
     }
 
-    updateRule(event) {
-        console.log(event);
-        this.scheduling.rule = event;
+    updateRule(rule) {
+        this.scheduling.rule = rule;
     }
     ngOnInit() {
         this.isSaving = false;
