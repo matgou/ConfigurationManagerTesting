@@ -9,6 +9,7 @@ import { Scheduling } from './scheduling.model';
 import { SchedulingPopupService } from './scheduling-popup.service';
 import { SchedulingService } from './scheduling.service';
 import { Rule, RuleService } from '../rule';
+
 @Component({
     selector: 'jhi-scheduling-dialog',
     templateUrl: './scheduling-dialog.component.html'
@@ -30,6 +31,10 @@ export class SchedulingDialogComponent implements OnInit {
     ) {
     }
 
+    updateRule(event) {
+        console.log(event);
+        this.scheduling.rule = event;
+    }
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];

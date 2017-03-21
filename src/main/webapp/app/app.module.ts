@@ -41,7 +41,7 @@ import {
         NavbarComponent,
         ErrorComponent,
         PageRibbonComponent,
-        FooterComponent
+        FooterComponent,
     ],
     providers: [
         ProfileService,

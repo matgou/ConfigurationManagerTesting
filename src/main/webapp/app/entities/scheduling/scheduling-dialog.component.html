@@ -22,11 +22,7 @@
                 <option value="planning">planning</option>
             </select>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" for="field_rule">Rule</label>
-            <textarea class="form-control" name="rule" id="field_rule"
-                [(ngModel)]="scheduling.rule"  ></textarea>
-        </div>
+        <jhi-cron-widget-input [rule]="scheduling.rule" (change)="updateRule($event)"></jhi-cron-widget-input>
         <div class="form-group">
             <label class="form-control-label" for="field_schedulingLabel">Scheduling Label</label>
             <input type="text" class="form-control" name="schedulingLabel" id="field_schedulingLabel"

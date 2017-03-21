@@ -2,6 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { ConfigurationManagerReportingSharedModule } from '../../shared';
+import { CronWidgetInputComponent } from '../../cron-widget-input/cron-widget-input.component';
 
 import {
     SchedulingService,
@@ -34,6 +35,7 @@ let ENTITY_STATES = [
         SchedulingDeleteDialogComponent,
         SchedulingPopupComponent,
         SchedulingDeletePopupComponent,
+        CronWidgetInputComponent,
     ],
     entryComponents: [
         SchedulingComponent,

@@ -9,3 +9,4 @@ if (module['hot']) {
 }
 
 platformBrowserDynamic().bootstrapModule(ConfigurationManagerReportingAppModule);
+
