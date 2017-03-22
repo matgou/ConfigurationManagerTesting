@@ -1,5 +1,8 @@
 # ConfigurationManagerReporting
-This application was generated using JHipster 4.0.8, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v4.0.8](https://jhipster.github.io/documentation-archive/v4.0.8).
+
+Ceci est une application permetant de verifier la conformité d'une architecture UNIX/Linux avec des regles décrites
+
+[![Build Status](https://travis-ci.org/matgou/ConfigurationManagerTesting.svg?branch=master)](https://travis-ci.org/matgou/ConfigurationManagerTesting)
 
 ## Development
 
