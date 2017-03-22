@@ -5,6 +5,7 @@ import { ConfigurationManagerReportingRuleTypeModule } from './rule-type/rule-ty
 import { ConfigurationManagerReportingRuleModule } from './rule/rule.module';
 import { ConfigurationManagerReportingRuleReportModule } from './rule-report/rule-report.module';
 import { ConfigurationManagerReportingSchedulingModule } from './scheduling/scheduling.module';
+import { ConfigurationManagerReportingParamModule } from './param/param.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -14,6 +15,7 @@ import { ConfigurationManagerReportingSchedulingModule } from './scheduling/sche
         ConfigurationManagerReportingRuleModule,
         ConfigurationManagerReportingRuleReportModule,
         ConfigurationManagerReportingSchedulingModule,
+        ConfigurationManagerReportingParamModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

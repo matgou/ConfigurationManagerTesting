@@ -1,0 +1,26 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "key",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "maxlength",
+                "pattern"
+            ],
+            "fieldValidateRulesMaxlength": "100",
+            "fieldValidateRulesPattern": "^[a-zA-Z0-9_-]*$"
+        },
+        {
+            "fieldName": "value",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170322144748",
+    "dto": "no",
+    "service": "serviceClass",
+    "entityTableName": "param",
+    "pagination": "pagination"
+}
