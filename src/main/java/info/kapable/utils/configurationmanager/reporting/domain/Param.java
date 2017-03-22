@@ -22,7 +22,7 @@ public class Param implements Serializable {
 
     @NotNull
     @Size(max = 100)
-    @Pattern(regexp = "^[a-zA-Z0-9_-.]*$")
+    @Pattern(regexp = "^[a-zA-Z0-9_]*$")
     @Column(name = "key", length = 100, nullable = false)
     private String key;
 
