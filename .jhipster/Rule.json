@@ -32,6 +32,11 @@
         {
             "fieldName": "enable",
             "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "reportingArgs",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
         }
     ],
     "changelogDate": "20170314124750",

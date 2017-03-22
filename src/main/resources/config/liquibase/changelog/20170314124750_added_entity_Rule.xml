@@ -37,6 +37,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="reporting_args" type="clob">
+                <constraints nullable="true" />
+            </column>
+
             <column name="rule_type_id" type="bigint">
                 <constraints nullable="true" />
             </column>

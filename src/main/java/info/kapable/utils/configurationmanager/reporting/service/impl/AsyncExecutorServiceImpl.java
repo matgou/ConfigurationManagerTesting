@@ -45,6 +45,12 @@ public class AsyncExecutorServiceImpl implements AsyncExecutorService {
 		report.setFinishAt(ZonedDateTime.now());
 		ruleReportService.save(report);
 		
+		String reportingBeanName = rule.getRuleType().getReportingBeanName();
+		if(reportingBeanName != null) {
+			Executor beanReporting = (Executor) appContext.getBean(rule.getRuleType().getReportingBeanName());
+			beanReporting.execute(rule, report);
+		}
+		
 		rule.setDisplayStatus(report.getStatus());
 		ruleService.save(rule);
 		

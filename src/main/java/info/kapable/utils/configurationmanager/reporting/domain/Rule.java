@@ -2,11 +2,8 @@ package info.kapable.utils.configurationmanager.reporting.domain;
 
 
 import javax.persistence.*;
-
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import info.kapable.utils.configurationmanager.reporting.domain.enumeration.StatusEnum;
 
@@ -38,15 +35,15 @@ public class Rule implements Serializable {
     @Column(name = "enable")
     private Boolean enable;
 
+    @Lob
+    @Column(name = "reporting_args")
+    private String reportingArgs;
+
     @ManyToOne
     private RuleType ruleType;
 
     @ManyToOne
     private Process process;
-
-    @ManyToMany
-    @Transient
-    private Set<Scheduling> schedulings = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -108,6 +105,19 @@ public class Rule implements Serializable {
         this.enable = enable;
     }
 
+    public String getReportingArgs() {
+        return reportingArgs;
+    }
+
+    public Rule reportingArgs(String reportingArgs) {
+        this.reportingArgs = reportingArgs;
+        return this;
+    }
+
+    public void setReportingArgs(String reportingArgs) {
+        this.reportingArgs = reportingArgs;
+    }
+
     public RuleType getRuleType() {
         return ruleType;
     }
@@ -134,31 +144,6 @@ public class Rule implements Serializable {
         this.process = process;
     }
 
-    public Set<Scheduling> getSchedulings() {
-        return this.schedulings;
-    }
-
-    public Rule schedulings(Set<Scheduling> schedulings) {
-        this.schedulings = schedulings;
-        return this;
-    }
-
-    public Rule addSchedulings(Scheduling scheduling) {
-        this.schedulings.add(scheduling);
-        scheduling.getRules().add(this);
-        return this;
-    }
-
-    public Rule removeSchedulings(Scheduling scheduling) {
-        this.schedulings.remove(scheduling);
-        scheduling.getRules().remove(this);
-        return this;
-    }
-
-    public void setSchedulings(Set<Scheduling> schedulings) {
-        this.schedulings = schedulings;
-    }
-    
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -187,6 +172,7 @@ public class Rule implements Serializable {
             ", ruleArgs='" + ruleArgs + "'" +
             ", displayStatus='" + displayStatus + "'" +
             ", enable='" + enable + "'" +
+            ", reportingArgs='" + reportingArgs + "'" +
             '}';
     }
 }

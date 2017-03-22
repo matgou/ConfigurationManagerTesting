@@ -108,7 +108,6 @@ public class RuleReportResourceIntTest {
             .status(DEFAULT_STATUS)
             .log(DEFAULT_LOG)
             .submitAt(DEFAULT_SUBMIT_AT)
-            .updatedAt(DEFAULT_UPDATED_AT)
             .finishAt(DEFAULT_FINISH_AT);
         return ruleReport;
     }
@@ -137,7 +136,6 @@ public class RuleReportResourceIntTest {
         assertThat(testRuleReport.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testRuleReport.getLog()).isEqualTo(DEFAULT_LOG);
         assertThat(testRuleReport.getSubmitAt()).isEqualTo(DEFAULT_SUBMIT_AT);
-        assertThat(testRuleReport.getUpdatedAt()).isEqualTo(DEFAULT_UPDATED_AT);
         assertThat(testRuleReport.getFinishAt()).isEqualTo(DEFAULT_FINISH_AT);
     }
 
@@ -175,7 +173,6 @@ public class RuleReportResourceIntTest {
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].log").value(hasItem(DEFAULT_LOG.toString())))
             .andExpect(jsonPath("$.[*].submitAt").value(hasItem(sameInstant(DEFAULT_SUBMIT_AT))))
-            .andExpect(jsonPath("$.[*].updatedAt").value(hasItem(sameInstant(DEFAULT_UPDATED_AT))))
             .andExpect(jsonPath("$.[*].finishAt").value(hasItem(sameInstant(DEFAULT_FINISH_AT))));
     }
 
@@ -194,7 +191,6 @@ public class RuleReportResourceIntTest {
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.log").value(DEFAULT_LOG.toString()))
             .andExpect(jsonPath("$.submitAt").value(sameInstant(DEFAULT_SUBMIT_AT)))
-            .andExpect(jsonPath("$.updatedAt").value(sameInstant(DEFAULT_UPDATED_AT)))
             .andExpect(jsonPath("$.finishAt").value(sameInstant(DEFAULT_FINISH_AT)));
     }
 
@@ -221,7 +217,6 @@ public class RuleReportResourceIntTest {
             .status(UPDATED_STATUS)
             .log(UPDATED_LOG)
             .submitAt(UPDATED_SUBMIT_AT)
-            .updatedAt(UPDATED_UPDATED_AT)
             .finishAt(UPDATED_FINISH_AT);
 
         restRuleReportMockMvc.perform(put("/api/rule-reports")
@@ -237,7 +232,6 @@ public class RuleReportResourceIntTest {
         assertThat(testRuleReport.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testRuleReport.getLog()).isEqualTo(UPDATED_LOG);
         assertThat(testRuleReport.getSubmitAt()).isEqualTo(UPDATED_SUBMIT_AT);
-        assertThat(testRuleReport.getUpdatedAt()).isEqualTo(UPDATED_UPDATED_AT);
         assertThat(testRuleReport.getFinishAt()).isEqualTo(UPDATED_FINISH_AT);
     }
 

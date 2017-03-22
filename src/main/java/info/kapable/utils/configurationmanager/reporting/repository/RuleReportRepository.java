@@ -2,6 +2,8 @@ package info.kapable.utils.configurationmanager.reporting.repository;
 
 import info.kapable.utils.configurationmanager.reporting.domain.RuleReport;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 
 import java.util.List;
@@ -14,5 +16,6 @@ public interface RuleReportRepository extends JpaRepository<RuleReport,Long> {
 
     @Query("select ruleReport from RuleReport ruleReport where ruleReport.user.login = ?#{principal.username}")
     List<RuleReport> findByUserIsCurrentUser();
+
 
 }

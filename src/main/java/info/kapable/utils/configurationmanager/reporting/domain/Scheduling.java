@@ -101,13 +101,11 @@ public class Scheduling implements Serializable {
 
     public Scheduling addRules(Rule rule) {
         this.rules.add(rule);
-        rule.getSchedulings().add(this);
         return this;
     }
 
     public Scheduling removeRules(Rule rule) {
         this.rules.remove(rule);
-        rule.getSchedulings().remove(this);
         return this;
     }
 

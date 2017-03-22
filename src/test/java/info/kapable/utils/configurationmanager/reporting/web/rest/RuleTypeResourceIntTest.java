@@ -50,6 +50,9 @@ public class RuleTypeResourceIntTest {
     private static final String DEFAULT_REQUIRED_ARGUMENTS_LIST = "AAAAAAAAAA";
     private static final String UPDATED_REQUIRED_ARGUMENTS_LIST = "BBBBBBBBBB";
 
+    private static final String DEFAULT_REPORTING_BEAN_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_REPORTING_BEAN_NAME = "BBBBBBBBBB";
+
     @Autowired
     private RuleTypeRepository ruleTypeRepository;
 
@@ -93,7 +96,8 @@ public class RuleTypeResourceIntTest {
             .ruleTypeName(DEFAULT_RULE_TYPE_NAME)
             .checkerBeanName(DEFAULT_CHECKER_BEAN_NAME)
             .description(DEFAULT_DESCRIPTION)
-            .requiredArgumentsList(DEFAULT_REQUIRED_ARGUMENTS_LIST);
+            .requiredArgumentsList(DEFAULT_REQUIRED_ARGUMENTS_LIST)
+            .reportingBeanName(DEFAULT_REPORTING_BEAN_NAME);
         return ruleType;
     }
 
@@ -121,6 +125,7 @@ public class RuleTypeResourceIntTest {
         assertThat(testRuleType.getCheckerBeanName()).isEqualTo(DEFAULT_CHECKER_BEAN_NAME);
         assertThat(testRuleType.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testRuleType.getRequiredArgumentsList()).isEqualTo(DEFAULT_REQUIRED_ARGUMENTS_LIST);
+        assertThat(testRuleType.getReportingBeanName()).isEqualTo(DEFAULT_REPORTING_BEAN_NAME);
     }
 
     @Test
@@ -156,7 +161,8 @@ public class RuleTypeResourceIntTest {
             .andExpect(jsonPath("$.[*].ruleTypeName").value(hasItem(DEFAULT_RULE_TYPE_NAME.toString())))
             .andExpect(jsonPath("$.[*].checkerBeanName").value(hasItem(DEFAULT_CHECKER_BEAN_NAME.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-            .andExpect(jsonPath("$.[*].requiredArgumentsList").value(hasItem(DEFAULT_REQUIRED_ARGUMENTS_LIST.toString())));
+            .andExpect(jsonPath("$.[*].requiredArgumentsList").value(hasItem(DEFAULT_REQUIRED_ARGUMENTS_LIST.toString())))
+            .andExpect(jsonPath("$.[*].reportingBeanName").value(hasItem(DEFAULT_REPORTING_BEAN_NAME.toString())));
     }
 
     @Test
@@ -173,7 +179,8 @@ public class RuleTypeResourceIntTest {
             .andExpect(jsonPath("$.ruleTypeName").value(DEFAULT_RULE_TYPE_NAME.toString()))
             .andExpect(jsonPath("$.checkerBeanName").value(DEFAULT_CHECKER_BEAN_NAME.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
-            .andExpect(jsonPath("$.requiredArgumentsList").value(DEFAULT_REQUIRED_ARGUMENTS_LIST.toString()));
+            .andExpect(jsonPath("$.requiredArgumentsList").value(DEFAULT_REQUIRED_ARGUMENTS_LIST.toString()))
+            .andExpect(jsonPath("$.reportingBeanName").value(DEFAULT_REPORTING_BEAN_NAME.toString()));
     }
 
     @Test
@@ -198,7 +205,8 @@ public class RuleTypeResourceIntTest {
             .ruleTypeName(UPDATED_RULE_TYPE_NAME)
             .checkerBeanName(UPDATED_CHECKER_BEAN_NAME)
             .description(UPDATED_DESCRIPTION)
-            .requiredArgumentsList(UPDATED_REQUIRED_ARGUMENTS_LIST);
+            .requiredArgumentsList(UPDATED_REQUIRED_ARGUMENTS_LIST)
+            .reportingBeanName(UPDATED_REPORTING_BEAN_NAME);
 
         restRuleTypeMockMvc.perform(put("/api/rule-types")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -213,6 +221,7 @@ public class RuleTypeResourceIntTest {
         assertThat(testRuleType.getCheckerBeanName()).isEqualTo(UPDATED_CHECKER_BEAN_NAME);
         assertThat(testRuleType.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testRuleType.getRequiredArgumentsList()).isEqualTo(UPDATED_REQUIRED_ARGUMENTS_LIST);
+        assertThat(testRuleType.getReportingBeanName()).isEqualTo(UPDATED_REPORTING_BEAN_NAME);
     }
 
     @Test

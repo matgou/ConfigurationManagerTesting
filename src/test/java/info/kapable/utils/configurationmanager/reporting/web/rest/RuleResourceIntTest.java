@@ -52,6 +52,9 @@ public class RuleResourceIntTest {
     private static final Boolean DEFAULT_ENABLE = false;
     private static final Boolean UPDATED_ENABLE = true;
 
+    private static final String DEFAULT_REPORTING_ARGS = "AAAAAAAAAA";
+    private static final String UPDATED_REPORTING_ARGS = "BBBBBBBBBB";
+
     @Autowired
     private RuleRepository ruleRepository;
 
@@ -95,7 +98,8 @@ public class RuleResourceIntTest {
             .ruleName(DEFAULT_RULE_NAME)
             .ruleArgs(DEFAULT_RULE_ARGS)
             .displayStatus(DEFAULT_DISPLAY_STATUS)
-            .enable(DEFAULT_ENABLE);
+            .enable(DEFAULT_ENABLE)
+            .reportingArgs(DEFAULT_REPORTING_ARGS);
         return rule;
     }
 
@@ -123,6 +127,7 @@ public class RuleResourceIntTest {
         assertThat(testRule.getRuleArgs()).isEqualTo(DEFAULT_RULE_ARGS);
         assertThat(testRule.getDisplayStatus()).isEqualTo(DEFAULT_DISPLAY_STATUS);
         assertThat(testRule.isEnable()).isEqualTo(DEFAULT_ENABLE);
+        assertThat(testRule.getReportingArgs()).isEqualTo(DEFAULT_REPORTING_ARGS);
     }
 
     @Test
@@ -158,7 +163,8 @@ public class RuleResourceIntTest {
             .andExpect(jsonPath("$.[*].ruleName").value(hasItem(DEFAULT_RULE_NAME.toString())))
             .andExpect(jsonPath("$.[*].ruleArgs").value(hasItem(DEFAULT_RULE_ARGS.toString())))
             .andExpect(jsonPath("$.[*].displayStatus").value(hasItem(DEFAULT_DISPLAY_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].enable").value(hasItem(DEFAULT_ENABLE.booleanValue())));
+            .andExpect(jsonPath("$.[*].enable").value(hasItem(DEFAULT_ENABLE.booleanValue())))
+            .andExpect(jsonPath("$.[*].reportingArgs").value(hasItem(DEFAULT_REPORTING_ARGS.toString())));
     }
 
     @Test
@@ -175,7 +181,8 @@ public class RuleResourceIntTest {
             .andExpect(jsonPath("$.ruleName").value(DEFAULT_RULE_NAME.toString()))
             .andExpect(jsonPath("$.ruleArgs").value(DEFAULT_RULE_ARGS.toString()))
             .andExpect(jsonPath("$.displayStatus").value(DEFAULT_DISPLAY_STATUS.toString()))
-            .andExpect(jsonPath("$.enable").value(DEFAULT_ENABLE.booleanValue()));
+            .andExpect(jsonPath("$.enable").value(DEFAULT_ENABLE.booleanValue()))
+            .andExpect(jsonPath("$.reportingArgs").value(DEFAULT_REPORTING_ARGS.toString()));
     }
 
     @Test
@@ -200,7 +207,8 @@ public class RuleResourceIntTest {
             .ruleName(UPDATED_RULE_NAME)
             .ruleArgs(UPDATED_RULE_ARGS)
             .displayStatus(UPDATED_DISPLAY_STATUS)
-            .enable(UPDATED_ENABLE);
+            .enable(UPDATED_ENABLE)
+            .reportingArgs(UPDATED_REPORTING_ARGS);
 
         restRuleMockMvc.perform(put("/api/rules")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -215,6 +223,7 @@ public class RuleResourceIntTest {
         assertThat(testRule.getRuleArgs()).isEqualTo(UPDATED_RULE_ARGS);
         assertThat(testRule.getDisplayStatus()).isEqualTo(UPDATED_DISPLAY_STATUS);
         assertThat(testRule.isEnable()).isEqualTo(UPDATED_ENABLE);
+        assertThat(testRule.getReportingArgs()).isEqualTo(UPDATED_REPORTING_ARGS);
     }
 
     @Test

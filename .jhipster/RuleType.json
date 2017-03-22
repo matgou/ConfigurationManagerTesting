@@ -21,6 +21,11 @@
         {
             "fieldName": "requiredArgumentsList",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "reportingBeanName",
+            "fieldType": "String",
+            "fieldValidateRules": []
         }
     ],
     "changelogDate": "20170314124234",
