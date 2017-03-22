@@ -1,6 +1,10 @@
 
 const enum StatusEnum {
-    'Unknown','Success','Running','SoftFail','HardFail','ForceSuccess'
+    'Unknow',
+    'Ok',
+    'SoftFail',
+    'HardFail'
+
 };
 import { Rule } from '../rule';
 import { User } from '../../shared';

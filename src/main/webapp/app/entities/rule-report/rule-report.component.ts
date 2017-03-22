@@ -40,8 +40,8 @@ export class RuleReportComponent implements OnInit, OnDestroy {
         this.links = {
             last: 0
         };
-        this.predicate = 'id';
-        this.reverse = true;
+        this.predicate = 'updatedAt';
+        this.reverse = false;
     }
 
     loadAll () {

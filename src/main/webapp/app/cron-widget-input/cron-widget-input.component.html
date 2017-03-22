@@ -12,43 +12,50 @@
 			<div class="popover-content">
 				<div id="CronGenMainDiv" style="width: 480px; height: 270px;">
 					<ul class="nav nav-tabs" id="CronGenTabs">
-					  <li class="nav-item">
-						  <li class="nav-item">
-						    <a class="nav-link {{ popoverTabMinutesEnable }}" (click)="showPopoverTab('Minutes')">Minutes</a>
-						  </li>
-						  <li class="nav-item">
-						    <a class="nav-link {{ popoverTabHourlyEnable }}" (click)="showPopoverTab('Hourly')">Hourly</a>
-						  </li>
-						  <li class="nav-item">
-						    <a class="nav-link {{ popoverTabDailyEnable }}" (click)="showPopoverTab('Daily')">Daily</a>
-						  </li>
-						  <li class="nav-item">
-						    <a class="nav-link {{ popoverTabWeeklyEnable }}" (click)="showPopoverTab('Weekly')">Weekly</a>
-						  </li>
-						  <li class="nav-item">
-						    <a class="nav-link {{ popoverTabMonthlyEnable }}" (click)="showPopoverTab('Monthly')">Monthly</a>
-						  </li>
-						  <li class="nav-item">
-						    <a class="nav-link {{ popoverTabYearlyEnable }}" (click)="showPopoverTab('Yearly')">Yearly</a>
-						  </li>
+						<li class="nav-item">
+						<li class="nav-item"><a
+							class="nav-link {{ popoverTabMinutesEnable }}"
+							(click)="showPopoverTab('Minutes')">Minutes</a></li>
+						<li class="nav-item"><a
+							class="nav-link {{ popoverTabHourlyEnable }}"
+							(click)="showPopoverTab('Hourly')">Hourly</a></li>
+						<li class="nav-item"><a
+							class="nav-link {{ popoverTabDailyEnable }}"
+							(click)="showPopoverTab('Daily')">Daily</a></li>
+						<li class="nav-item"><a
+							class="nav-link {{ popoverTabWeeklyEnable }}"
+							(click)="showPopoverTab('Weekly')">Weekly</a></li>
+						<li class="nav-item"><a
+							class="nav-link {{ popoverTabMonthlyEnable }}"
+							(click)="showPopoverTab('Monthly')">Monthly</a></li>
+						<li class="nav-item"><a
+							class="nav-link {{ popoverTabYearlyEnable }}"
+							(click)="showPopoverTab('Yearly')">Yearly</a></li>
 					</ul>
 					<div class="container-fluid" style="margin-top: 10px">
 						<div class="row-fluid">
 							<div class="span12">
 								<div class="tab-content">
-									<div class="tab-pane {{ popoverTabMinutesEnable }}" id="Minutes">
-										Every&nbsp;<input (change)="onChange($event)" [(ngModel)]="everyMinutesText" type="text" id="MinutesInput" value="1"
-											style="width: 40px">&nbsp;minute(s)
-									</div>
-									<div class="tab-pane {{ popoverTabHourlyEnable }}" id="Hourly">
-										<div class="well well-small">
-											<input (change)="onChange($event)" [(ngModel)]="hourlyRadio" type="radio" value="1" name="HourlyRadio"
-												checked="checked">&nbsp;Every&nbsp;<input (change)="onChange($event)" [(ngModel)]="hoursInput"
-												type="text" id="HoursInput" value="1" style="width: 40px">&nbsp;hour(s)
+									<div class="tab-pane {{ popoverTabMinutesEnable }} card card-block bg-faded"
+										id="Minutes">
+										<div class="form-inline">
+											Every&nbsp;
+											<input class="form-control mb-2 mr-sm-2 mb-sm-0" (change)="onChange($event)" [(ngModel)]="everyMinutesText" type="text" id="MinutesInput">
+											&nbsp;minute(s)
 										</div>
-										<div class="well well-small">
-											<input (change)="onChange($event)" [(ngModel)]="hourlyRadio" type="radio" value="2" name="HourlyRadio">&nbsp;At&nbsp;<select
-												(change)="onChange($event)" [(ngModel)]="atHours" style="width: 60px" class="hours" id="AtHours"><option
+									</div>
+									<div class="tab-pane {{ popoverTabHourlyEnable }} card card-block bg-faded" id="Hourly">
+										<div class="form-inline">
+											<input class="form-control mb-2 mr-sm-2 mb-sm-0" (change)="onChange($event)" [(ngModel)]="hourlyRadio"
+												type="radio" value="1" name="HourlyRadio" class="form-control mb-2 mr-sm-2 mb-sm-0">
+											&nbsp;Every&nbsp;<input class="form-control mb-2 mr-sm-2 mb-sm-0" (change)="onChange($event)" [(ngModel)]="hoursInput" type="text" id="HoursInput" value="1" style="width: 40px">
+											&nbsp;hour(s)
+										</div>
+										<br />
+										<div class="form-inline">
+											<input class="form-control mb-2 mr-sm-2 mb-sm-0" (change)="onChange($event)" [(ngModel)]="hourlyRadio"
+												type="radio" value="2" name="HourlyRadio">&nbsp;At&nbsp;<select class="form-control mb-2 mr-sm-2 mb-sm-0"
+												(change)="onChange($event)" [(ngModel)]="atHours" id="AtHours"><option
 													id="0">00</option>
 												<option id="1">01</option>
 												<option id="2">02</option>
@@ -73,7 +80,8 @@
 												<option id="21">21</option>
 												<option id="22">22</option>
 												<option id="23">23</option></select><select style="width: 60px"
-												(change)="onChange($event)" [(ngModel)]="atMinutes" class="minutes" id="AtMinutes"><option id="0">00</option>
+												(change)="onChange($event)" [(ngModel)]="atMinutes" class="form-control mb-2 mr-sm-2 mb-sm-0"
+												id="AtMinutes"><option id="0">00</option>
 												<option id="1">01</option>
 												<option id="2">02</option>
 												<option id="3">03</option>
@@ -135,18 +143,11 @@
 												<option id="59">59</option></select>
 										</div>
 									</div>
-									<div class="tab-pane {{ popoverTabDailyEnable }}" id="Daily">
-										<div class="well well-small">
-											<input type="radio" value="1" name="DailyRadio" (change)="onChange($event)" [(ngModel)]="dailyRadio" 
-												checked="checked">&nbsp;Every&nbsp;<input  (change)="onChange($event)" [(ngModel)]="daysInput"
-												type="text" id="DaysInput" value="1" style="width: 40px">&nbsp;day(s)
-										</div>
-										<div class="well well-small">
-											<input type="radio" value="2" name="DailyRadio" (change)="onChange($event)" [(ngModel)]="dailyRadio">&nbsp;Every
-											week day&nbsp;
-										</div>
-										Start time&nbsp;<select style="width: 60px" class="hours"
-											(change)="onChange($event)" [(ngModel)]="atHours" id="DailyHours"><option id="0">00</option>
+									<div class="tab-pane {{ popoverTabDailyEnable }} card card-block bg-faded" id="Daily">
+										<div class="form-inline">
+										At&nbsp;<select style="width: 60px" class="form-control mb-2 mr-sm-2 mb-sm-0"
+											(change)="onChange($event)" [(ngModel)]="atHours"
+											id="DailyHours"><option id="0">00</option>
 											<option id="1">01</option>
 											<option id="2">02</option>
 											<option id="3">03</option>
@@ -170,7 +171,8 @@
 											<option id="21">21</option>
 											<option id="22">22</option>
 											<option id="23">23</option></select><select style="width: 60px"
-											(change)="onChange($event)" [(ngModel)]="atMinutes" class="minutes" id="DailyMinutes"><option id="0">00</option>
+											(change)="onChange($event)" [(ngModel)]="atMinutes"
+											class="form-control mb-2 mr-sm-2 mb-sm-0" id="DailyMinutes"><option id="0">00</option>
 											<option id="1">01</option>
 											<option id="2">02</option>
 											<option id="3">03</option>
@@ -230,8 +232,22 @@
 											<option id="57">57</option>
 											<option id="58">58</option>
 											<option id="59">59</option></select>
-									</div>
-									<div class="tab-pane {{ popoverTabWeeklyEnable }}" id="Weekly">
+									</div><br/>
+										<div class="form-inline">
+											<input type="radio" value="1" name="DailyRadio" class="form-control mb-2 mr-sm-2 mb-sm-0"
+												(change)="onChange($event)" [(ngModel)]="dailyRadio"
+												checked="checked">&nbsp;Every&nbsp;<input class="form-control mb-2 mr-sm-2 mb-sm-0"
+												(change)="onChange($event)" [(ngModel)]="daysInput"
+												type="text" id="DaysInput" value="1" >&nbsp;day(s)
+										</div>
+										<br/>
+										<div class="form-inline">
+											<input type="radio" value="2" name="DailyRadio" class="form-control mb-2 mr-sm-2 mb-sm-0"
+												(change)="onChange($event)" [(ngModel)]="dailyRadio">&nbsp;Every
+											week day&nbsp;
+										</div>
+										</div>
+									<div class="tab-pane {{ popoverTabWeeklyEnable }} card card-block bg-faded" id="Weekly">
 										<div class="well well-small">
 											<div class="span6 col-sm-6">
 												<input type="checkbox" value="MON">&nbsp;Monday<br>
@@ -332,7 +348,8 @@
 											<option id="58">58</option>
 											<option id="59">59</option></select>
 									</div>
-									<div class="tab-pane {{ popoverTabMonthlyEnable }}" id="Monthly">
+									<div class="tab-pane {{ popoverTabMonthlyEnable }} card card-block bg-faded"
+										id="Monthly">
 										<div class="well well-small">
 											<input type="radio" value="1" name="MonthlyRadio"
 												checked="checked">&nbsp;Day&nbsp;<input type="text"
@@ -444,7 +461,7 @@
 											<option id="58">58</option>
 											<option id="59">59</option></select>
 									</div>
-									<div class="tab-pane {{ popoverTabYearlyEnable }}" id="Yearly">
+									<div class="tab-pane {{ popoverTabYearlyEnable }} card card-block bg-faded" id="Yearly">
 										<div class="well well-small">
 											<input type="radio" value="1" name="YearlyRadio"
 												checked="checked">&nbsp;Every&nbsp;<select
