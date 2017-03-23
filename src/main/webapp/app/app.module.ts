@@ -8,6 +8,7 @@ import { Ng2Webstorage } from 'ng2-webstorage';
 import { ConfigurationManagerReportingSharedModule, UserRouteAccessService } from './shared';
 import { ConfigurationManagerReportingHomeModule } from './home/home.module';
 import { ConfigurationManagerReportingAdminModule } from './admin/admin.module';
+import { ConfigurationManagerReportingSummaryModule } from './summary/summary.module';
 import { ConfigurationManagerReportingAccountModule } from './account/account.module';
 import { ConfigurationManagerReportingEntityModule } from './entities/entity.module';
 
@@ -34,7 +35,8 @@ import {
         ConfigurationManagerReportingHomeModule,
         ConfigurationManagerReportingAdminModule,
         ConfigurationManagerReportingAccountModule,
-        ConfigurationManagerReportingEntityModule
+        ConfigurationManagerReportingEntityModule,
+        ConfigurationManagerReportingSummaryModule
     ],
     declarations: [
         JhiMainComponent,

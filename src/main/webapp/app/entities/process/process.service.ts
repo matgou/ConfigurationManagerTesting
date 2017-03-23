@@ -3,6 +3,7 @@ import { Http, Response, URLSearchParams, BaseRequestOptions } from '@angular/ht
 import { Observable } from 'rxjs/Rx';
 
 import { Process } from './process.model';
+import { ProcessTree } from './processTree.model';
 @Injectable()
 export class ProcessService {
 
@@ -36,6 +37,12 @@ export class ProcessService {
         ;
     }
 
+    queryRoot(req?: any): Observable<Response> {
+        let options = this.createRequestOption(req);
+        return this.http.get(`${this.resourceUrl}/root`, options)
+        ;
+    }
+    
     delete(id: number): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }

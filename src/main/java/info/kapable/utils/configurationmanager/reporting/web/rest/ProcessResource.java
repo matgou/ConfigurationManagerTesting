@@ -1,13 +1,16 @@
 package info.kapable.utils.configurationmanager.reporting.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import info.kapable.utils.configurationmanager.reporting.domain.Process;
 
+import info.kapable.utils.configurationmanager.reporting.domain.Process;
 import info.kapable.utils.configurationmanager.reporting.repository.ProcessRepository;
+import info.kapable.utils.configurationmanager.reporting.service.ProcessService;
+import info.kapable.utils.configurationmanager.reporting.service.dto.ProcessTreeDTO;
 import info.kapable.utils.configurationmanager.reporting.web.rest.util.HeaderUtil;
 import info.kapable.utils.configurationmanager.reporting.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -18,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -34,10 +38,10 @@ public class ProcessResource {
 
     private static final String ENTITY_NAME = "process";
         
-    private final ProcessRepository processRepository;
+    private final ProcessService processService;
 
-    public ProcessResource(ProcessRepository processRepository) {
-        this.processRepository = processRepository;
+    public ProcessResource(ProcessService processService) {
+        this.processService = processService;
     }
 
     /**
@@ -54,7 +58,7 @@ public class ProcessResource {
         if (process.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new process cannot already have an ID")).body(null);
         }
-        Process result = processRepository.save(process);
+        Process result = processService.save(process);
         return ResponseEntity.created(new URI("/api/processes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -76,7 +80,7 @@ public class ProcessResource {
         if (process.getId() == null) {
             return createProcess(process);
         }
-        Process result = processRepository.save(process);
+        Process result = processService.save(process);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, process.getId().toString()))
             .body(result);
@@ -93,7 +97,7 @@ public class ProcessResource {
     @Timed
     public ResponseEntity<List<Process>> getAllProcesses(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Processes");
-        Page<Process> page = processRepository.findAll(pageable);
+        Page<Process> page = processService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/processes");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -108,9 +112,23 @@ public class ProcessResource {
     @Timed
     public ResponseEntity<Process> getProcess(@PathVariable Long id) {
         log.debug("REST request to get Process : {}", id);
-        Process process = processRepository.findOne(id);
+        Process process = processService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(process));
     }
+    
+    /**
+     * GET  /processes/root : get all process witch have no parent
+    *
+    * @return the ResponseEntity with status 200 (OK) and the list of processes in body
+    */
+   @GetMapping("/processes/root")
+   @Timed
+   public ResponseEntity<List<ProcessTreeDTO>> getAllProcessesRoot(@ApiParam Pageable pageable) {
+       log.debug("REST request to get a page of Processes");
+       Page<ProcessTreeDTO> page = processService.findAllRoot(pageable);
+       HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/processes");
+       return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+   }
 
     /**
      * DELETE  /processes/:id : delete the "id" process.
@@ -122,7 +140,7 @@ public class ProcessResource {
     @Timed
     public ResponseEntity<Void> deleteProcess(@PathVariable Long id) {
         log.debug("REST request to delete Process : {}", id);
-        processRepository.delete(id);
+        processService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 

@@ -54,12 +54,14 @@ export class RuleDialogComponent implements OnInit {
         let keys = [];
         let a;
         try {
-            a =JSON.parse(this.rule.ruleArgs);
-            for (let key in a) {
-                 keys[key]=a[key];
+            if(a != null) {
+                a =JSON.parse(this.rule.ruleArgs);
+                for (let key in a) {
+                     keys[key]=a[key];
+                }
             }
         } catch(e) {
-        
+            
         }
         
         this.rule.tab = keys;

@@ -12,4 +12,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface RuleRepository extends JpaRepository<Rule,Long> {
 
+	@Query("SELECT r FROM Rule r WHERE r.process.id=?1")
+	List<Rule> findByProcess(Long processId);
+
 }

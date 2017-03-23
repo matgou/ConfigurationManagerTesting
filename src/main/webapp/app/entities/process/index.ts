@@ -1,4 +1,5 @@
 export * from './process.model';
+export * from './processTree.model';
 export * from './process-popup.service';
 export * from './process.service';
 export * from './process-dialog.component';

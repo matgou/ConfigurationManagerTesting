@@ -87,4 +87,9 @@ public class RuleService {
 		this.schedulingTask.unregisterJobFromRule(rule);
 		ruleRepository.delete(id);
 	}
+
+	public List<Rule> findByProcess(Long processId) {
+		log.debug("Request to get Rule by process");
+		return ruleRepository.findByProcess(processId);
+	}
 }
