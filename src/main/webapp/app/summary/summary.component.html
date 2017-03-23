@@ -17,9 +17,9 @@
 			<template ngFor let-pChildLv1 [ngForOf]="process.childs" [ngForTrackBy]="pChildLv1TrackBy">
 				<template ngFor let-pChildLv2 [ngForOf]="pChildLv1.childs" [ngForTrackBy]="pChildLv2TrackBy">
 					<tr *ngFor="let rule of pChildLv2.rules" class="{{ rule.displayStatus | toClass }}">
-						<td>{{ pChildLv1.processName }}</td>
-						<td>{{ pChildLv2.processName }}</td>
-						<td>{{ rule.ruleName }}</td>
+						<td><a [routerLink]="['../process', pChildLv1.id ]">{{ pChildLv1.processName }}</a></td>
+						<td><a [routerLink]="['../process', pChildLv2.id ]">{{ pChildLv2.processName }}</a></td>
+						<td><a [routerLink]="['../rule', rule.id ]">{{ rule.ruleName }}</a></td>
 						<td>{{ rule.displayStatus }}</td>
 					</tr>
 				</template>
