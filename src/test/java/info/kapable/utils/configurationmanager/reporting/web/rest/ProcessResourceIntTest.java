@@ -1,9 +1,9 @@
 package info.kapable.utils.configurationmanager.reporting.web.rest;
 
 import info.kapable.utils.configurationmanager.reporting.ConfigurationManagerReportingApp;
-
 import info.kapable.utils.configurationmanager.reporting.domain.Process;
 import info.kapable.utils.configurationmanager.reporting.repository.ProcessRepository;
+import info.kapable.utils.configurationmanager.reporting.service.ProcessService;
 import info.kapable.utils.configurationmanager.reporting.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,6 +41,9 @@ public class ProcessResourceIntTest {
     private static final String DEFAULT_PROCESS_NAME = "AAAAAAAAAA";
     private static final String UPDATED_PROCESS_NAME = "BBBBBBBBBB";
 
+    @Autowired
+    private ProcessService processService;
+    
     @Autowired
     private ProcessRepository processRepository;
 
@@ -62,7 +66,7 @@ public class ProcessResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ProcessResource processResource = new ProcessResource(processRepository);
+        ProcessResource processResource = new ProcessResource(processService);
         this.restProcessMockMvc = MockMvcBuilders.standaloneSetup(processResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
