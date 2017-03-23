@@ -1,1 +1,32 @@
-<div>Hello Wolrd</div>
+<div><h1>R&eacute;sum&eacute; des r&eacute;sultats</h1></div>
+
+<div id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="card" *ngFor="let process of processes">
+    <div class="card-header" role="tab" id="headingOne">
+      <h5 class="mb-0">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          {{ process.processName }}
+        </a>
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+      <div class="card-block">
+        <table class="table table-bordered">
+			<tbody>
+			<template ngFor let-pChildLv1 [ngForOf]="process.childs" [ngForTrackBy]="pChildLv1TrackBy">
+				<template ngFor let-pChildLv2 [ngForOf]="pChildLv1.childs" [ngForTrackBy]="pChildLv2TrackBy">
+					<tr *ngFor="let rule of pChildLv2.rules" class="{{ rule.displayStatus | toClass }}">
+						<td>{{ pChildLv1.processName }}</td>
+						<td>{{ pChildLv2.processName }}</td>
+						<td>{{ rule.ruleName }}</td>
+						<td>{{ rule.displayStatus }}</td>
+					</tr>
+				</template>
+			</template>
+			</tbody>
+		</table>
+      </div>
+    </div>
+  </div>
+</div>

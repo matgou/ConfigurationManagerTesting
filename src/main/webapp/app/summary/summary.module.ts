@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { ConfigurationManagerReportingSharedModule } from '../shared';
 
-import { SUMMARY_ROUTE, SummaryComponent } from './';
+import { ToClassPipe, SUMMARY_ROUTE, SummaryComponent } from './';
 
 
 @NgModule({
@@ -13,6 +13,7 @@ import { SUMMARY_ROUTE, SummaryComponent } from './';
     ],
     declarations: [
         SummaryComponent,
+        ToClassPipe
     ],
     entryComponents: [
     ],

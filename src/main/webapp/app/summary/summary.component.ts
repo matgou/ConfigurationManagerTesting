@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { PipeTransform, Pipe, Component, OnInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Response } from '@angular/http';
 import { EventManager, ParseLinks, PaginationUtil, AlertService, DataUtils } from 'ng-jhipster';
@@ -6,6 +6,18 @@ import { EventManager, ParseLinks, PaginationUtil, AlertService, DataUtils } fro
 import { Process } from '../entities/process/process.model';
 import { ProcessTree } from '../entities/process/processTree.model';
 import { ProcessService } from '../entities/process/process.service';
+
+@Pipe({name: 'toClass'})
+export class ToClassPipe implements PipeTransform {
+  transform(value, args:string[]) : any {
+    switch(value) {
+            case "Success":
+                return "table-success";
+            default:
+                return "";
+    }
+  }
+}
 
 @Component({
     selector: 'jhi-summary',
