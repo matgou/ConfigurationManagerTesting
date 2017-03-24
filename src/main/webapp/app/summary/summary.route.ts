@@ -8,7 +8,7 @@ export const SUMMARY_ROUTE: Route = {
   component: SummaryComponent,
   data: {
     authorities: [],
-    pageTitle: 'Synthèse des verifications'
+    pageTitle: 'Synthese des verifications'
   },
   canActivate: [UserRouteAccessService]
 };

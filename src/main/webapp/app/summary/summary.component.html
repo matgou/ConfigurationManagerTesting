@@ -1,32 +1,56 @@
-<div><h1>R&eacute;sum&eacute; des r&eacute;sultats</h1></div>
+<div>
+	<h1>R&eacute;sum&eacute; des r&eacute;sultats</h1>
+</div>
 
 <div id="accordion" role="tablist" aria-multiselectable="true">
-  <div class="card" *ngFor="let process of processes">
-    <div class="card-header" role="tab" id="headingOne">
-      <h5 class="mb-0">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          {{ process.processName }}
-        </a>
-      </h5>
-    </div>
+	<div class="card" *ngFor="let process of processes">
+		<div class="card-header" role="tab" id="headingOne">
+			<h5 class="mb-0">
+				<a data-toggle="collapse" data-parent="#accordion"
+					href="#collapseOne" aria-expanded="true"
+					aria-controls="collapseOne"> {{ process.processName }} </a>
+			</h5>
+		</div>
 
-    <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-      <div class="card-block">
-        <table class="table table-bordered">
-			<tbody>
-			<template ngFor let-pChildLv1 [ngForOf]="process.childs" [ngForTrackBy]="pChildLv1TrackBy">
-				<template ngFor let-pChildLv2 [ngForOf]="pChildLv1.childs" [ngForTrackBy]="pChildLv2TrackBy">
-					<tr *ngFor="let rule of pChildLv2.rules" class="{{ rule.displayStatus | toClass }}">
-						<td><a [routerLink]="['../process', pChildLv1.id ]">{{ pChildLv1.processName }}</a></td>
-						<td><a [routerLink]="['../process', pChildLv2.id ]">{{ pChildLv2.processName }}</a></td>
-						<td><a [routerLink]="['../rule', rule.id ]">{{ rule.ruleName }}</a></td>
-						<td>{{ rule.displayStatus }}</td>
-					</tr>
-				</template>
-			</template>
-			</tbody>
-		</table>
-      </div>
-    </div>
-  </div>
+		<div id="collapseOne" class="collapse show" role="tabpanel"
+			aria-labelledby="headingOne">
+			<div class="card-block">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Process</th>
+							<th>Rule</th>
+							<th>Status</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let rule of process.childs | toRuleSummary"
+							class="{{ rule.displayStatus | toClass }}">
+							<td><a [routerLink]="['../process', rule.processId ]">{{
+									rule.processName }}</a></td>
+							<td><a [routerLink]="['../rule', rule.id ]">{{
+									rule.ruleName }}</a></td>
+							<td><a [routerLink]="['../ruleReport', rule.ruleReportId]"><span class="badge {{ rule.displayStatus | toBadgeClass }}">{{
+									rule.displayStatus }}</span></a></td>
+							<td class="text-right">
+								<div class="btn-group flex-btn-group-container">
+									<button type="submit" [routerLink]="['../rule', rule.id ]"
+										class="btn btn-info btn-sm">
+										<span class="fa fa-eye"></span> <span class="hidden-md-down">View</span>
+									</button>
+									<button type="submit"
+										[routerLink]="['/', { outlets: { popup: 'rule/'+ rule.id + '/execute'} }]"
+										replaceUrl="true" class="btn btn-primary btn-sm">
+										<span class="fa fa-refresh"></span> <span
+											class="hidden-md-down">Execute</span>
+									</button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>

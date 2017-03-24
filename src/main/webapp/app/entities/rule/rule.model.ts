@@ -6,6 +6,9 @@ import { RuleType } from '../rule-type';
 import { Process } from '../process';
 export class Rule {
     public tab;
+    public ruleReportId:any;
+    public processId:any;
+    public processName:string;
     
     constructor(
         public id?: number,

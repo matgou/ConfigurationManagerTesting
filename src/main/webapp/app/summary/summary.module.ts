@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { Order66SharedModule } from '../shared';
 
-import { ToClassPipe, SUMMARY_ROUTE, SummaryComponent } from './';
+import { ToBadgePipe, ToClassPipe, ToRuleSummary, SUMMARY_ROUTE, SummaryComponent } from './';
 
 
 @NgModule({
@@ -13,7 +13,9 @@ import { ToClassPipe, SUMMARY_ROUTE, SummaryComponent } from './';
     ],
     declarations: [
         SummaryComponent,
-        ToClassPipe
+        ToClassPipe,
+        ToBadgePipe,
+        ToRuleSummary
     ],
     entryComponents: [
     ],
