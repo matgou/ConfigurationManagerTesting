@@ -9,11 +9,11 @@
         <relativePath />
     </parent>
 
-    <groupId>info.kapable.utils.configurationmanager.reporting</groupId>
-    <artifactId>configuration-manager-reporting</artifactId>
+    <groupId>run.order66</groupId>
+    <artifactId>application</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Configuration Manager Reporting</name>
+    <name>Order66 Application</name>
 
     <prerequisites>
         <maven>${maven.version}</maven>
@@ -542,11 +542,11 @@
                     <changeLogFile>src/main/resources/config/liquibase/master.xml</changeLogFile>
                     <diffChangeLogFile>src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                     <driver>org.h2.Driver</driver>
-                    <url>jdbc:h2:file:./target/h2db/db/configurationmanagerreporting</url>
+                    <url>jdbc:h2:file:./target/h2db/db/order66</url>
                     <defaultSchemaName></defaultSchemaName>
-                    <username>ConfigurationManagerReporting</username>
+                    <username>order66</username>
                     <password></password>
-                    <referenceUrl>hibernate:spring:info.kapable.utils.configurationmanager.reporting.domain?dialect=org.hibernate.dialect.H2Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
+                    <referenceUrl>hibernate:spring:run.order66.application.domain?dialect=org.hibernate.dialect.H2Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
                     <verbose>true</verbose>
                     <logging>debug</logging>
                 </configuration>
@@ -590,7 +590,7 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>${docker-maven-plugin.version}</version>
                 <configuration>
-                    <imageName>configurationmanagerreporting</imageName>
+                    <imageName>order66</imageName>
                     <dockerDirectory>src/main/docker</dockerDirectory>
                     <resources>
                         <resource>
