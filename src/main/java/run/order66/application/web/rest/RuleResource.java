@@ -11,6 +11,7 @@ import run.order66.application.service.AsyncExecutorService;
 import run.order66.application.service.RuleReportService;
 import run.order66.application.service.RuleService;
 import run.order66.application.service.UserService;
+import run.order66.application.service.mapper.RuleLastReportMapper;
 import run.order66.application.web.rest.util.HeaderUtil;
 import run.order66.application.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
@@ -145,6 +146,7 @@ public class RuleResource {
     	report.setUser(userService.getUserWithAuthorities());
         if(report != null) {
         	ruleReportService.save(report);
+        	rule.setLastReport(RuleLastReportMapper.INSTANCE.ruleReportToRuleLastReportDTO(report));
         }
         rule.setDisplayStatus(StatusEnum.Running);
         ruleService.save(rule);

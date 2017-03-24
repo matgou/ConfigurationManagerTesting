@@ -12,6 +12,7 @@ import run.order66.application.domain.enumeration.StatusEnum;
 import run.order66.application.service.AsyncExecutorService;
 import run.order66.application.service.RuleReportService;
 import run.order66.application.service.RuleService;
+import run.order66.application.service.mapper.RuleLastReportMapper;
 
 public class RunnableTaskExecutor implements Runnable {
 
@@ -41,6 +42,7 @@ public class RunnableTaskExecutor implements Runnable {
 
         if(report != null) {
         	ruleReportService.save(report);
+        	rule.setLastReport(RuleLastReportMapper.INSTANCE.ruleReportToRuleLastReportDTO(report));
         }
         rule.setDisplayStatus(StatusEnum.Running);
         ruleService.save(rule);

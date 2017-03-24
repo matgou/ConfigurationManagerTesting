@@ -31,8 +31,9 @@
 									rule.processName }}</a></td>
 							<td><a [routerLink]="['../rule', rule.id ]">{{
 									rule.ruleName }}</a></td>
-							<td><a [routerLink]="['../ruleReport', rule.ruleReportId]"><span class="badge {{ rule.displayStatus | toBadgeClass }}">{{
-									rule.displayStatus }}</span></a></td>
+							<td><a [routerLink]="['../ruleReport', rule.ruleReportId]"><span
+									class="badge {{ rule.displayStatus | toBadgeClass }}">{{
+										rule.displayStatus }}</span></a></td>
 							<td class="text-right">
 								<div class="btn-group flex-btn-group-container">
 									<button type="submit" [routerLink]="['../rule', rule.id ]"

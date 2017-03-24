@@ -20,5 +20,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="ccol_cm_process"/>
 
+        <addForeignKeyConstraint baseColumnNames="last_report_id"
+                                 baseTableName="ccol_cm_rule"
+                                 constraintName="fk_last_report_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="ccol_cm_rulereport"/>
+
     </changeSet>
 </databaseChangeLog>

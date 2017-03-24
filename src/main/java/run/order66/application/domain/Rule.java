@@ -2,10 +2,12 @@ package run.order66.application.domain;
 
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 import run.order66.application.domain.enumeration.StatusEnum;
+import run.order66.application.service.dto.RuleLastReportDTO;
 
 /**
  * A Rule.
@@ -40,6 +42,9 @@ public class Rule implements Serializable {
     private String reportingArgs;
 
     @ManyToOne
+    private RuleLastReportDTO lastReport;
+
+	@ManyToOne
     private RuleType ruleType;
 
     @ManyToOne
@@ -175,4 +180,12 @@ public class Rule implements Serializable {
             ", reportingArgs='" + reportingArgs + "'" +
             '}';
     }
+
+	public RuleLastReportDTO getLastReport() {
+		return lastReport;
+	}
+
+	public void setLastReport(RuleLastReportDTO lastReport) {
+		this.lastReport = lastReport;
+	}
 }
