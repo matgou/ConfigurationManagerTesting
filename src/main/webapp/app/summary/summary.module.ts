@@ -1,14 +1,14 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { ConfigurationManagerReportingSharedModule } from '../shared';
+import { Order66SharedModule } from '../shared';
 
 import { ToClassPipe, SUMMARY_ROUTE, SummaryComponent } from './';
 
 
 @NgModule({
     imports: [
-        ConfigurationManagerReportingSharedModule,
+        Order66SharedModule,
         RouterModule.forRoot([ SUMMARY_ROUTE ], { useHash: true })
     ],
     declarations: [
@@ -21,4 +21,4 @@ import { ToClassPipe, SUMMARY_ROUTE, SummaryComponent } from './';
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class ConfigurationManagerReportingSummaryModule {}
+export class Order66SummaryModule {}

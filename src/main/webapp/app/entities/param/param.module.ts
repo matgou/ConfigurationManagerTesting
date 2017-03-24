@@ -1,7 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { ConfigurationManagerReportingSharedModule } from '../../shared';
+import { Order66SharedModule } from '../../shared';
 
 import {
     ParamService,
@@ -24,7 +24,7 @@ let ENTITY_STATES = [
 
 @NgModule({
     imports: [
-        ConfigurationManagerReportingSharedModule,
+        Order66SharedModule,
         RouterModule.forRoot(ENTITY_STATES, { useHash: true })
     ],
     declarations: [
@@ -49,4 +49,4 @@ let ENTITY_STATES = [
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class ConfigurationManagerReportingParamModule {}
+export class Order66ParamModule {}

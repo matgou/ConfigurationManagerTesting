@@ -1,6 +1,6 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { ProdConfig } from './blocks/config/prod.config';
-import { ConfigurationManagerReportingAppModule } from './app.module';
+import { Order66AppModule } from './app.module';
 
 ProdConfig();
 
@@ -8,5 +8,5 @@ if (module['hot']) {
     module['hot'].accept();
 }
 
-platformBrowserDynamic().bootstrapModule(ConfigurationManagerReportingAppModule);
+platformBrowserDynamic().bootstrapModule(Order66AppModule);
 

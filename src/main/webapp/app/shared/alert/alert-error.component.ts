@@ -19,7 +19,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
     constructor(private alertService: AlertService, private eventManager: EventManager) {
         this.alerts = [];
 
-        this.cleanHttpErrorListener = eventManager.subscribe('configurationManagerReportingApp.httpError', (response) => {
+        this.cleanHttpErrorListener = eventManager.subscribe('order66App.httpError', (response) => {
             let i;
             let httpResponse = response.content;
             switch (httpResponse.status) {

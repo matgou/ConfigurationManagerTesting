@@ -3,8 +3,8 @@ import { DatePipe } from '@angular/common';
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import {
-    ConfigurationManagerReportingSharedLibsModule,
-    ConfigurationManagerReportingSharedCommonModule,
+    Order66SharedLibsModule,
+    Order66SharedCommonModule,
     CSRFService,
     AuthService,
     AuthServerProvider,
@@ -20,8 +20,8 @@ import {
 
 @NgModule({
     imports: [
-        ConfigurationManagerReportingSharedLibsModule,
-        ConfigurationManagerReportingSharedCommonModule
+        Order66SharedLibsModule,
+        Order66SharedCommonModule
     ],
     declarations: [
         JhiLoginModalComponent,
@@ -42,7 +42,7 @@ import {
     ],
     entryComponents: [JhiLoginModalComponent],
     exports: [
-        ConfigurationManagerReportingSharedCommonModule,
+        Order66SharedCommonModule,
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
         DatePipe
@@ -50,4 +50,4 @@ import {
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })
-export class ConfigurationManagerReportingSharedModule {}
+export class Order66SharedModule {}

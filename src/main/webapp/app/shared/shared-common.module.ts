@@ -4,7 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { AlertService } from 'ng-jhipster';
 
 import {
-    ConfigurationManagerReportingSharedLibsModule,
+    Order66SharedLibsModule,
     JhiAlertComponent,
     JhiAlertErrorComponent
 } from './';
@@ -18,7 +18,7 @@ export function alertServiceProvider(sanitizer: Sanitizer) {
 
 @NgModule({
     imports: [
-        ConfigurationManagerReportingSharedLibsModule
+        Order66SharedLibsModule
     ],
     declarations: [
         JhiAlertComponent,
@@ -33,9 +33,9 @@ export function alertServiceProvider(sanitizer: Sanitizer) {
         Title
     ],
     exports: [
-        ConfigurationManagerReportingSharedLibsModule,
+        Order66SharedLibsModule,
         JhiAlertComponent,
         JhiAlertErrorComponent
     ]
 })
-export class ConfigurationManagerReportingSharedCommonModule {}
+export class Order66SharedCommonModule {}

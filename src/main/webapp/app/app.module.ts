@@ -5,12 +5,12 @@ import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { Ng2Webstorage } from 'ng2-webstorage';
 
-import { ConfigurationManagerReportingSharedModule, UserRouteAccessService } from './shared';
-import { ConfigurationManagerReportingHomeModule } from './home/home.module';
-import { ConfigurationManagerReportingAdminModule } from './admin/admin.module';
-import { ConfigurationManagerReportingSummaryModule } from './summary/summary.module';
-import { ConfigurationManagerReportingAccountModule } from './account/account.module';
-import { ConfigurationManagerReportingEntityModule } from './entities/entity.module';
+import { Order66SharedModule, UserRouteAccessService } from './shared';
+import { Order66HomeModule } from './home/home.module';
+import { Order66AdminModule } from './admin/admin.module';
+import { Order66SummaryModule } from './summary/summary.module';
+import { Order66AccountModule } from './account/account.module';
+import { Order66EntityModule } from './entities/entity.module';
 
 import { LayoutRoutingModule } from './layouts';
 import { customHttpProvider } from './blocks/interceptor/http.provider';
@@ -31,12 +31,12 @@ import {
         BrowserModule,
         LayoutRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
-        ConfigurationManagerReportingSharedModule,
-        ConfigurationManagerReportingHomeModule,
-        ConfigurationManagerReportingAdminModule,
-        ConfigurationManagerReportingAccountModule,
-        ConfigurationManagerReportingEntityModule,
-        ConfigurationManagerReportingSummaryModule
+        Order66SharedModule,
+        Order66HomeModule,
+        Order66AdminModule,
+        Order66AccountModule,
+        Order66EntityModule,
+        Order66SummaryModule
     ],
     declarations: [
         JhiMainComponent,
@@ -55,4 +55,4 @@ import {
     ],
     bootstrap: [ JhiMainComponent ]
 })
-export class ConfigurationManagerReportingAppModule {}
+export class Order66AppModule {}

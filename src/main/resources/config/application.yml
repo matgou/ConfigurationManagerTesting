@@ -23,7 +23,7 @@ management:
             enabled: false # When using the MailService, configure an SMTP server and set this to true
 spring:
     application:
-        name: ConfigurationManagerReporting
+        name: Order66
     profiles:
         # The commented value for `active` can be replaced with valid Spring profiles to load.
         # Otherwise, it will be filled in by maven when building the WAR file
@@ -79,11 +79,11 @@ jhipster:
         #allow-credentials: true
         #max-age: 1800
     mail:
-        from: ConfigurationManagerReporting@localhost
+        from: Order66@localhost
     swagger:
         default-include-pattern: /api/.*
-        title: ConfigurationManagerReporting API
-        description: ConfigurationManagerReporting API documentation
+        title: Order66 API
+        description: Order66 API documentation
         version: 0.0.1
         terms-of-service-url:
         contact-name:

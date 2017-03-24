@@ -22,4 +22,4 @@ import { InfiniteScrollModule } from 'angular2-infinite-scroll';
         InfiniteScrollModule
     ]
 })
-export class ConfigurationManagerReportingSharedLibsModule {}
+export class Order66SharedLibsModule {}

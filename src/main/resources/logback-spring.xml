@@ -22,7 +22,7 @@
     </appender>
 -->
 
-    <logger name="info.kapable.utils.configurationmanager.reporting" level="#logback.loglevel#"/>
+    <logger name="run.order66.application" level="#logback.loglevel#"/>
 
     <logger name="io.github.jhipster" level="DEBUG"/>
 

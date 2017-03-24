@@ -2,7 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ParseLinks } from 'ng-jhipster';
 
-import { ConfigurationManagerReportingSharedModule } from '../shared';
+import { Order66SharedModule } from '../shared';
 
 import {
     adminState,
@@ -33,7 +33,7 @@ import {
 
 @NgModule({
     imports: [
-        ConfigurationManagerReportingSharedModule,
+        Order66SharedModule,
         RouterModule.forRoot(adminState, { useHash: true })
     ],
     declarations: [
@@ -70,4 +70,4 @@ import {
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class ConfigurationManagerReportingAdminModule {}
+export class Order66AdminModule {}
