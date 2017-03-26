@@ -3,6 +3,8 @@ package run.order66.application.domain;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -42,7 +44,8 @@ public class Rule implements Serializable {
     private String reportingArgs;
 
     @ManyToOne
-    private RuleLastReportDTO lastReport;
+    @JsonBackReference
+    private RuleReport lastReport;
 
 	@ManyToOne
     private RuleType ruleType;
@@ -181,11 +184,11 @@ public class Rule implements Serializable {
             '}';
     }
 
-	public RuleLastReportDTO getLastReport() {
+	public RuleReport getLastReport() {
 		return lastReport;
 	}
 
-	public void setLastReport(RuleLastReportDTO lastReport) {
+	public void setLastReport(RuleReport lastReport) {
 		this.lastReport = lastReport;
 	}
 }

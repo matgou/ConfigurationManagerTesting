@@ -3,6 +3,8 @@ package run.order66.application.domain;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -48,6 +50,7 @@ public class RuleReport implements Serializable {
     private ZonedDateTime finishAt;
 
     @ManyToOne
+    @JsonManagedReference
     private Rule rule;
 
     @ManyToOne

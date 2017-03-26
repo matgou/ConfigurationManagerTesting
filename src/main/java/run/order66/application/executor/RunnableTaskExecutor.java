@@ -42,7 +42,7 @@ public class RunnableTaskExecutor implements Runnable {
 
         if(report != null) {
         	ruleReportService.save(report);
-        	rule.setLastReport(RuleLastReportMapper.INSTANCE.ruleReportToRuleLastReportDTO(report));
+        	rule.setLastReport(report);
         }
         rule.setDisplayStatus(StatusEnum.Running);
         ruleService.save(rule);
