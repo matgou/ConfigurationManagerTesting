@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams, BaseRequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
+import { RuleReport } from '../rule-report/rule-report.model';
 import { Rule } from './rule.model';
 @Injectable()
 export class RuleService {
@@ -41,7 +42,13 @@ export class RuleService {
         return this.http.get(this.resourceUrl, options)
         ;
     }
-
+    
+    queryLastReport(id: number): Observable<RuleReport> {
+        return this.http.get(`${this.resourceUrl}/${id}/lastReport`).map((res: Response) => {
+            return res.json();
+        });
+    }
+  
     delete(id: number): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }

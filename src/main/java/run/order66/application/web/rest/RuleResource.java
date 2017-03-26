@@ -119,6 +119,7 @@ public class RuleResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
     
+    
     /**
      * POST  /rules/{id}/execute : Execute a rule.
      *
@@ -155,6 +156,22 @@ public class RuleResource {
         
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(report));
     }
+
+
+    /**
+     * GET  /rules/:id/lastReport : get the last report of "id" rule.
+     *
+     * @param id the id of the lastReport rule to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the rule, or with status 404 (Not Found)
+     */
+    @GetMapping("/rules/{id}/lastReport")
+    @Timed
+    public ResponseEntity<RuleReport> getRuleLastReport(@PathVariable Long id) {
+        log.debug("REST request to get Rule : {}", id);
+        Rule rule = ruleService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rule.getLastReport()));
+    }
+
 
     /**
      * GET  /rules/:id : get the "id" rule.

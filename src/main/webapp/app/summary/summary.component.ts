@@ -2,10 +2,14 @@ import { PipeTransform, Pipe, Component, OnInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Response } from '@angular/http';
 import { EventManager, ParseLinks, PaginationUtil, AlertService, DataUtils } from 'ng-jhipster';
+import { Router } from '@angular/router';
 
 import { Process } from '../entities/process/process.model';
+import { Rule } from '../entities/rule/rule.model';
+
 import { ProcessTree } from '../entities/process/processTree.model';
 import { ProcessService } from '../entities/process/process.service';
+import { RuleService } from '../entities/rule/rule.service';
 
 @Pipe({name: 'toRuleSummary'})
 export class ToRuleSummary implements PipeTransform {
@@ -96,7 +100,9 @@ export class SummaryComponent implements OnInit {
 
     constructor(
         private processService: ProcessService,
+        private ruleService: RuleService,
         private alertService: AlertService,
+        private router: Router
     ) {
             this.processes = [];
         
@@ -109,7 +115,17 @@ export class SummaryComponent implements OnInit {
         );
     }
     
-    
+    displayReport(rule: Rule) {
+      this.ruleService.queryLastReport(rule.id).subscribe(
+            (res: Response) => this.navigateToReport(res, res.headers),
+            (res: Response) => this.onError(res)
+      );
+    }
+  
+    private navigateToReport(data, header) {
+      this.router.navigate(["rule-report/", data.id]);
+    }
+  
     private onSuccess(data, headers) {
         this.totalItems = headers.get('X-Total-Count');
         for (let i = 0; i < data.length; i++) {
