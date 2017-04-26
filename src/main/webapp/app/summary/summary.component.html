@@ -27,11 +27,11 @@
 					<tbody>
 						<tr *ngFor="let rule of process.childs | toRuleSummary"
 							class="{{ rule.displayStatus | toClass }}">
-							<td><a [routerLink]="['../process', rule.processId ]">{{
+							<td><a (click)="displayReport(rule)">{{
 									rule.processName }}</a></td>
-							<td><a [routerLink]="['../rule', rule.id ]">{{
+							<td><a (click)="displayReport(rule)">{{
 									rule.ruleName }}</a></td>
-							<td><a [routerLink]="['../ruleReport', rule.ruleReportId]"><span
+							<td><a (click)="displayReport(rule)"><span
 									class="badge {{ rule.displayStatus | toBadgeClass }}">{{
 										rule.displayStatus }}</span></a></td>
 							<td class="text-right">
