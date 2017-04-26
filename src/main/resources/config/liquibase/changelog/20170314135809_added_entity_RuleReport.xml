@@ -29,6 +29,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="key" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="log" type="clob">
                 <constraints nullable="true" />
             </column>
@@ -53,6 +57,9 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="parent_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="ccol_cm_rulereport" columnName="submit_at" columnDataType="datetime"/>

@@ -4,40 +4,53 @@
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="row-md jh-entity-details">
-        <dt><span>Report Date</span></dt>
-        <dd>
-            <span>{{ruleReport.reportDate | date:'mediumDate'}}</span>
-        </dd>
-        <dt><span>Status</span></dt>
-        <dd>
-            <span>{{ruleReport.status}}</span>
-        </dd>
+    	<table class="table">
+    		<thead>
+    			<tr>
+    				<th>Report Date</th>
+    				<th>Status</th>
+    				<th>Submit At</th>
+    				<th>Finish At</th>
+    				<th>User</th>
+    				<th>Rule</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			<tr class="{{ ruleReport.status | toClass}}">
+    				<td>{{ruleReport.reportDate | date:'mediumDate'}}</td>
+    				<td>{{ruleReport.status}}</td>
+    				<td>{{ruleReport.submitAt | date:'medium'}}</td>
+    				<td>{{ruleReport.finishAt | date:'medium'}}</td>
+    				<td>{{ruleReport.user?.login}}</td>
+    				<td><div *ngIf="ruleReport.rule"><a [routerLink]="['/rule', ruleReport.rule?.id]">{{ruleReport.rule?.ruleName}}</a></div></td>
+    			</tr>
+    		</tbody>
+    	</table>
         <dt><span>Log</span></dt>
-        <dd>
+        <dd style="border: solid 1px;">
             <span>{{ruleReport.log}}</span>
         </dd>
-        <dt><span>Submit At</span></dt>
-        <dd>
-            <span>{{ruleReport.submitAt | date:'medium'}}</span>
-        </dd>
-        <dt><span>Updated At</span></dt>
-        <dd>
-            <span>{{ruleReport.updatedAt | date:'medium'}}</span>
-        </dd>
-        <dt><span>Finish At</span></dt>
-        <dd>
-            <span>{{ruleReport.finishAt | date:'medium'}}</span>
-        </dd>
-        <dt><span>Rule</span></dt>
-        <dd>
-            <div *ngIf="ruleReport.rule">
-                <a [routerLink]="['/rule', ruleReport.rule?.id]">{{ruleReport.rule?.ruleName}}</a>
-            </div>
-        </dd>
-        <dt><span>User</span></dt>
-        <dd>
-            {{ruleReport.user?.login}}
-        </dd>
+        <dt><span>Sous Rapports</span></dt>
+        <table class="table">
+    		<thead>
+    			<tr>
+    				<th>#</th>
+    				<th>Status</th>
+    				<th>Submit At</th>
+    				<th>Finish At</th>
+    				<th>Log</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			<tr *ngFor="let child of ruleReport.childs" class="{{ child.status | toClass}}">
+    				<td><a [routerLink]="['/rule-report', child.id]">{{child.id}}</a></td>
+    				<td>{{child.status}}</td>
+    				<td>{{child.submitAt | date:'medium'}}</td>
+    				<td>{{child.finishAt | date:'medium'}}</td>
+    				<td><div [innerHtml]="child.log | jsonToHTML"></div></td>
+    			</tr>
+    		</tbody>
+    	</table>
     </dl>
 
     <button type="submit"

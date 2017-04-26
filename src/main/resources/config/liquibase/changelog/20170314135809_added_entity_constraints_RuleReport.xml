@@ -20,5 +20,10 @@
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
 
+        <addForeignKeyConstraint baseColumnNames="parent_id"
+                                 baseTableName="ccol_cm_rulereport"
+                                 constraintName="fk_rule_report_parent_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="ccol_cm_rulereport"/>
     </changeSet>
 </databaseChangeLog>

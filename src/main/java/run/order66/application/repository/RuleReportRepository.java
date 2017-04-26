@@ -17,5 +17,6 @@ public interface RuleReportRepository extends JpaRepository<RuleReport,Long> {
     @Query("select ruleReport from RuleReport ruleReport where ruleReport.user.login = ?#{principal.username}")
     List<RuleReport> findByUserIsCurrentUser();
 
-
+    @Query("select r from RuleReport r where r.KEY = ?1")
+    List<RuleReport> findOneByKeyindex(String key);
 }

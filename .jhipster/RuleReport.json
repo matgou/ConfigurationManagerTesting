@@ -14,6 +14,12 @@
             "otherEntityField": "login",
             "ownerSide": true,
             "otherEntityRelationshipName": "ruleReport"
+        },
+        {
+            "relationshipName": "childs",
+            "otherEntityName": "ruleReport",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "parent"
         }
     ],
     "fields": [
@@ -25,6 +31,10 @@
             "fieldName": "status",
             "fieldType": "StatusEnum",
             "fieldValues": "Unknow,Ok,SoftFail,HardFail"
+        },
+        {
+            "fieldName": "KEY",
+            "fieldType": "String"
         },
         {
             "fieldName": "log",

@@ -1,2 +1,3 @@
 id;rule_type_name;checker_bean_name;description;required_arguments_list
 1;Execution by SSH;ssh_remote_executor;Execute a command by SSH;user,password,host,cmd
+2;Fetch result by external JDBC;jdbc_query_executor;Generate report by executing a jdbc query;jdbc_class,jdbc_url,sql,column_key,column_time_start,column_time_end,column_status,column_expected_status,username,password

@@ -15,6 +15,8 @@ import {
     RuleReportDeleteDialogComponent,
     ruleReportRoute,
     ruleReportPopupRoute,
+    ToClassPipe,
+    JsonToHTMLPipe,
 } from './';
 
 let ENTITY_STATES = [
@@ -32,6 +34,8 @@ let ENTITY_STATES = [
         RuleReportComponent,
         RuleReportDetailComponent,
         RuleReportDialogComponent,
+        ToClassPipe,
+        JsonToHTMLPipe,
         RuleReportDeleteDialogComponent,
         RuleReportPopupComponent,
         RuleReportDeletePopupComponent,

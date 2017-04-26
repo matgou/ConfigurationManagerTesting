@@ -4,21 +4,25 @@ package run.order66.application.domain;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import run.order66.application.domain.enumeration.StatusEnum;
 
@@ -43,6 +47,9 @@ public class RuleReport implements Serializable {
     @Column(name = "status")
     private StatusEnum status;
 
+    @Column(name = "key")
+    private String KEY;
+
     @Lob
     @Column(name = "log")
     private String log;
@@ -57,16 +64,19 @@ public class RuleReport implements Serializable {
     private ZonedDateTime finishAt;
 
     @ManyToOne
-    @JsonManagedReference
     private Rule rule;
 
     @ManyToOne
     private User user;
-
-    public RuleReport() {
-        this.setUpdatedAt(ZonedDateTime.now());
-    }
     
+    @ManyToOne
+    @JsonIgnore
+    private RuleReport parent;
+
+
+	@OneToMany(fetch=FetchType.EAGER, mappedBy = "parent")
+    private Set<RuleReport> childs = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -81,13 +91,11 @@ public class RuleReport implements Serializable {
 
     public RuleReport reportDate(LocalDate reportDate) {
         this.reportDate = reportDate;
-        this.setUpdatedAt(ZonedDateTime.now());
         return this;
     }
 
     public void setReportDate(LocalDate reportDate) {
         this.reportDate = reportDate;
-        this.setUpdatedAt(ZonedDateTime.now());
     }
 
     public StatusEnum getStatus() {
@@ -96,13 +104,24 @@ public class RuleReport implements Serializable {
 
     public RuleReport status(StatusEnum status) {
         this.status = status;
-        this.setUpdatedAt(ZonedDateTime.now());
         return this;
     }
 
     public void setStatus(StatusEnum status) {
         this.status = status;
-        this.setUpdatedAt(ZonedDateTime.now());
+    }
+
+    public String getKEY() {
+        return KEY;
+    }
+
+    public RuleReport KEY(String KEY) {
+        this.KEY = KEY;
+        return this;
+    }
+
+    public void setKEY(String KEY) {
+        this.KEY = KEY;
     }
 
     public String getLog() {
@@ -111,13 +130,11 @@ public class RuleReport implements Serializable {
 
     public RuleReport log(String log) {
         this.log = log;
-        this.setUpdatedAt(ZonedDateTime.now());
         return this;
     }
 
     public void setLog(String log) {
         this.log = log;
-        this.setUpdatedAt(ZonedDateTime.now());
     }
 
     public ZonedDateTime getSubmitAt() {
@@ -126,13 +143,11 @@ public class RuleReport implements Serializable {
 
     public RuleReport submitAt(ZonedDateTime submitAt) {
         this.submitAt = submitAt;
-        this.setUpdatedAt(ZonedDateTime.now());
         return this;
     }
 
     public void setSubmitAt(ZonedDateTime submitAt) {
         this.submitAt = submitAt;
-        this.setUpdatedAt(ZonedDateTime.now());
     }
 
     public ZonedDateTime getUpdatedAt() {
@@ -154,13 +169,11 @@ public class RuleReport implements Serializable {
 
     public RuleReport finishAt(ZonedDateTime finishAt) {
         this.finishAt = finishAt;
-        this.setUpdatedAt(ZonedDateTime.now());
         return this;
     }
 
     public void setFinishAt(ZonedDateTime finishAt) {
         this.finishAt = finishAt;
-        this.setUpdatedAt(ZonedDateTime.now());
     }
 
     public Rule getRule() {
@@ -169,13 +182,11 @@ public class RuleReport implements Serializable {
 
     public RuleReport rule(Rule rule) {
         this.rule = rule;
-        this.setUpdatedAt(ZonedDateTime.now());
         return this;
     }
 
     public void setRule(Rule rule) {
         this.rule = rule;
-        this.setUpdatedAt(ZonedDateTime.now());
     }
 
     public User getUser() {
@@ -184,15 +195,46 @@ public class RuleReport implements Serializable {
 
     public RuleReport user(User user) {
         this.user = user;
-        this.setUpdatedAt(ZonedDateTime.now());
         return this;
     }
 
     public void setUser(User user) {
         this.user = user;
-        this.setUpdatedAt(ZonedDateTime.now());
     }
 
+    public Set<RuleReport> getChilds() {
+        return childs;
+    }
+
+    public RuleReport childs(Set<RuleReport> ruleReports) {
+        this.childs = ruleReports;
+        return this;
+    }
+
+    public RuleReport addChilds(RuleReport ruleReport) {
+        this.childs.add(ruleReport);
+        ruleReport.setParent(this);
+        return this;
+    }
+
+    public RuleReport removeChilds(RuleReport ruleReport) {
+        this.childs.remove(ruleReport);
+        ruleReport.setParent(null);
+        return this;
+    }
+
+    public void setChilds(Set<RuleReport> ruleReports) {
+        this.childs = ruleReports;
+    }
+
+    public RuleReport getParent() {
+		return parent;
+	}
+
+	public void setParent(RuleReport parent) {
+		this.parent = parent;
+	}
+	
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -219,6 +261,7 @@ public class RuleReport implements Serializable {
             "id=" + id +
             ", reportDate='" + reportDate + "'" +
             ", status='" + status + "'" +
+            ", KEY='" + KEY + "'" +
             ", log='" + log + "'" +
             ", submitAt='" + submitAt + "'" +
             ", updatedAt='" + updatedAt + "'" +

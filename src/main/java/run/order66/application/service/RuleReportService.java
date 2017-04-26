@@ -2,6 +2,7 @@ package run.order66.application.service;
 
 import run.order66.application.domain.RuleReport;
 import run.order66.application.repository.RuleReportRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -73,4 +74,13 @@ public class RuleReportService {
         log.debug("Request to delete RuleReport : {}", id);
         ruleReportRepository.delete(id);
     }
+
+	public RuleReport findOneFromIndexkey(String key) {
+		// TODO Auto-generated method stub
+		List<RuleReport> ruleReports = ruleReportRepository.findOneByKeyindex(key);
+		if(ruleReports.size() > 0) {
+			return ruleReports.get(0);
+		}
+		return null;
+	}
 }

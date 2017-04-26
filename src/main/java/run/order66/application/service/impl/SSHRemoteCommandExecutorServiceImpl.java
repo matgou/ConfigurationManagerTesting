@@ -37,14 +37,6 @@ public class SSHRemoteCommandExecutorServiceImpl extends Executor implements
 	private final Logger log = LoggerFactory
 			.getLogger(SSHRemoteCommandExecutorServiceImpl.class);
 
-	private Map<String, String> getPropertyFromJson(String jsonData) throws JsonParseException, JsonMappingException, IOException {
-
-		TypeFactory factory = TypeFactory.defaultInstance();
-		MapType type = factory.constructMapType(HashMap.class, String.class,
-				String.class);
-		ObjectMapper mapper = new ObjectMapper();
-		return mapper.readValue(jsonData, type);
-	}
 	
 	private RuleReport executeSSH(Map<String, String> props, Rule rule, RuleReport rValue) throws JSchException, IOException {
 		int returnCode;

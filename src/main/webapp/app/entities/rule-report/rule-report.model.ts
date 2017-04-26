@@ -13,12 +13,14 @@ export class RuleReport {
         public id?: number,
         public reportDate?: any,
         public status?: StatusEnum,
+        public KEY?: string,
         public log?: any,
         public submitAt?: any,
         public updatedAt?: any,
         public finishAt?: any,
         public rule?: Rule,
         public user?: User,
+        public childs?: RuleReport,
     ) {
     }
 }
