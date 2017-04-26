@@ -67,8 +67,8 @@ public class JDBCQueryExecutorServiceImpl extends Executor implements
 			String keyColumn = props.get("column_key");
 			String username = props.get("username");
 			String password = props.get("password");
-			String finishAtColumn = props.get("column_time_start");
-			String submitAtColumn = props.get("column_time_end");
+			String finishAtColumn = props.get("column_time_end");
+			String submitAtColumn = props.get("column_time_start");
 			String statusColumn = props.get("column_status");
 			Pattern expectedStatus = Pattern.compile(props.get("column_expected_status"));
 			
@@ -139,24 +139,39 @@ public class JDBCQueryExecutorServiceImpl extends Executor implements
 		return report;
 	}
 
+	/**
+	 * Create a new Child report from args
+	 * 
+	 * @param key
+	 * @param parentReport
+	 * @param log
+	 * @param rule
+	 * @param submitAt
+	 * @param finishAt
+	 * @param status
+	 * @return
+	 */
 	private RuleReport createRuleReport(String key, RuleReport parentReport, String log, Rule rule, ZonedDateTime submitAt, ZonedDateTime finishAt, StatusEnum status) {
-		// TODO Auto-generated method stub
-		RuleReport existingReport = ruleReportService.findOneFromIndexkey(key);
-		if(existingReport == null) {
-			RuleReport report = new RuleReport();
-			report.setKEY(key);
-			report.setLog(log);
-			report.setRule(rule);
-			report.setSubmitAt(submitAt);
-			report.setStatus(status);
-			report.setFinishAt(finishAt);
-			report.setParent(parentReport);
-			this.ruleReportService.save(report);
-			return report;
-		}
-		return existingReport;
+		RuleReport report = new RuleReport();
+		report.setKEY(key);
+		report.setLog(log);
+		report.setRule(rule);
+		report.setSubmitAt(submitAt);
+		report.setStatus(status);
+		report.setFinishAt(finishAt);
+		report.setParent(parentReport);
+		this.ruleReportService.save(report);
+		return report;
 	}
 
+	/**
+	 * Convert a resultset to JSON
+	 * @param rs
+	 * @param rsmd
+	 * @return
+	 * @throws SQLException
+	 * @throws JSONException
+	 */
 	private String to_json(ResultSet rs, ResultSetMetaData rsmd) throws SQLException, JSONException {
 
 		int numColumns = rsmd.getColumnCount();
