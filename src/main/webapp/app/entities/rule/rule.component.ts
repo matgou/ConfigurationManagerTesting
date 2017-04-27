@@ -1,8 +1,9 @@
 import { PipeTransform, Pipe, Component, OnInit, OnDestroy } from '@angular/core';
 import { Response } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Rx';
 import { EventManager, ParseLinks, PaginationUtil, AlertService, DataUtils } from 'ng-jhipster';
+import { WebsocketService } from '../../websocket.service';
+import { Subject, Observable, Subscription } from 'rxjs/Rx';
 
 import { Rule } from './rule.model';
 import { RuleService } from './rule.service';
@@ -25,6 +26,7 @@ export class RuleComponent implements OnInit, OnDestroy {
     queryCount: any;
     reverse: any;
     totalItems: number;
+    private socket: Subject<any>;
 
     constructor(
         private ruleService: RuleService,
@@ -32,8 +34,10 @@ export class RuleComponent implements OnInit, OnDestroy {
         private dataUtils: DataUtils,
         private eventManager: EventManager,
         private parseLinks: ParseLinks,
-        private principal: Principal
+        private principal: Principal,
+        websocketService: WebsocketService
     ) {
+        this.socket = websocketService.createWebsocket();
         this.rules = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.page = 0;
@@ -67,6 +71,13 @@ export class RuleComponent implements OnInit, OnDestroy {
     }
     ngOnInit() {
         this.loadAll();
+        
+        this.socket.subscribe(
+            message => {
+                console.log(message);
+                this.reset();
+            }
+        );
         this.principal.identity().then((account) => {
             this.currentAccount = account;
         });
