@@ -1,8 +1,8 @@
-# ConfigurationManagerReporting
+# Order66.run
 
 Ceci est une application permetant de verifier la conformité d'une architecture UNIX/Linux avec des regles décrites
 
-[![Build Status](https://travis-ci.org/matgou/ConfigurationManagerTesting.svg?branch=master)](https://travis-ci.org/matgou/ConfigurationManagerTesting)
+[![Build Status](https://travis-ci.org/matgou/Order66.run.svg?branch=master)](https://travis-ci.org/matgou/Order66.run)
 
 ## Development
 
