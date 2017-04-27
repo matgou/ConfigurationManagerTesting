@@ -11,6 +11,7 @@ import { Order66AdminModule } from './admin/admin.module';
 import { Order66SummaryModule } from './summary/summary.module';
 import { Order66AccountModule } from './account/account.module';
 import { Order66EntityModule } from './entities/entity.module';
+import { WebsocketService } from './websocket.service';
 
 import { LayoutRoutingModule } from './layouts';
 import { customHttpProvider } from './blocks/interceptor/http.provider';
@@ -51,7 +52,8 @@ import {
         { provide: Document, useValue: document },
         customHttpProvider(),
         PaginationConfig,
-        UserRouteAccessService
+        UserRouteAccessService,
+        WebsocketService
     ],
     bootstrap: [ JhiMainComponent ]
 })

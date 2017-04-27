@@ -10,6 +10,8 @@ import { Rule } from '../entities/rule/rule.model';
 import { ProcessTree } from '../entities/process/processTree.model';
 import { ProcessService } from '../entities/process/process.service';
 import { RuleService } from '../entities/rule/rule.service';
+import { WebsocketService } from '../websocket.service';
+import { Subject, Observable, Subscription } from 'rxjs/Rx';
 
 @Pipe({name: 'toRuleSummary'})
 export class ToRuleSummary implements PipeTransform {
@@ -97,24 +99,42 @@ export class SummaryComponent implements OnInit {
     modalRef: NgbModalRef;
     processes: ProcessTree[];
     totalItems: any;
-
+    private socket: Subject<any>;
+    private counterSubscription: Subscription;
+    private message: string;
+    private sentMessage: string;
+    
     constructor(
         private processService: ProcessService,
         private ruleService: RuleService,
         private alertService: AlertService,
-        private router: Router
+        private router: Router,
+        websocketService: WebsocketService
     ) {
             this.processes = [];
+            this.socket = websocketService.createWebsocket();
         
         }
 
     ngOnInit() {
+        this.socket.subscribe(
+            message => {
+                console.log(message);
+                this.processService.queryRoot().subscribe(
+                    (res: Response) => this.onUpdate(res.json(), res.headers),
+                    (res: Response) => this.onError(res.json())
+                );
+            }
+        );
         this.processService.queryRoot().subscribe(
             (res: Response) => this.onSuccess(res.json(), res.headers),
             (res: Response) => this.onError(res.json())
         );
+        let ruleList = Observable.interval(1000);
+        
+        //this.launchCounter();
     }
-    
+        
     displayReport(rule: Rule) {
       this.ruleService.queryLastReport(rule.id).subscribe(
             (res: Response) => this.navigateToReport(res, res.headers),
@@ -132,6 +152,14 @@ export class SummaryComponent implements OnInit {
             this.processes.push(data[i]);
         }
     }
+    private onUpdate(data, headers) {
+        this.processes = [];
+        this.totalItems = headers.get('X-Total-Count');
+        for (let i = 0; i < data.length; i++) {
+            this.processes.push(data[i]);
+        }
+    }
+
 
     private onError (error) {
         this.alertService.error(error.message, null, null);

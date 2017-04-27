@@ -103,12 +103,16 @@ public class SSHRemoteCommandExecutorServiceImpl extends Executor implements
 			return executeSSH(props, rule, report);
 		} catch (JsonParseException e) {
 			log.error("Probleme dans la saisie du champ arguements dans la rule " + rule.getId(), e);
+			report.setLog("Probleme dans la saisie du champ arguements dans la rule " + rule.getId() + " : " + e.getMessage());
 		} catch (JsonMappingException e) {
 			log.error("Probleme dans la saisie du champ arguements dans la rule " + rule.getId(), e);
+			report.log("Probleme dans la saisie du champ arguements dans la rule " + rule.getId() + " " + e.getMessage());
 		} catch (IOException e) {
 			log.error("Probleme dans la saisie du champ arguements dans la rule " + rule.getId(), e);
+			report.log("Probleme dans la saisie du champ arguements dans la rule " + rule.getId() + " " + e.getMessage());
 		} catch (JSchException e) {
 			log.error("Probleme dans l'execution ssh "+ rule.getId(), e);
+			report.log("Probleme dans l'execution ssh "+ rule.getId() + " " + e.getMessage());
 		}
 		return this.getSoftFailReport(rule, report);
 	}
