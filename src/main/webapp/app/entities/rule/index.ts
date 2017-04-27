@@ -4,6 +4,7 @@ export * from './rule.service';
 export * from './rule-dialog.component';
 export * from './rule-delete-dialog.component';
 export * from './rule-execute.component';
+export * from './rule-force-ack.component';
 export * from './rule-detail.component';
 export * from './rule.component';
 export * from './rule.route';

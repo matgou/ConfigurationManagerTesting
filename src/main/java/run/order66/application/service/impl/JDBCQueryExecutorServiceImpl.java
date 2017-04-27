@@ -46,7 +46,7 @@ import run.order66.application.service.RuleReportService;
  *			String expectedStatus = props.get("column_expected_status");
  */
 public class JDBCQueryExecutorServiceImpl extends Executor implements
-		JDBCQueryExecutorService {
+JDBCQueryExecutorService {
 
 	private final Logger log = LoggerFactory
 			.getLogger(JDBCQueryExecutorServiceImpl.class);
@@ -54,12 +54,42 @@ public class JDBCQueryExecutorServiceImpl extends Executor implements
 	@Autowired
 	private RuleReportService ruleReportService;
 
+	/**
+	 * Execute a JDBC query from args
+	 * @param jdbcClass
+	 * @param jdbcUrl
+	 * @param sql
+	 * @param username
+	 * @param password
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	private ResultSet ExecuteJDBCQuery(String jdbcClass, String jdbcUrl, String sql, String username, String password) throws ClassNotFoundException, SQLException {
+		// load Driver
+		Class.forName(jdbcClass);
+		// Create the properties object
+		Properties conProps = new Properties();
+		conProps.setProperty("user",username);
+		conProps.setProperty("password",password);
+		
+		// Connexion
+		Connection con = DriverManager.getConnection(jdbcUrl, conProps);
+		
+		// Execute Query
+		this.log.info("Execute : " + sql);
+		Statement stmt = con.createStatement();
+		ResultSet resultats = stmt.executeQuery(sql);
+		return resultats;
+	}
+
 	@Override
 	public RuleReport execute(Rule rule, RuleReport report) {
 		String restultAsString = "";
 		report.setRule(rule);
-		boolean hasHardFail = false;
+		int nbHardFail = 0;
 		try {
+			// Get properties from rule JSON
 			Map<String, String> props = getPropertyFromJson(rule.getRuleArgs());
 			String jdbcClass = props.get("jdbc_class");
 			String jdbcUrl = props.get("jdbc_url");
@@ -70,19 +100,16 @@ public class JDBCQueryExecutorServiceImpl extends Executor implements
 			String finishAtColumn = props.get("column_time_end");
 			String submitAtColumn = props.get("column_time_start");
 			String statusColumn = props.get("column_status");
+			int minCount = Integer.parseInt(props.get("minimum_count"));
 			Pattern expectedStatus = Pattern.compile(props.get("column_expected_status"));
-			
-			// load Driver
-			Class.forName(jdbcClass);
-			// Create the properties object
-			Properties conProps = new Properties();
-			conProps.setProperty("user",username);
-			conProps.setProperty("password",password);
-			Connection con = DriverManager.getConnection(jdbcUrl, conProps);
-			Statement stmt = con.createStatement();
-			ResultSet resultats = stmt.executeQuery(sql);
+
+			// Execute query
+			ResultSet resultats = ExecuteJDBCQuery(jdbcClass, jdbcUrl, sql, username, password);
 			ResultSetMetaData rsmd = resultats.getMetaData();
+
+			// For each result of query
 			while (resultats.next()) {
+				// Get RuleReport value from result 
 				String key = resultats.getString(keyColumn);
 				String log = to_json(resultats, rsmd);
 				java.sql.Timestamp ts;
@@ -90,25 +117,39 @@ public class JDBCQueryExecutorServiceImpl extends Executor implements
 				ZonedDateTime finishAt= ZonedDateTime.ofInstant(ts.toInstant(), ZoneId.of("UTC"));
 				ts = resultats.getTimestamp(submitAtColumn);
 				ZonedDateTime submitAt= ZonedDateTime.ofInstant(ts.toInstant(), ZoneId.of("UTC"));
-				StatusEnum status;
+
+				// Test if OK
 				String statusResultat = resultats.getString(statusColumn);
 				Matcher matcher = expectedStatus.matcher(statusResultat);
-				if(matcher.find()) {
+				StatusEnum status;
+				if(!matcher.find()) {
 					status = StatusEnum.Success;
 				} else {
 					status = StatusEnum.HardFail;
-					hasHardFail = true;
+					nbHardFail++;
 				}
 				RuleReport r = createRuleReport(key, report, log, rule, submitAt, finishAt, status);
 				report.addChilds(r);
 			}
-			if(!hasHardFail) {
-				report.setLog("OK");
-				report.setStatus(StatusEnum.Success);
+
+			// if no child with hardfail status => set Success:
+			int realCount = report.getChilds().size();
+			String logRuleReport = "";
+			StatusEnum statusRuleReport = StatusEnum.Unknown;
+			if(nbHardFail > 0) {
+				if(realCount > minCount) {
+					logRuleReport="OK (count = " +  report.getChilds().size() + " )";
+					statusRuleReport = StatusEnum.Success;
+				} else {
+					logRuleReport = "No enough child (count = " +  report.getChilds().size() + " )" ;
+					statusRuleReport = StatusEnum.HardFail;	
+				}
 			} else {
-				report.setLog("Some HardFail detected in child Report");
-				report.setStatus(StatusEnum.HardFail);
+				logRuleReport = "Some HardFail detected in child Report (hardfail : " + nbHardFail + " / " + realCount + ")";
+				statusRuleReport = StatusEnum.HardFail;
 			}
+			report.setLog(logRuleReport);
+			report.setStatus(statusRuleReport);
 		} catch (ClassNotFoundException e) {
 			log.error(
 					"an exception was thrown in JDBCQueryExecutorServiceImpl",

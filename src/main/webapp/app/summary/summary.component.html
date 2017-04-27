@@ -40,6 +40,11 @@
 										class="btn btn-info btn-sm">
 										<span class="fa fa-eye"></span> <span class="hidden-md-down">View</span>
 									</button>
+									<button *ngIf="rule.displayStatus == 'HardFail'"
+										class="btn btn-success btn-sm"
+										[routerLink]="['/', { outlets: { popup: 'rule/'+ rule.id + '/forceAck'} }]">
+										<span class="fa fa-check"></span> <span class="hidden-md-down">Acquittement</span>
+									</button>
 									<button type="submit"
 										[routerLink]="['/', { outlets: { popup: 'rule/'+ rule.id + '/execute'} }]"
 										replaceUrl="true" class="btn btn-primary btn-sm">

@@ -16,6 +16,8 @@ import {
     RuleExecutePopupComponent,
     RuleDeletePopupComponent,
     RuleDeleteDialogComponent,
+    RuleForceAckComponent,
+    RuleForceAckPopupComponent,
     ruleRoute,
     rulePopupRoute,
 } from './';
@@ -41,6 +43,8 @@ let ENTITY_STATES = [
         RuleDeletePopupComponent,
         KeysPipe,
         SplitStringPipe,
+        RuleForceAckComponent,
+        RuleForceAckPopupComponent,
     ],
     entryComponents: [
         RuleComponent,
@@ -48,6 +52,8 @@ let ENTITY_STATES = [
         RulePopupComponent,
         RuleExecuteComponent,
         RuleExecutePopupComponent,
+        RuleForceAckComponent,
+        RuleForceAckPopupComponent,
         RuleDeleteDialogComponent,
         RuleDeletePopupComponent,
     ],

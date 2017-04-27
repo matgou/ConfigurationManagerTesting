@@ -9,7 +9,7 @@ import { RuleDetailComponent } from './rule-detail.component';
 import { RulePopupComponent } from './rule-dialog.component';
 import { RuleExecutePopupComponent } from './rule-execute.component';
 import { RuleDeletePopupComponent } from './rule-delete-dialog.component';
-
+import { RuleForceAckPopupComponent } from './rule-force-ack.component';
 import { Principal } from '../../shared';
 
 
@@ -62,6 +62,15 @@ export const rulePopupRoute: Routes = [
   {
     path: 'rule/:id/execute',
     component: RuleExecutePopupComponent,
+    data: {
+        authorities: ['ROLE_USER'],
+        pageTitle: 'Rules'
+    },
+    outlet: 'popup'
+  },
+  {
+    path: 'rule/:id/forceAck',
+    component: RuleForceAckPopupComponent,
     data: {
         authorities: ['ROLE_USER'],
         pageTitle: 'Rules'
