@@ -2,17 +2,21 @@ package run.order66.application.domain;
 
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -62,7 +66,23 @@ public class Rule implements Serializable {
     @ManyToOne
     private Process process;
 
-    public Long getId() {
+    @OneToMany(fetch=FetchType.EAGER, mappedBy = "rule")
+    private Set<RuleTag> tags = new HashSet<>();
+	
+    public Set<RuleTag> getTags() {
+		return tags;
+	}
+
+	public void setTags(Set<RuleTag> tags) {
+		this.tags = tags;
+	}
+
+    public Rule addTags(RuleTag tag) {
+        this.tags.add(tag);
+        return this; 
+    }
+    
+	public Long setId() {
         return id;
     }
 
@@ -74,6 +94,10 @@ public class Rule implements Serializable {
         return ruleName;
     }
 
+    public Long getId() {
+        return this.id;
+    }
+    
     public Rule ruleName(String ruleName) {
         this.ruleName = ruleName;
         return this;

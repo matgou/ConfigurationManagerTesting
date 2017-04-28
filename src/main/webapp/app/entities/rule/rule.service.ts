@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { RuleReport } from '../rule-report/rule-report.model';
 import { Rule } from './rule.model';
+import { RuleTag } from '../rule-tag/rule-tag.model';
 @Injectable()
 export class RuleService {
 
@@ -31,6 +32,14 @@ export class RuleService {
         });
     }
 
+    addTag(id: number, tagName: string): Observable<RuleTag> {
+        let tag = new RuleTag();
+        tag.name = tagName;
+        return this.http.post(`${this.resourceUrl}/${id}/tags`, tag).map((res: Response) => {
+            return res.json();
+        });
+    }
+    
     execute(id: number): Observable<Rule> {
         return this.http.post(`${this.resourceUrl}/${id}/execute`, {}).map((res: Response) => {
             return res.json();

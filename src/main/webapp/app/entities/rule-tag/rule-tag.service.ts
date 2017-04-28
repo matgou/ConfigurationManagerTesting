@@ -3,6 +3,7 @@ import { Http, Response, URLSearchParams, BaseRequestOptions } from '@angular/ht
 import { Observable } from 'rxjs/Rx';
 
 import { RuleTag } from './rule-tag.model';
+import { Rule } from '../rule/rule.model';
 @Injectable()
 export class RuleTagService {
 

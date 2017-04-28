@@ -1,6 +1,6 @@
 package run.order66.application.web.rest;
 
-import run.order66.application.ConfigurationManagerReportingApp;
+import run.order66.application.Order66App;
 
 import run.order66.application.domain.RuleTag;
 import run.order66.application.repository.RuleTagRepository;
@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @see RuleTagResource
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = ConfigurationManagerReportingApp.class)
+@SpringBootTest(classes = Order66App.class)
 public class RuleTagResourceIntTest {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";

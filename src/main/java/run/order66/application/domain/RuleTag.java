@@ -3,6 +3,9 @@ package run.order66.application.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -27,6 +30,7 @@ public class RuleTag implements Serializable {
     private String name;
 
     @ManyToOne
+    @JsonIgnore
     private Rule rule;
 
     public Long getId() {

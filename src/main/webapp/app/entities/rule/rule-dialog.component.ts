@@ -6,6 +6,8 @@ import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { EventManager, AlertService, DataUtils } from 'ng-jhipster';
 
 import { Rule } from './rule.model';
+import { RuleTag } from '../rule-tag/rule-tag.model';
+import { RuleTagService } from '../rule-tag/rule-tag.service';
 import { RulePopupService } from './rule-popup.service';
 import { RuleService } from './rule.service';
 import { RuleType, RuleTypeService } from '../rule-type';
@@ -38,6 +40,7 @@ export class RuleDialogComponent implements OnInit {
         private alertService: AlertService,
         private ruleService: RuleService,
         private ruleTypeService: RuleTypeService,
+        private ruleTagService: RuleTagService,
         private processService: ProcessService,
         private eventManager: EventManager
     ) {
@@ -92,6 +95,32 @@ export class RuleDialogComponent implements OnInit {
         this.activeModal.dismiss('cancel');
     }
 
+    addTag(tagName:string) {
+        if(this.rule.id != null) {
+            console.log("Add new Tag : " + tagName);
+            this.ruleService.addTag(this.rule.id, tagName).subscribe(
+                (res: RuleTag) => { this.rule.tags.push(res); },
+                (res: Response) =>{ console.log(res.json) });
+            this.eventManager.broadcast({ name: 'ruleListModification', content: 'OK'});
+        }
+    }
+    
+    deleteTag(tagId:number) {
+        if(this.rule.id != null) {
+            console.log("Delete tag : " + tagId);
+            this.ruleTagService.delete(tagId).subscribe(
+                (res: RuleTag) => {
+                    for(let i=0; i< this.rule.tags.length; i++) {
+                        if(this.rule.tags[i].id == tagId) {
+                            this.rule.tags.splice(i, 1);
+                        }
+                    }
+                },
+                (res: Response) =>{ console.log(res.json) });
+            this.eventManager.broadcast({ name: 'ruleListModification', content: 'OK'});
+        }
+    }
+    
     save () {
         this.isSaving = true;
         this.rule.ruleArgs = Rule.ruleArgsJson(this.rule);

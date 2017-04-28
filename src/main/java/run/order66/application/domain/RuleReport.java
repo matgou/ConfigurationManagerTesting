@@ -73,7 +73,6 @@ public class RuleReport implements Serializable {
     @JsonIgnore
     private RuleReport parent;
 
-
 	@OneToMany(fetch=FetchType.EAGER, mappedBy = "parent")
     private Set<RuleReport> childs = new HashSet<>();
 

@@ -1,86 +1,127 @@
 
 
-<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+<form name="editForm" role="form" novalidate (ngSubmit)="save()"
+	#editForm="ngForm">
 
-    <div class="modal-header">
-        <h4 class="modal-title" id="myRuleLabel">Create or edit a Rule</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                (click)="clear()">&times;</button>
-    </div>
-    <div class="modal-body">
-        <jhi-alert-error></jhi-alert-error>
-        <ul class="nav nav-tabs">
-  			<li class="nav-item">
-  				<a (click)="tabActive='main'"
-  				[ngClass]="(tabActive=='main')?'active':''"
-  				class="nav-link">Propri&eacute;t&eacute;s G&eacute;n&eacute;rales</a>
-  			</li>
-  			  <li class="nav-item">
-    			<a (click)="tabActive='others'"
-  				[ngClass]="(tabActive=='others')?'active':''"
-  				[ngClass]="(rule.ruleType == null)?'disabled':''" class="nav-link">Autres propri&eacute;t&eacute;s</a>
-  			</li>
+	<div class="modal-header">
+		<h4 class="modal-title" id="myRuleLabel">Create or edit a Rule</h4>
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true" (click)="clear()">&times;</button>
+	</div>
+	<div class="modal-body">
+		<jhi-alert-error></jhi-alert-error>
+		<ul class="nav nav-tabs">
+			<li class="nav-item"><a (click)="tabActive='main'"
+				[ngClass]="(tabActive=='main')?'active':''" class="nav-link">Propri&eacute;t&eacute;s
+					G&eacute;n&eacute;rales</a></li>
+			<li *ngIf="rule.id != null" class="nav-item"><a (click)="tabActive='tags'"
+				[ngClass]="(tabActive=='tags')?'active':''" class="nav-link">Tags</a></li>
+			<li *ngIf="rule.ruleType != null" class="nav-item"><a (click)="tabActive='others'"
+				[ngClass]="{active:(tabActive=='others'),disabled:(rule.ruleType == null)}"
+				class="nav-link">Autres propri&eacute;t&eacute;s</a></li>
 		</ul>
-		
+
 		<!-- Tab panes -->
 		<div class="tab-content">
-			<div [ngClass]="(tabActive=='main')?'active':''" class="tab-pane" id="main" role="tabpanel">
-		        <div class="form-group" [hidden]="!rule.id">
-		            <label for="id">ID</label>
-		            <input type="text" class="form-control" id="id" name="id"
-		                   [(ngModel)]="rule.id" readonly />
-		        </div>
-		        <div class="form-group">
-		            <label class="form-control-label" for="field_ruleName">Rule Name</label>
-		            <input type="text" class="form-control" name="ruleName" id="field_ruleName"
-		                [(ngModel)]="rule.ruleName"
-		             />
-		        </div>
-		
-		        <div class="form-group">
-		            <label for="field_ruleType">Rule Type</label>
-		            <select class="form-control" id="field_ruleType" name="ruleType" [(ngModel)]="rule.ruleType" >
-		                <option [ngValue]="null"></option>
-		                <option [ngValue]="ruleTypeOption.id === rule.ruleType?.id ? rule.ruleType : ruleTypeOption" *ngFor="let ruleTypeOption of ruletypes; trackBy: trackRuleTypeById">{{ruleTypeOption.ruleTypeName}}</option>
-		            </select>
-		        </div>
-		        <div class="form-group">
-		            <label for="field_process">Process</label>
-		            <select class="form-control" id="field_process" name="process" [(ngModel)]="rule.process" >
-		                <option [ngValue]="null"></option>
-		                <option [ngValue]="processOption.id === rule.process?.id ? rule.process : processOption" *ngFor="let processOption of processes; trackBy: trackProcessById">{{processOption.processName}}</option>
-		            </select>
-		        </div>
-		        
-		        <div class="form-group">
-		            <label class="form-control-label" for="field_displayStatus">Status Affich&eacute;</label>
-		            <select class="form-control" name="displayStatus" [(ngModel)]="rule.displayStatus" id="field_displayStatus" >
-		                <option value="Unknown">Unknown</option>
-		                <option value="Success">Success</option>
-		                <option value="Running">Running</option>
-		                <option value="SoftFail">SoftFail</option>
-		                <option value="HardFail">HardFail</option>
-		                <option value="ForceSuccess">ForceSuccess</option>
-		            </select>
-		        </div>
+			<div [ngClass]="(tabActive=='main')?'active':''" class="tab-pane"
+				id="main" role="tabpanel">
+				<div class="form-group" [hidden]="!rule.id">
+					<label for="id">ID</label> <input type="text" class="form-control"
+						id="id" name="id" [(ngModel)]="rule.id" readonly />
+				</div>
+				<div class="form-group">
+					<label class="form-control-label" for="field_ruleName">Rule
+						Name</label> <input type="text" class="form-control" name="ruleName"
+						id="field_ruleName" [(ngModel)]="rule.ruleName" />
+				</div>
+
+				<div class="form-group">
+					<label for="field_ruleType">Rule Type</label> <select
+						class="form-control" id="field_ruleType" name="ruleType"
+						[(ngModel)]="rule.ruleType">
+						<option [ngValue]="null"></option>
+						<option
+							[ngValue]="ruleTypeOption.id === rule.ruleType?.id ? rule.ruleType : ruleTypeOption"
+							*ngFor="let ruleTypeOption of ruletypes; trackBy: trackRuleTypeById">{{ruleTypeOption.ruleTypeName}}</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="field_process">Process</label> <select
+						class="form-control" id="field_process" name="process"
+						[(ngModel)]="rule.process">
+						<option [ngValue]="null"></option>
+						<option
+							[ngValue]="processOption.id === rule.process?.id ? rule.process : processOption"
+							*ngFor="let processOption of processes; trackBy: trackProcessById">{{processOption.processName}}</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label class="form-control-label" for="field_displayStatus">Status
+						Affich&eacute;</label> <select class="form-control" name="displayStatus"
+						[(ngModel)]="rule.displayStatus" id="field_displayStatus">
+						<option value="Unknown">Unknown</option>
+						<option value="Success">Success</option>
+						<option value="Running">Running</option>
+						<option value="SoftFail">SoftFail</option>
+						<option value="HardFail">HardFail</option>
+						<option value="ForceSuccess">ForceSuccess</option>
+					</select>
+				</div>
 			</div>
-			<div class="tab-pane" [ngClass]="(tabActive=='others')?'active':''"  id="others" role="tabpanel">
-		        <div *ngIf="rule.ruleType != null">
-			        <div *ngFor="let requiredArgument of rule.ruleType.requiredArgumentsList | splitString:','" class="form-group">
-			            <label class="form-control-label" for="field_ruleArgs{{requiredArgument}}">{{requiredArgument}}</label>
-			            <textarea class="form-control" name="ruleArgs{{requiredArgument}}" id="field_ruleArgs{{requiredArgument}}"
-			                [(ngModel)]="rule.tab[requiredArgument]"></textarea>
-			        </div> 
-		        </div>
-		    </div>
+			<div *ngIf="rule.id != null" class="tab-pane" [ngClass]="(tabActive=='tags')?'active':''"
+				id="tags" role="tabpanel">
+				<div class="form-group row">
+					<label for="new-tag-text-input" class="col-2 col-form-label">Ajouter</label>
+					<div class="col-8">
+						<input [ngModelOptions]="{standalone: true}" [(ngModel)]="newTag"
+							class="form-control" type="text" value="Tag"
+							id="new-tag-text-input">
+					</div>
+					<div class="col-2">
+						<button type="button" class="btn btn-primary"
+							(click)="addTag(newTag)">
+							<span class="fa fa-plus"></span>&nbsp;<span>Ajouter</span>
+						</button>
+
+					</div>
+					
+					<br />
+					<div class="col-12"><br /></div>
+					<div class="col-12 align-self-center">
+						<ul class="list-group">
+							<li *ngFor="let tag of rule.tags" class="list-group-item">
+								<div class="col-10">{{ tag.name }}</div>
+								<div class="col-1"><a class="btn btn-danger" (click)="deleteTag(tag.id)"><span class="fa fa-trash-o">&nbsp;</span></a></div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane" [ngClass]="(tabActive=='others')?'active':''"
+				id="others" role="tabpanel">
+				<div *ngIf="rule.ruleType != null">
+					<div
+						*ngFor="let requiredArgument of rule.ruleType.requiredArgumentsList | splitString:','"
+						class="form-group">
+						<label class="form-control-label"
+							for="field_ruleArgs{{requiredArgument}}">{{requiredArgument}}</label>
+						<textarea class="form-control" name="ruleArgs{{requiredArgument}}"
+							id="field_ruleArgs{{requiredArgument}}"
+							[(ngModel)]="rule.tab[requiredArgument]"></textarea>
+					</div>
+				</div>
+			</div>
 		</div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
-            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
-        </button>
-        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
-        </button>
-    </div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal"
+			(click)="clear()">
+			<span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+		</button>
+		<button type="submit" [disabled]="editForm.form.invalid || isSaving"
+			class="btn btn-primary">
+			<span class="fa fa-save"></span>&nbsp;<span>Save</span>
+		</button>
+	</div>
 </form>

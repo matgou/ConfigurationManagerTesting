@@ -4,12 +4,14 @@ import com.codahale.metrics.annotation.Timed;
 
 import run.order66.application.domain.Rule;
 import run.order66.application.domain.RuleReport;
+import run.order66.application.domain.RuleTag;
 import run.order66.application.domain.enumeration.StatusEnum;
 import run.order66.application.executor.Executor;
 import run.order66.application.security.SecurityUtils;
 import run.order66.application.service.AsyncExecutorService;
 import run.order66.application.service.RuleReportService;
 import run.order66.application.service.RuleService;
+import run.order66.application.service.RuleTagService;
 import run.order66.application.service.UserService;
 import run.order66.application.service.mapper.RuleLastReportMapper;
 import run.order66.application.web.rest.util.HeaderUtil;
@@ -38,6 +40,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Future;
 
+import javax.validation.Valid;
+
 /**
  * REST controller for managing Rule.
  */
@@ -56,6 +60,8 @@ public class RuleResource {
 	private AsyncExecutorService asyncExecutor;
     @Autowired
     private UserService userService;
+    @Autowired
+    private RuleTagService ruleTagService;
     
     public RuleResource(RuleService ruleService) {
         this.ruleService = ruleService;
@@ -81,6 +87,32 @@ public class RuleResource {
             .body(result);
     }
 
+    /**
+     * POST  /rule-tags : Create a new ruleTag.
+     *
+     * @param ruleTag the ruleTag to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new ruleTag, or with status 400 (Bad Request) if the ruleTag has already an ID
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PostMapping("/rules/{id}/tags")
+    @Timed
+    public ResponseEntity<RuleTag> createRuleTag(@PathVariable Long id, @Valid @RequestBody RuleTag ruleTag) throws URISyntaxException {
+        log.debug("REST request to add tag on Rule : {}", id);
+        Rule rule = ruleService.findOne(id);
+        if(rule == null) {
+        	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if (ruleTag.getId() != null) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new ruleTag cannot already have an ID")).body(null);
+        }
+        ruleTag.setRule(rule);
+        RuleTag result = ruleTagService.save(ruleTag);
+        return ResponseEntity.created(new URI("/api/rule-tags/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
+    
     /**
      * PUT  /rules : Updates an existing rule.
      *
