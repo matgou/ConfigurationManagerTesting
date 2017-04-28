@@ -6,6 +6,7 @@ import { Order66RuleModule } from './rule/rule.module';
 import { Order66RuleReportModule } from './rule-report/rule-report.module';
 import { Order66SchedulingModule } from './scheduling/scheduling.module';
 import { Order66ParamModule } from './param/param.module';
+import { Order66RuleTagModule } from './rule-tag/rule-tag.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -16,6 +17,7 @@ import { Order66ParamModule } from './param/param.module';
         Order66RuleReportModule,
         Order66SchedulingModule,
         Order66ParamModule,
+        Order66RuleTagModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

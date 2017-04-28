@@ -29,6 +29,7 @@ export class RuleDialogComponent implements OnInit {
     isSaving: boolean;
 
     ruletypes: RuleType[];
+    tabActive:string = 'main';
 
     processes: Process[];
     constructor(

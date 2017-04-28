@@ -9,17 +9,38 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!rule.id">
-            <label for="id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                   [(ngModel)]="rule.id" readonly />
-        </div>
-        
-        <div *ngFor="let entry of ruleArgs | keys">
-            <label class="form-control-label" for="field_ruleArgs{{entry.key}}">{{entry.key}}</label>
-            <textarea class="form-control" name="ruleArgs{{entry.key}}" id="field_ruleArgs{{entry.key}}"
-                [(ngModel)]="entry.value" readonly  ></textarea>
-        </div> 
+        <ul class="nav nav-tabs">
+  			<li class="nav-item">
+  				<a (click)="tabActive='main'"
+  				[ngClass]="(tabActive=='main')?'active':''"
+  				class="nav-link">Propri&eacute;t&eacute;s G&eacute;n&eacute;rales</a>
+  			</li>
+  			  <li class="nav-item">
+    			<a (click)="tabActive='others'"
+  				[ngClass]="(tabActive=='others')?'active':''"
+  				[ngClass]="(rule.ruleType == null)?'disabled':''" class="nav-link">Autres propri&eacute;t&eacute;s</a>
+  			</li>
+		</ul>
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<div [ngClass]="(tabActive=='main')?'active':''" class="tab-pane" id="main" role="tabpanel">
+		        
+		        <div class="form-group" [hidden]="!rule.id">
+		            <label for="id">ID</label>
+		            <input type="text" class="form-control" id="id" name="id"
+		                   [(ngModel)]="rule.id" readonly />
+		        </div>
+           	</div>
+			<div class="tab-pane" [ngClass]="(tabActive=='others')?'active':''"  id="others" role="tabpanel">
+		        <div *ngIf="rule.ruleType != null">
+			        <div *ngFor="let entry of ruleArgs | keys">
+			            <label class="form-control-label" for="field_ruleArgs{{entry.key}}">{{entry.key}}</label>
+			            <textarea class="form-control" name="ruleArgs{{entry.key}}" id="field_ruleArgs{{entry.key}}"
+			                [(ngModel)]="entry.value" readonly  ></textarea>
+			        </div>
+			    </div>
+			</div>
+		</div>
     </div> 
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">

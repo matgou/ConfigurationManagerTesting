@@ -1,0 +1,62 @@
+<div>
+    <h2>
+        <span>Rule Tags</span>
+        <button class="btn btn-primary float-right create-rule-tag" [routerLink]="['/', { outlets: { popup: ['rule-tag-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span >
+            Create new Rule Tag
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="ruleTags">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span>ID</span></th>
+            <th><span>Name</span></th>
+            <th><span>Rule</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let ruleTag of ruleTags ;trackBy: trackId">
+                <td><a [routerLink]="['../rule-tag', ruleTag.id ]">{{ruleTag.id}}</a></td>
+                <td>{{ruleTag.name}}</td>
+                <td>
+                    <div *ngIf="ruleTag.rule">
+                        <a [routerLink]="['../rule', ruleTag.rule?.id ]" >{{ruleTag.rule?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../rule-tag', ruleTag.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'rule-tag/'+ ruleTag.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'rule-tag/'+ ruleTag.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

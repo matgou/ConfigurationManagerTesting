@@ -27,6 +27,7 @@ export class KeysPipe implements PipeTransform {
 export class RuleExecuteComponent {
 
     rule: Rule;
+    tabActive:string = 'main';
 
     constructor(
         private ruleService: RuleService,
