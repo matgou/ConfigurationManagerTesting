@@ -101,7 +101,7 @@ JDBCQueryExecutorService {
 			String submitAtColumn = props.get("column_time_start");
 			String statusColumn = props.get("column_status");
 			int minCount = Integer.parseInt(props.get("minimum_count"));
-			Pattern expectedStatus = Pattern.compile(props.get("column_expected_status"));
+			Pattern expectedStatus = Pattern.compile("^" + props.get("column_expected_status") + "$");
 
 			// Execute query
 			ResultSet resultats = ExecuteJDBCQuery(jdbcClass, jdbcUrl, sql, username, password);
@@ -122,11 +122,13 @@ JDBCQueryExecutorService {
 				String statusResultat = resultats.getString(statusColumn);
 				Matcher matcher = expectedStatus.matcher(statusResultat);
 				StatusEnum status;
-				if(!matcher.find()) {
+				if(matcher.matches()) {
 					status = StatusEnum.Success;
 				} else {
 					status = StatusEnum.HardFail;
 					nbHardFail++;
+					this.log.debug("status '" + statusResultat + "' not match + '^" + props.get("column_expected_status") + "$' json='" + log + "'");
+					//log= "status '" + statusResultat + "' not match + '^" + props.get("column_expected_status") + "$' json='" + log + "'";
 				}
 				RuleReport r = createRuleReport(key, report, log, rule, submitAt, finishAt, status);
 				report.addChilds(r);
@@ -136,7 +138,7 @@ JDBCQueryExecutorService {
 			int realCount = report.getChilds().size();
 			String logRuleReport = "";
 			StatusEnum statusRuleReport = StatusEnum.Unknown;
-			if(nbHardFail > 0) {
+			if(nbHardFail == 0) {
 				if(realCount > minCount) {
 					logRuleReport="OK (count = " +  report.getChilds().size() + " )";
 					statusRuleReport = StatusEnum.Success;
