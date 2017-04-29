@@ -1,7 +1,7 @@
 {
   "generator-jhipster": {
     "jhipsterVersion": "4.0.8",
-    "baseName": "ConfigurationManagerReporting",
+    "baseName": "Order66",
     "packageName": "run.order66.application",
     "packageFolder": "run/order66/application",
     "serverPort": "8080",
