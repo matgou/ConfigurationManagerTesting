@@ -37,4 +37,11 @@ public interface RuleTagService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Get all distinct tags
+     * 
+     * @return the list of distinct tags 
+     */
+	List<RuleTag> findDistinct();
 }

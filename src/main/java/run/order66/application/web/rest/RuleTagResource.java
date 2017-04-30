@@ -84,7 +84,7 @@ public class RuleTagResource {
     @Timed
     public List<RuleTag> getAllRuleTags() {
         log.debug("REST request to get all RuleTags");
-        return ruleTagService.findAll();
+        return ruleTagService.findDistinct();
     }
 
     /**

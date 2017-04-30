@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Rx';
 
 import { Process } from './process.model';
 import { ProcessTree } from './processTree.model';
+import { SummaryQuery } from '../../summary/summary-query.model';
+
 @Injectable()
 export class ProcessService {
 
@@ -37,9 +39,8 @@ export class ProcessService {
         ;
     }
 
-    queryRoot(req?: any): Observable<Response> {
-        let options = this.createRequestOption(req);
-        return this.http.get(`${this.resourceUrl}/root`, options)
+    queryRoot(query: SummaryQuery): Observable<Response> {
+        return this.http.post(`${this.resourceUrl}/root`, query)
         ;
     }
     

@@ -41,8 +41,6 @@ export class RuleTagService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
-
-
     private createRequestOption(req?: any): BaseRequestOptions {
         let options: BaseRequestOptions = new BaseRequestOptions();
         if (req) {

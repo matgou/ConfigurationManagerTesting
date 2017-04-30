@@ -2,6 +2,16 @@
 	<h1>R&eacute;sum&eacute; des r&eacute;sultats</h1>
 </div>
 
+<div class="col-md-12">
+    <div class="form-group">
+        <label class="col-xs-3 control-label">Tags</label>
+        <div class="col-xs-5">
+            <select [(ngModel)]="query_tags" (ngModelChange)="updateQuery($event)" class="form-control" name="query_tags" multiple>
+                <option *ngFor="let tag of tags" [ngValue]="tag.name" selected>{{ tag.name }}</option>
+            </select>
+        </div>
+    </div>
+</div>
 <div id="accordion" role="tablist" aria-multiselectable="true">
 	<div class="card" *ngFor="let process of processes">
 		<div class="card-header" role="tab" id="headingOne">

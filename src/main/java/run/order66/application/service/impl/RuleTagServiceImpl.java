@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -76,4 +77,17 @@ public class RuleTagServiceImpl implements RuleTagService{
         log.debug("Request to delete RuleTag : {}", id);
         ruleTagRepository.delete(id);
     }
+
+	@Override
+	public List<RuleTag> findDistinct() {
+		log.debug("Request to distinct RuleTag");
+		List<RuleTag> tags = new ArrayList<RuleTag>();
+        
+		List<String> distinctName = ruleTagRepository.findDistinct();
+        
+        for(String name: distinctName) {
+        	tags.add(new RuleTag(name));
+        }
+		return tags;
+	}
 }

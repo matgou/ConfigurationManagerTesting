@@ -6,6 +6,7 @@ import run.order66.application.domain.Process;
 import run.order66.application.repository.ProcessRepository;
 import run.order66.application.service.ProcessService;
 import run.order66.application.service.dto.ProcessTreeDTO;
+import run.order66.application.service.util.SummaryQuery;
 import run.order66.application.web.rest.util.HeaderUtil;
 import run.order66.application.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
@@ -121,11 +122,11 @@ public class ProcessResource {
     *
     * @return the ResponseEntity with status 200 (OK) and the list of processes in body
     */
-   @GetMapping("/processes/root")
+   @PostMapping("/processes/root")
    @Timed
-   public ResponseEntity<List<ProcessTreeDTO>> getAllProcessesRoot(@ApiParam Pageable pageable) {
+   public ResponseEntity<List<ProcessTreeDTO>> getAllProcessesRoot(@ApiParam Pageable pageable, @RequestBody SummaryQuery query) {
        log.debug("REST request to get a page of Processes");
-       Page<ProcessTreeDTO> page = processService.findAllRoot(pageable);
+       Page<ProcessTreeDTO> page = processService.findAllRoot(pageable, query);
        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/processes");
        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
    }

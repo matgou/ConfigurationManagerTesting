@@ -12,4 +12,6 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface RuleTagRepository extends JpaRepository<RuleTag,Long> {
 
+	@Query("SELECT DISTINCT t.name FROM RuleTag t")
+	List<String> findDistinct();
 }
