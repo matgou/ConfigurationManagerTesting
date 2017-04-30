@@ -53,23 +53,10 @@ export class RuleDialogComponent implements OnInit {
             (res: Response) => { this.ruletypes = res.json(); }, (res: Response) => this.onError(res.json()));
         this.processService.query().subscribe(
             (res: Response) => { this.processes = res.json(); }, (res: Response) => this.onError(res.json()));
-        
+
         /* Calculate ruleArgs (transfroming json encoded object to tab) from response */
         let keys = [];
-        let a;
-        try {
-            if(a != null) {
-                a =JSON.parse(this.rule.ruleArgs);
-                for (let key in a) {
-                     keys[key]=a[key];
-                }
-            }
-        } catch(e) {
-            
-        }
-        
         this.rule.tab = keys;
-            
     }
     byteSize(field) {
         return this.dataUtils.byteSize(field);
@@ -123,8 +110,11 @@ export class RuleDialogComponent implements OnInit {
     
     save () {
         this.isSaving = true;
+        console.log("Avant toJSON");
+        console.log(this.rule.ruleArgs);
         this.rule.ruleArgs = Rule.ruleArgsJson(this.rule);
-        console.log(this.rule);
+        console.log("Aprés toJSON");
+        console.log(this.rule.ruleArgs);
         if (this.rule.id !== undefined) {
             this.ruleService.update(this.rule)
                 .subscribe((res: Rule) =>

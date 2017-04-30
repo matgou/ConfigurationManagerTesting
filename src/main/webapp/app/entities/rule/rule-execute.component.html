@@ -33,11 +33,15 @@
            	</div>
 			<div class="tab-pane" [ngClass]="(tabActive=='others')?'active':''"  id="others" role="tabpanel">
 		        <div *ngIf="rule.ruleType != null">
-			        <div *ngFor="let entry of ruleArgs | keys">
-			            <label class="form-control-label" for="field_ruleArgs{{entry.key}}">{{entry.key}}</label>
-			            <textarea class="form-control" name="ruleArgs{{entry.key}}" id="field_ruleArgs{{entry.key}}"
-			                [(ngModel)]="entry.value" readonly  ></textarea>
-			        </div>
+			        <div
+						*ngFor="let requiredArgument of rule.ruleType.requiredArgumentsList | splitString:','"
+						class="form-group">
+						<label class="form-control-label"
+							for="field_ruleArgs{{requiredArgument}}">{{requiredArgument}}</label>
+						<textarea class="form-control" name="ruleArgs{{requiredArgument}}"
+							id="field_ruleArgs{{requiredArgument}}"
+							[(ngModel)]="rule.ruleArgs[requiredArgument]" readonly></textarea>
+					</div>
 			    </div>
 			</div>
 		</div>
